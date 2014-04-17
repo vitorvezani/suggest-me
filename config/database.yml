@@ -13,13 +13,13 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: root
+  username: suggest_me
   password: suggestme
   socket: /tmp/mysql.sock
 
 development:
   <<: *default
-  database: #suggest_me_development
+  database: suggest_me_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

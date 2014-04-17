@@ -1,0 +1,12 @@
+<h1>Suggestions#hello</h1>
+<%= link_to('Suggest Me!', :action => 'index' ) %>
+
+<%= link_to('Suggest Me!', { :action => 'hello', :id => 1, :page => 20, } ) %>
+
+<br />
+ID: <%= @id%>
+
+Next Page: <%= @page.to_i + 1 %>
+
+<hr>
+<%= params.inspect%>
