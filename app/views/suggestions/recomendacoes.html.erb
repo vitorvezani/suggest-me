@@ -1,0 +1,121 @@
+    <div class="container">
+      <!-- Example row of columns -->
+
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a>  </li>
+        <li class "Active">Filmes</li>
+      </ol>
+
+    <ul class = "nav nav-tabs" >
+      <li><a href="#filmes" data-toggle = "tab"><span class="glyphicon glyphicon-film"></span> Filmes</a></li>
+      <li><a href="#musicas" data-toggle = "tab"><span class="glyphicon glyphicon-music"></span> Musicas</a></li>
+      <li><a href="#jogos" data-toggle = "tab"><span class="glyphicon glyphicon-tower"></span> Jogos</a></li>
+      <li><a href="#livros" data-toggle = "tab"><span class="glyphicon glyphicon-book"></span>Livros</a></li>
+    </ul>
+
+    <!-- Filmes -->
+    <div class = "tab-content">
+      <!-- Filmes -->
+      <div class = "tab-pane fade" id="filmes">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading"><h1><span class ="glyphicon glyphicon-film"></span> Filmes</h1></div>
+            <div class="panel-body">
+              <% 6.times do %>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                  <div class= "thumbnail align-center">
+                    <div class = "caption">
+                      <h2>Titulo</h2>
+                      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
+                      <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                    </div>
+                  </div>
+                </div>
+              <%end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Musicas -->
+      <div class = "tab-pane fade" id="musicas">
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-music"></span> Musicas</h1></div>
+              <div class="panel-body">
+                <% 6.times do %>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                    <div class= "thumbnail align-center">
+                      <div class = "caption">
+                        <h2>Bandas</h2>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
+                        <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                      </div>
+                    </div>
+                  </div>
+                <%end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- Jogos -->
+      <div class = "tab-pane fade" id="jogos">
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-tower"></span> Jogos</h1></div>
+              <div class="panel-body">
+                <% 6.times do %>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                    <div class= "thumbnail align-center">
+                      <div class = "caption">
+                        <h2>Titulo dos Jogos</h2>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
+                        <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                      </div>
+                    </div>
+                  </div>
+                <%end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- Livros -->
+      <div class = "tab-pane fade" id="livros">
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-book"></span> Livros</h1></div>
+              <div class="panel-body">
+                <% 6.times do %>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                    <div class= "thumbnail align-center">
+                      <div class = "caption">
+                        <h2>Titulo - Autor</h2>
+                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
+                        <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                      </div>
+                    </div>
+                  </div>
+                <%end %>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Titulo</h4>
+          </div>
+          <div class="modal-body">
+            <p>Sobre o Filme!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Modal -->
