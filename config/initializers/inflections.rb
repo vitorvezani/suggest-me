@@ -16,7 +16,13 @@
 # end
 
 # Para Plurarizacao correta
-# activesupport::inflector.inflections do |inflect|
-#   inflect.irregular 'qualificacao', 'qualificacoes'
-#   inflect.irregular 'receita', 'receitas'
-# end
+ ActiveSupport::Inflector.inflections do |inflect|
+   inflect.irregular 'avaliacao', 'avaliacoes'
+   inflect.irregular 'ocupacao', 'ocupacoes'
+   inflect.irregular 'usuario', 'usuarios'
+   inflect.irregular 'comentario', 'comentarios'
+   inflect.irregular 'rel_genero_item', 'rel_generos_itens'
+   inflect.irregular 'item', 'itens'
+   inflect.irregular 'genero', 'generos'
+   inflect.irregular 'categoria', 'categorias'
+ end

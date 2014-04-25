@@ -13,7 +13,7 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: suggest_me
+  username: root
   password: suggestme
   socket: /tmp/mysql.sock
 
@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: suggest_me_production
-  username: suggest_me
+  username: root
   password: <%= ENV['SUGGEST_ME_DATABASE_PASSWORD'] %>
