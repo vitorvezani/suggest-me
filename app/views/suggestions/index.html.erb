@@ -3,7 +3,7 @@
     <div class="container">
       <h1><%= @project_name %></h1>
       <p>Sistema de recomendação de livros, filmes, jogos e músicas que são gerados apartir do seu gosto! Para mais informações</p>
-      <p><a class="btn btn-primary btn-lg" role="button">Saiba mais &raquo;</a></p>
+      <p><a href="/suggestions/sobre" class="btn btn-primary btn-lg" role="button">Saiba mais &raquo;</a></p>
     </div>
   </div>
 
@@ -14,6 +14,10 @@
       <%= text_field_tag(:q) %>
       <%= submit_tag("Suggest Me!") %>
     <% end %>
+
+    <hr>
+
+    <li><%= link_to "Recomendacoes Prototype", controller: "suggestions", action: "recomendacao" %></li>
   
   </div>
     

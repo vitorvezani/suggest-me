@@ -1,11 +1,24 @@
 Rails.application.routes.draw do
-  #root route
-  root "suggestions#index"
-  
-  #get 'suggestions/index'
 
   #default
   match ':controller(/:action(/:id(.:format)))', :via => :get
+
+  resources :generos
+
+  resources :categorias
+
+  resources :itens
+
+  resources :avaliacoes
+
+  resources :comentarios
+
+  resources :usuarios
+
+  #root route
+  root 'suggestions#index'
+  
+  #get 'suggestions/index'
 
   # match "demo/index",
   #    :to => "demo#index",

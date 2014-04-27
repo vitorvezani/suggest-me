@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425034039) do
+ActiveRecord::Schema.define(version: 20140425215052) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "id_item"
