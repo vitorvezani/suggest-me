@@ -1,7 +1,7 @@
 <%= form_for(@avaliacao) do |f| %>
   <% if @avaliacao.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@avaliacao.errors.count, "error") %> prohibited this avaliacao from being saved:</h2>
+      <h2><%= pluralize(@avaliacao.errors.count, "error") %> proibiram esta avaliação de ser salva:</h2>
 
       <ul>
       <% @avaliacao.errors.full_messages.each do |message| %>

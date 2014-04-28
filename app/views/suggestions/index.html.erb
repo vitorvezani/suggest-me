@@ -1,23 +1,20 @@
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
-    <div class="container">
-      <h1><%= @project_name %></h1>
-      <p>Sistema de recomendação de livros, filmes, jogos e músicas que são gerados apartir do seu gosto! Para mais informações</p>
-      <p><a href="/suggestions/sobre" class="btn btn-primary btn-lg" role="button">Saiba mais &raquo;</a></p>
-    </div>
-  </div>
-
+<ol class="breadcrumb">
+  <li class="Active">Home</li>
+</ol>
+<hr>
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
   <div class="container">
-
-    <%= form_tag("/search", method: "get") do %>
-      <%= label_tag(:q, "Search for:") %>
-      <%= text_field_tag(:q) %>
-      <%= submit_tag("Suggest Me!") %>
-    <% end %>
-
-    <hr>
-
-    <li><%= link_to "Recomendacoes Prototype", controller: "suggestions", action: "recomendacao" %></li>
-  
+    <h1><%= @project_name %></h1>
+    <p>Sistema de recomendação de livros, filmes, jogos e músicas que são gerados apartir do seu gosto! Para mais informações</p>
+    <p><a href="/suggestions/sobre" class="btn btn-primary btn-lg" role="button">Saiba mais &raquo;</a></p>
   </div>
+</div>
+<hr>
+<%= form_tag("suggestions/recomendacao", method: "get") do %>
+  <%= label_tag(:q, "Procura por:") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("Suggest Me!") %>
+<% end %>
+<hr>
     

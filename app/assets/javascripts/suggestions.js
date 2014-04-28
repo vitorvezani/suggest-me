@@ -4,3 +4,15 @@
 $(function() {
 	$('.nav-tabs a:first').tab('show');
 });
+
+/*
+*
+* Esboço do JQuery para aplicar classe active ao link correto onClick
+*
+$(document).ready(function(){
+    $('.nav li').click(function() {
+        $(this).siblings('li').removeClass('active');
+        $(this).addClass('active');
+    });
+});
+*/

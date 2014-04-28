@@ -1,11 +1,25 @@
-<p id="notice"><%= notice %></p>
-
+<% provide(:title, @usuario.username) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= gravatar_for @usuario %>
+        <%= @usuario.username %>
+      </h1>
+    </section>
+  </aside>
+</div>
 <hr>
 
 <label>Username: </label><%= @usuario.username %> <br/>
 <label>E-mail: </label><%= @usuario.email %> <br/>
+<label>Primeiro Nome: </label><%= @usuario.primeiro_nome %> <br/>
+<label>Ultimo Nome: </label><%= @usuario.ultimo_nome %> <br/>
+<label>Sexo: </label><% unless @usuario.sexo.nil? %>
+            <%= @usuario.sexo == "M" ? "Male" : "Feminino" %>
+             <% end %><br/>
+<label>Data de Nasc.: </label><%= @usuario.dt_aniversario %> <br/>
 
 <hr>
 
-<%= link_to 'Edit', edit_usuario_path(@usuario) %> |
-<%= link_to 'Back', usuarios_path %>
+<%= link_to 'Edit', edit_usuario_path(@usuario) %>

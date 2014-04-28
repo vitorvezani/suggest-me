@@ -18,6 +18,7 @@
 # Para Plurarizacao correta
  ActiveSupport::Inflector.inflections do |inflect|
    inflect.irregular 'avaliacao', 'avaliacoes'
+   inflect.irregular 'erro', 'erros'
    inflect.irregular 'ocupacao', 'ocupacoes'
    inflect.irregular 'usuario', 'usuarios'
    inflect.irregular 'comentario', 'comentarios'

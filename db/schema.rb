@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425215052) do
+ActiveRecord::Schema.define(version: 20140427222251) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "id_item"
@@ -61,14 +61,14 @@ ActiveRecord::Schema.define(version: 20140425215052) do
   end
 
   create_table "usuarios", force: true do |t|
-    t.string   "primeiro_nome",  limit: 50
-    t.string   "ultimo_nome",    limit: 50
-    t.string   "username",       limit: 50,                     null: false
+    t.string   "primeiro_nome",   limit: 50
+    t.string   "ultimo_nome",     limit: 50
+    t.string   "username",        limit: 50,                     null: false
     t.date     "dt_aniversario"
-    t.string   "sexo",           limit: 1
-    t.string   "email",          limit: 50,                     null: false
-    t.string   "senha",          limit: 40,                     null: false
-    t.string   "role",           limit: 10, default: "regular"
+    t.string   "sexo",            limit: 1
+    t.string   "email",           limit: 50,                     null: false
+    t.string   "password_digest",                                null: false
+    t.string   "role",            limit: 10, default: "regular"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

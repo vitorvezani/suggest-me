@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  #default
-  match ':controller(/:action(/:id(.:format)))', :via => :get
-
   resources :generos
 
   resources :categorias
@@ -15,8 +12,17 @@ Rails.application.routes.draw do
 
   resources :usuarios
 
+  resources :sessions, only: [:new, :create, :destroy]
+
   #root route
   root 'suggestions#index'
+
+  #default
+  match ':controller(/:action(/:id(.:format)))', :via => :get
+
+  match '/signup',  to: 'usuarios#new',         via: 'get'
+  match '/signin',  to: 'sessions#new',         via: 'get'
+  match '/signout', to: 'sessions#destroy',     via: 'delete'
   
   #get 'suggestions/index'
 
