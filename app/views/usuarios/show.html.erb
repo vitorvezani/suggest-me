@@ -3,8 +3,7 @@
   <aside class="span4">
     <section>
       <h1>
-        <%= gravatar_for @usuario %>
-        <%= @usuario.username %>
+        <%= "Olá " + @usuario.username %>
       </h1>
     </section>
   </aside>
@@ -15,9 +14,7 @@
 <label>E-mail: </label><%= @usuario.email %> <br/>
 <label>Primeiro Nome: </label><%= @usuario.primeiro_nome %> <br/>
 <label>Ultimo Nome: </label><%= @usuario.ultimo_nome %> <br/>
-<label>Sexo: </label><% unless @usuario.sexo.nil? %>
-            <%= @usuario.sexo == "M" ? "Male" : "Feminino" %>
-             <% end %><br/>
+<label>Sexo: </label><%= @usuario.sexo %><br/>
 <label>Data de Nasc.: </label><%= @usuario.dt_aniversario %> <br/>
 
 <hr>

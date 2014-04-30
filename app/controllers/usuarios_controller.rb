@@ -28,10 +28,12 @@ class UsuariosController < ApplicationController
 
     respond_to do |format|
       if @usuario.save
-        flash[:success] = "Olá #{@usuario.username}. Bem Vindo ao Suggest Me!"
+        sign_in @usuario
+        flash.now[:success] = "Olá #{@usuario.username}. Bem Vindo ao Suggest Me!"
         format.html { redirect_to @usuario }
         format.json { render :show, status: :created, location: @usuario }
       else
+        flash.now[:danger] = "Não foi possível criar o usuário!"
         format.html { render :new }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
       end
@@ -42,11 +44,12 @@ class UsuariosController < ApplicationController
   # PATCH/PUT /usuarios/1.json
   def update
     respond_to do |format|
-      flash[:success] = "Usuário foi editado com sucesso!"
       if @usuario.update(usuario_params)
+        flash.now[:success] = "Usuário foi editado com sucesso!"
         format.html { redirect_to @usuario }
         format.json { render :show, status: :ok, location: @usuario }
       else
+        flash.now[:danger] = "Usuário não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
       end
@@ -57,13 +60,11 @@ class UsuariosController < ApplicationController
   # DELETE /usuarios/1.json
   def destroy
     @usuario.destroy
+    flash[:success] = "Usuário foi excluido com sucesso!"
     respond_to do |format|
       format.html { redirect_to usuarios_url }
       format.json { head :no_content }
     end
-  end
-
-  def login
   end
 
   private

@@ -22,12 +22,20 @@
       <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com" %>
       </div>
       <div class="form-group">
-      <%= f.label :password %>*
-      <%= f.password_field :password, class: "form-control", placeholder: "Min: 8, Max: 40" %>
+      <%= f.label :primeiro_nome %>
+      <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "stephenhawking" %>
       </div>
       <div class="form-group">
-      <%= f.label :password_confirmation %>*
-      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Min: 8, Max: 40" %>
+      <%= f.label :ultimo_nome %>
+      <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "stephen.hawking@email.com" %>
+      </div>
+      <div class="form-group">
+      <%= f.label :sexo %>
+      <%= f.text_field :sexo, class: "form-control", placeholder: "[M]ale, [F]emale" %>
+      </div>
+      <div class="form-group">
+      <%= f.label :dt_aniversario %>
+      <%= f.date_field :dt_aniversario, class: "form-control" %>
       </div>
       <hr>
       <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>

@@ -1,3 +1,9 @@
+<ol class="breadcrumb">
+  <li><a href="#">Home</a>  </li>
+  <li class "Active">Editar</li>
+</ol>
+
+<% provide(:title, "Editar!") %>
 <h1>Editando Usuário <%= @usuario.username %></h1>
 
-<%= render 'form' %>
+<%= render 'edit_form' %>

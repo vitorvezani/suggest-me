@@ -17,6 +17,11 @@ Rails.application.routes.draw do
   #root route
   root 'suggestions#index'
 
+  match '/sobre', to: 'suggestions#sobre', via: 'get'
+  match '/privacidade', to: 'suggestions#privacidade', via: 'get'
+  match '/termos', to: 'suggestions#termos', via: 'get'
+  match '/contato', to: 'suggestions#contato', via: 'get'
+
   #default
   match ':controller(/:action(/:id(.:format)))', :via => :get
 
