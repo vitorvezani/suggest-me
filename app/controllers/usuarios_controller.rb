@@ -1,6 +1,7 @@
 class UsuariosController < ApplicationController
   before_action :set_usuario, only: [:show, :edit, :update, :destroy]
-
+  before_action :usuario_logado, only: [:edit, :update] #Verifica se o usuário está logado.
+  before_action :usuario_correto,   only: [:edit, :update] #Verifica se é o usuário correto.
   # GET /usuarios
   # GET /usuarios.json
   def index
@@ -45,11 +46,11 @@ class UsuariosController < ApplicationController
   def update
     respond_to do |format|
       if @usuario.update(usuario_params)
-        flash.now[:success] = "Usuário foi editado com sucesso!"
+        flash.now[:success] = "Perfil editado com sucesso!"
         format.html { redirect_to @usuario }
         format.json { render :show, status: :ok, location: @usuario }
       else
-        flash.now[:danger] = "Usuário não foi editado com sucesso!"
+        flash.now[:danger] = "Perfil não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
       end
@@ -60,7 +61,7 @@ class UsuariosController < ApplicationController
   # DELETE /usuarios/1.json
   def destroy
     @usuario.destroy
-    flash[:success] = "Usuário foi excluido com sucesso!"
+    flash[:success] = "Perfil excluido com sucesso!"
     respond_to do |format|
       format.html { redirect_to usuarios_url }
       format.json { head :no_content }
@@ -76,5 +77,19 @@ class UsuariosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def usuario_params
       params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario)
+    end
+
+    # Before-filters function
+
+    def usuario_logado
+      unless signed_in?
+        flash[:warning] = "Por favor Sign in."
+        redirect_to signin_url
+      end
+    end
+
+    def usuario_correto
+      @usuario = Usuario.find(params[:id])
+      redirect_to(root_url) unless current_user == @usuario
     end
 end

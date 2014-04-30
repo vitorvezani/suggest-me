@@ -23,6 +23,11 @@ class Usuario < ActiveRecord::Base
 	has_many :comentarios
 	has_many :avaliacoes
 
+	# Métodos publicos
+	def admin?
+		self.admin == 1
+	end
+
 	# Metodos Estaticos
 	def Usuario.novo_remember_token
 	    SecureRandom.urlsafe_base64
@@ -34,9 +39,9 @@ class Usuario < ActiveRecord::Base
 
 	private
 
-	# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar
-  	def criar_remember_token
-    	self.remember_token = Usuario.digest(Usuario.novo_remember_token)
-  	end
+		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar
+		def criar_remember_token
+	  	self.remember_token = Usuario.digest(Usuario.novo_remember_token)
+		end
 
 end
