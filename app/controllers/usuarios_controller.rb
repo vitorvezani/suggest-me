@@ -1,11 +1,15 @@
 class UsuariosController < ApplicationController
   before_action :set_usuario, only: [:show, :edit, :update, :destroy]
-  before_action :usuario_logado, only: [:edit, :update] #Verifica se o usuário está logado.
-  before_action :usuario_correto,   only: [:edit, :update] #Verifica se é o usuário correto.
+  before_action :usuario_logado, only: [:edit, :update, :destroy] # Verifica se o usuário está logado.
+  before_action :usuario_correto, only: [:edit, :update] # Verifica se é o usuário correto.
+  before_action :usuario_admin, only: [:index] # Somente admin pode vizualizar a pagina de usuários
+  before_action :redireciona_usuario_logado, only: [:new, :create] # Verifica se o usuário está logado.
+  
   # GET /usuarios
   # GET /usuarios.json
   def index
-    @usuarios = Usuario.all
+    # Usando paginate na classe Usuario para trazer registros!
+    @usuarios = Usuario.paginate(page: params[:page], :per_page => 10)
   end
 
   # GET /usuarios/1
@@ -61,7 +65,7 @@ class UsuariosController < ApplicationController
   # DELETE /usuarios/1.json
   def destroy
     @usuario.destroy
-    flash[:success] = "Perfil excluido com sucesso!"
+    flash.now[:success] = "Perfil excluido com sucesso!"
     respond_to do |format|
       format.html { redirect_to usuarios_url }
       format.json { head :no_content }
@@ -69,6 +73,7 @@ class UsuariosController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_usuario
       @usuario = Usuario.find(params[:id])
@@ -81,15 +86,27 @@ class UsuariosController < ApplicationController
 
     # Before-filters function
 
+    # Se o usuário não está logado, redireciona para o login
     def usuario_logado
       unless signed_in?
-        flash[:warning] = "Por favor Sign in."
+        flash.now[:warning] = "Por favor Sign in."
         redirect_to signin_url
       end
     end
 
+    # Verifica se o usuário a ser editado é o mesmo usuário logado.
     def usuario_correto
       @usuario = Usuario.find(params[:id])
       redirect_to(root_url) unless current_user == @usuario
+    end
+
+    def usuario_admin
+      unless current_user.admin? && current_user != @usuario
+        redirect_to root_url
+      end
+    end
+
+    def redireciona_usuario_logado    
+        redirect_to root_url unless !current_user
     end
 end

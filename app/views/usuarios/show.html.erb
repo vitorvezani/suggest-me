@@ -1,22 +1,28 @@
 <% provide(:title, @usuario.username) %>
 <div class="row">
-  <aside class="span4">
+  <aside class="col-xs-3">
     <section>
-      <h1>
-        <%= "Olá " + @usuario.username %>
-      </h1>
+      <h1> <%= "Olá " + @usuario.username %> </h1>
+      <hr>
+      <label>Username:</label> <%= @usuario.username %> </br>
+			<label>E-mail: </label> <%= @usuario.email %> </br>
+			<label>Primeiro Nome: </label> <%= @usuario.primeiro_nome %> </br>
+			<label>Ultimo Nome: </label> <%= @usuario.ultimo_nome %> </br>
+			<label>Sexo: </label> <%= @usuario.sexo %> </br>
+			<label>Data de Nasc.: </label> <%= @usuario.dt_aniversario %></br>
+			<label>Classificação</label> <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span></br>
+			<hr>
     </section>
+		<div class="col-xs-9">
+    <% if @usuario.comentarios.any? %>
+      <h3>Microposts (<%= @usuario.comentarios.count %>)</h3>
+      <ol class="comentarios">
+        <%= render @comentarios %>
+      </ol>
+      <%= will_paginate @comentarios %>
+    <% end %>
+  </div>
   </aside>
 </div>
-<hr>
-
-<label>Username: </label><%= @usuario.username %> <br/>
-<label>E-mail: </label><%= @usuario.email %> <br/>
-<label>Primeiro Nome: </label><%= @usuario.primeiro_nome %> <br/>
-<label>Ultimo Nome: </label><%= @usuario.ultimo_nome %> <br/>
-<label>Sexo: </label><%= @usuario.sexo %><br/>
-<label>Data de Nasc.: </label><%= @usuario.dt_aniversario %> <br/>
-
-<hr>
 
 <%= link_to 'Edit', edit_usuario_path(@usuario) %>

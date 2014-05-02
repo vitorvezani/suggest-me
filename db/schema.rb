@@ -11,19 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140429231907) do
+ActiveRecord::Schema.define(version: 20140502215522) do
 
   create_table "avaliacoes", force: true do |t|
-    t.integer  "id_item"
-    t.integer  "id_usuario"
+    t.integer  "item_id"
+    t.integer  "usuario_id"
     t.integer  "avaliacao",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "avaliacoes", ["id"], name: "index_avaliacoes_on_id", using: :btree
-  add_index "avaliacoes", ["id_item"], name: "index_avaliacoes_on_id_item", using: :btree
-  add_index "avaliacoes", ["id_usuario"], name: "index_avaliacoes_on_id_usuario", using: :btree
+  add_index "avaliacoes", ["item_id"], name: "index_avaliacoes_on_item_id", using: :btree
+  add_index "avaliacoes", ["usuario_id"], name: "index_avaliacoes_on_usuario_id", using: :btree
 
   create_table "categorias", force: true do |t|
     t.string   "descricao",  limit: 50
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 20140429231907) do
   add_index "categorias", ["id"], name: "index_categorias_on_id", using: :btree
 
   create_table "comentarios", force: true do |t|
-    t.integer  "id_usuario"
-    t.integer  "id_item"
+    t.integer  "usuario_id"
+    t.integer  "item_id"
     t.string   "titulo",     limit: 100,             null: false
     t.string   "comentario", limit: 200,             null: false
     t.integer  "like",                   default: 0
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20140429231907) do
   end
 
   add_index "comentarios", ["id"], name: "index_comentarios_on_id", using: :btree
-  add_index "comentarios", ["id_item"], name: "index_comentarios_on_id_item", using: :btree
-  add_index "comentarios", ["id_usuario"], name: "index_comentarios_on_id_usuario", using: :btree
+  add_index "comentarios", ["item_id"], name: "index_comentarios_on_item_id", using: :btree
+  add_index "comentarios", ["usuario_id"], name: "index_comentarios_on_usuario_id", using: :btree
 
   create_table "generos", force: true do |t|
     t.string   "descricao",  limit: 50
@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 20140429231907) do
   add_index "generos", ["id"], name: "index_generos_on_id", using: :btree
 
   create_table "itens", force: true do |t|
-    t.integer  "id_usuario"
-    t.integer  "id_categoria"
+    t.integer  "usuario_id"
+    t.integer  "categoria_id"
     t.string   "nome_ptbr",    limit: 100
     t.string   "nome_en",      limit: 100
     t.string   "descricao"
@@ -67,16 +67,16 @@ ActiveRecord::Schema.define(version: 20140429231907) do
     t.datetime "updated_at"
   end
 
+  add_index "itens", ["categoria_id"], name: "index_itens_on_categoria_id", using: :btree
   add_index "itens", ["id"], name: "index_itens_on_id", using: :btree
-  add_index "itens", ["id_categoria"], name: "index_itens_on_id_categoria", using: :btree
 
   create_table "rel_generos_itens", id: false, force: true do |t|
-    t.integer "id_item"
-    t.integer "id_genero"
+    t.integer "item_id"
+    t.integer "genero_id"
   end
 
-  add_index "rel_generos_itens", ["id_genero"], name: "index_rel_generos_itens_on_id_genero", using: :btree
-  add_index "rel_generos_itens", ["id_item"], name: "index_rel_generos_itens_on_id_item", using: :btree
+  add_index "rel_generos_itens", ["genero_id"], name: "index_rel_generos_itens_on_genero_id", using: :btree
+  add_index "rel_generos_itens", ["item_id"], name: "index_rel_generos_itens_on_item_id", using: :btree
 
   create_table "usuarios", force: true do |t|
     t.string   "primeiro_nome",   limit: 50

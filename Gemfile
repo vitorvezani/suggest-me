@@ -15,6 +15,10 @@ source 'https://rubygems.org'
  gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
  gem 'jbuilder', '~> 2.0'
+# Paginator
+ gem 'will_paginate'
+# Bootstrap Paginator
+ gem 'will_paginate-bootstrap'
 # Passenger
  #gem 'passenger', '~> 4.0.41'
 # Sprockets
@@ -33,10 +37,8 @@ source 'https://rubygems.org'
  #gem 'spring',        group: :development
 # Use unicorn as the app server
 # gem 'unicorn'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 

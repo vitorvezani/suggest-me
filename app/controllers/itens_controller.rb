@@ -4,7 +4,7 @@ class ItensController < ApplicationController
   # GET /itens
   # GET /itens.json
   def index
-    @itens = Item.all
+    @itens = Item.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /itens/1

@@ -37,10 +37,6 @@
       <%= f.label :dt_aniversario, "Data de Nascimento" %>
       <%= f.date_field :dt_aniversario, { value: Time.now.strftime("%Y-%m-%d"), class: "form-control"}  %>
       </div>
-      <div class="form-group">
-      <label>Classificação</label>
-      <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span>
-      </div>
       <hr>
       <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
       <p></p>

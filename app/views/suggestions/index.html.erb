@@ -16,7 +16,8 @@
 		<%= form_tag("suggestions/recomendacao", method: "get") do %>
 		  <%= label_tag(:q, "Procura por:") %>
 		  <%= text_field_tag(:q) %>
-		  <%= submit_tag("Suggest Me!") %>
+		  <p></p>
+		  <%= submit_tag("Suggest Me!", class:"btn btn-primary") %>
 		<% end %>
 	</div>
 </div>

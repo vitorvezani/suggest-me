@@ -1,23 +1,17 @@
-<h1>Listing Users</h1>
+<% provide(:title, 'Todos usuarios') %>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<h1>Todos usuarios</h1>
 
-  <tbody>
-    <% @usuarios.each do |usuario| %>
-      <tr>
-        <td><%= link_to 'Show', usuario %></td> |
-        <td><%= link_to 'Edit', edit_usuario_path(usuario) %></td> |
-        <td><%= link_to 'Destroy', usuario, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<ul class="usuarios">
+  <% @usuarios.each do |usuario| %>
+    <li>
+      <%= link_to usuario.username, usuario %>
+      <% if current_user.admin? && current_user != usuario %>
+          | <%= link_to "delete", usuario, method: :delete,
+                                  data: { confirm: "Você tem certeza?" } %>
+  <% end %>
+    </li>
+  <% end %>
+</ul>
 
-<br>
-
-<%= link_to 'New Usuario', new_usuario_path %>
+<%= will_paginate @usuarios, renderer: BootstrapPagination::Rails %>
