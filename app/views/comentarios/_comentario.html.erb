@@ -1,0 +1,7 @@
+<li>
+  <label class="titulo"><%= comentario.titulo %></label><br>
+  <span class="comentario">  <%= comentario.comentario %></span>
+  <span>    <%= link_to comentario.item.nome_ptbr, item_path(comentario.item) %></span>
+  <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
+  <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
+</li>

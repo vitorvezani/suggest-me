@@ -17,17 +17,21 @@ Rails.application.routes.draw do
   #root route
   root 'suggestions#index'
 
+  #route para o Facebook Auth
+  match 'auth/:provider/callback', to: 'sessions#create_facebook', via: 'get'
+  match 'auth/failure', to: redirect('/'), via: 'get'
+
   match '/sobre', to: 'suggestions#sobre', via: 'get'
   match '/privacidade', to: 'suggestions#privacidade', via: 'get'
   match '/termos', to: 'suggestions#termos', via: 'get'
   match '/contato', to: 'suggestions#contato', via: 'get'
 
-  #default
-  match ':controller(/:action(/:id(.:format)))', :via => :get
-
   match '/signup',  to: 'usuarios#new',         via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
+
+  #default
+  match ':controller(/:action(/:id(.:format)))', via: 'get'
   
   #get 'suggestions/index'
 

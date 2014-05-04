@@ -4,14 +4,21 @@ class SessionsController < ApplicationController
 
   def create
     usuario = Usuario.find_by(email: params[:session][:email].downcase)
-    usuario ||= Usuario.find_by(username: params[:session][:email].downcase)
     if usuario && usuario.authenticate(params[:session][:password])
+      flash[:success] = 'Você logou com sucesso!'
       sign_in usuario
-      redirect_to usuario
+      redirect_to root_url
     else
-      flash.now[:danger] = 'E-mail/Senha incorretos'
+      flash[:danger] = 'E-mail/Senha incorretos'
       render 'new'
     end
+  end
+
+  def create_facebook
+    usuario = Usuario.from_omniauth(env["omniauth.auth"])
+    flash[:success] = 'Você logou pelo Facebook com sucesso!'
+    sign_in usuario
+    redirect_to root_url
   end
 
   def destroy

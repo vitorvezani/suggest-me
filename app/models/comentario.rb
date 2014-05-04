@@ -1,6 +1,6 @@
 class Comentario < ActiveRecord::Base
 
-	validates_presence_of :titulo, :comentario, :id_usuario, :id_item, message: "deve ser preenchido!"
+	validates_presence_of :titulo, :comentario, :usuario_id, :item_id, message: "deve ser preenchido!"
 
 	validates_associated :usuario, :item
 

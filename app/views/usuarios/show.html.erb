@@ -2,7 +2,7 @@
 <div class="row">
   <aside class="col-xs-3">
     <section>
-      <h1> <%= "Olá " + @usuario.username %> </h1>
+      <h1><%= image_tag @usuario.image %></h1>
       <hr>
       <label>Username:</label> <%= @usuario.username %> </br>
 			<label>E-mail: </label> <%= @usuario.email %> </br>
@@ -12,17 +12,17 @@
 			<label>Data de Nasc.: </label> <%= @usuario.dt_aniversario %></br>
 			<label>Classificação</label> <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span></br>
 			<hr>
+      <%= link_to 'Editar', edit_usuario_path(@usuario) %>
     </section>
-		<div class="col-xs-9">
+  </aside>
+	<div class="col-xs-9">
     <% if @usuario.comentarios.any? %>
-      <h3>Microposts (<%= @usuario.comentarios.count %>)</h3>
+      <h3>Comentarios (<%= @usuario.comentarios.count %>)</h3>
       <ol class="comentarios">
+        <!-- Loop para cada comentario do usuário -->
         <%= render @comentarios %>
       </ol>
-      <%= will_paginate @comentarios %>
     <% end %>
+    <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
   </div>
-  </aside>
 </div>
-
-<%= link_to 'Edit', edit_usuario_path(@usuario) %>

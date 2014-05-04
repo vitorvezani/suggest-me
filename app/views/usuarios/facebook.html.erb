@@ -1,0 +1,38 @@
+<% provide(:title, 'Todos musics') %>
+
+<h1>Meus dados no facebook!</h1>
+
+<% @fb_user.each do |key, value| %>
+  <%=  "#{key} - " %>
+  <% value.each do |k,v| %>
+    <%= "#{k} - " %>
+    <%= "#{v}." %></br>
+  <% end %>
+<% end %>
+<hr>
+<ul>
+	<li><strong>Musicas</strong></li>
+	<ul>
+		<% @musicas.each do |musica| %>
+		<li><%= musica["name"] %></li>
+		<% end %>
+	</ul>
+	<li><strong>Livros</strong></li>
+	<ul>
+	<% @livros.each do |livro| %>
+		<li><%= livro["name"] %></li>
+	<% end %>
+	</ul>
+	<li><strong>Videos</strong></li>
+		<ul>
+		<% @videos.each do |video| %>
+		<li><%= video["name"] %></li>
+		<% end %>
+	</ul>
+	<li><strong>Jogos</strong></li>
+		<ul>
+		<% @jogos.each do |jogo| %>
+		<li><%= jogo["name"] %></li>
+		<% end %>
+	</ul>
+</ul>

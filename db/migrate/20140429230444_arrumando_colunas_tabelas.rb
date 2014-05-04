@@ -6,6 +6,6 @@ class ArrumandoColunasTabelas < ActiveRecord::Migration
   	change_column(:avaliacoes, "avaliacao", "int", limit: 1 )
   	# usuarios
   	rename_column :usuarios, :role, :admin
-  	change_column(:usuarios, "admin", "int", {limit: 1, default: 0})
+  	change_column(:usuarios, "admin", "boolean", default: false)
   end
 end

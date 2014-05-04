@@ -3,15 +3,7 @@
 <h1>Todos os Itens!</h1>
 
 <ul class="itens">
-  <% @itens.each do |item| %>
-    <li>
-      <%= link_to item.nome_ptbr, item %>
-      <% if current_user.admin? %>
-          | <%= link_to "delete", item, method: :delete,
-                                  data: { confirm: "Você tem certeza?" } %>
-  <% end %>
-    </li>
-  <% end %>
+  <%= render @itens %>
 </ul>
 
-<%= will_paginate @usuarios, renderer: BootstrapPagination::Rails %>
+<%= will_paginate @usuarios,:previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

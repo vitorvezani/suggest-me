@@ -22,6 +22,14 @@
       <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com" %>
       </div>
       <div class="form-group">
+      <%= f.label :password, "Senha" %>*
+      <%= f.password_field :password, class: "form-control" %>
+      </div>
+      <div class="form-group">
+      <%= f.label :password_confirmation, "Confirmação da senha" %>*
+      <%= f.password_field :password_confirmation, class: "form-control" %>
+      </div>
+      <div class="form-group">
       <%= f.label :primeiro_nome, "Primeiro Nome" %>
       <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "stephenhawking" %>
       </div>
@@ -31,7 +39,8 @@
       </div>
       <div class="form-group">
       <%= f.label :sexo, "Sexo" %>
-      <%= f.text_field :sexo, class: "form-control", placeholder: "[M]ale, [F]emale" %>
+      <p>Masculino <%= f.radio_button( :sexo, "M") %></p>
+      <p>Feminino <%= f.radio_button( :sexo, "F") %></p>
       </div>
       <div class="form-group">
       <%= f.label :dt_aniversario, "Data de Nascimento" %>

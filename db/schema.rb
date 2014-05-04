@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140502215522) do
+ActiveRecord::Schema.define(version: 20140504173022) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 20140502215522) do
   add_index "generos", ["id"], name: "index_generos_on_id", using: :btree
 
   create_table "itens", force: true do |t|
-    t.integer  "usuario_id"
     t.integer  "categoria_id"
     t.string   "nome_ptbr",    limit: 100
     t.string   "nome_en",      limit: 100
@@ -79,17 +78,22 @@ ActiveRecord::Schema.define(version: 20140502215522) do
   add_index "rel_generos_itens", ["item_id"], name: "index_rel_generos_itens_on_item_id", using: :btree
 
   create_table "usuarios", force: true do |t|
-    t.string   "primeiro_nome",   limit: 50
-    t.string   "ultimo_nome",     limit: 50
-    t.string   "username",        limit: 50,             null: false
+    t.string   "primeiro_nome",    limit: 50
+    t.string   "ultimo_nome",      limit: 50
+    t.string   "username"
     t.date     "dt_aniversario"
-    t.string   "sexo",            limit: 1
-    t.string   "email",           limit: 50,             null: false
-    t.string   "password_digest",                        null: false
-    t.integer  "admin",                      default: 0
+    t.string   "sexo",             limit: 1
+    t.string   "email"
+    t.string   "password_digest"
+    t.boolean  "admin",                       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.string   "image"
   end
 
   add_index "usuarios", ["remember_token"], name: "index_usuarios_on_remember_token", using: :btree

@@ -1,9 +1,14 @@
 class UsuariosController < ApplicationController
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy]
-  before_action :usuario_logado, only: [:edit, :update, :destroy] # Verifica se o usuário está logado.
-  before_action :usuario_correto, only: [:edit, :update] # Verifica se é o usuário correto.
-  before_action :usuario_admin, only: [:index] # Somente admin pode vizualizar a pagina de usuários
-  before_action :redireciona_usuario_logado, only: [:new, :create] # Verifica se o usuário está logado.
+
+  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook]
+  # Para qualquer dessas ação é necessario o login do usuário
+  before_action :usuario_logado, only: [:edit, :update, :destroy]
+  # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
+  before_action :usuario_correto, only: [:edit, :update] 
+  # Somente admin pode vizualizar a lista de todos os usuários
+  before_action :usuario_admin, only: [:index]
+  # Se o usuario está logado ele não pode acessar a pagina de new e create
+  before_action :redireciona_usuario_logado, only: [:new, :create]
   
   # GET /usuarios
   # GET /usuarios.json
@@ -15,6 +20,7 @@ class UsuariosController < ApplicationController
   # GET /usuarios/1
   # GET /usuarios/1.json
   def show
+    @comentarios = @usuario.comentarios.paginate(page: params[:page], :per_page => 10)
   end
 
   # GET /usuarios/new
@@ -72,6 +78,18 @@ class UsuariosController < ApplicationController
     end
   end
 
+  def facebook
+
+    @graph = Koala::Facebook::API.new("CAACEdEose0cBAMK4ZAHPAAEewS7KrTtZAS1BI5n5FGSgf0ihOloGx4ZAfZArvbvzCUlTLt42jtFFv7ZAZAgqVPMwNrXmBKQMCsS3wL16JaZB9sw12ZBGBWMWZCMc17Tp6uOCOB155VY3dpFXFDDP5U4WZA0ZClKZCRCLZC5qrBS702Sd8HcKNcFiE053QeFVZBZArohG28ZD")
+
+    @fb_user = @graph.get_objects(@usuario.uid)
+    @musicas = @graph.get_connections( @usuario.uid, "music")
+    @livros = @graph.get_connections( @usuario.uid, "books")
+    @videos = @graph.get_connections( @usuario.uid, "videos")
+    @jogos = @graph.get_connections( @usuario.uid, "games")
+
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -100,8 +118,9 @@ class UsuariosController < ApplicationController
       redirect_to(root_url) unless current_user == @usuario
     end
 
+    # Somente admin pode vizualizar a pagina de usuários
     def usuario_admin
-      unless current_user.admin? && current_user != @usuario
+      unless ( is_admin? && current_user != @usuario)
         redirect_to root_url
       end
     end

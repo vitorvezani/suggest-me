@@ -19,6 +19,12 @@ source 'https://rubygems.org'
  gem 'will_paginate'
 # Bootstrap Paginator
  gem 'will_paginate-bootstrap'
+# Login with Facebook
+ gem 'omniauth-facebook'
+# Awesome Font
+ gem 'font-awesome-sass'
+# Koala Facebook
+ gem "koala"
 # Passenger
  #gem 'passenger', '~> 4.0.41'
 # Sprockets

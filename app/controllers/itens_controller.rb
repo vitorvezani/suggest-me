@@ -1,5 +1,6 @@
 class ItensController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :usuario_admin, only: [:edit, :new, :create, :update, :destroy] # Verifica se é o usuário correto.
 
   # GET /itens
   # GET /itens.json
@@ -28,7 +29,8 @@ class ItensController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        flash.now[:success] = "O item foi editado com sucesso!"
+        format.html { redirect_to @item }
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new }
@@ -42,7 +44,8 @@ class ItensController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
-        format.html { redirect_to @item, notice: 'Item was successfully updated.' }
+        flash[:success] = "O item foi editado com sucesso!"
+        format.html { redirect_to @item}
         format.json { render :show, status: :ok, location: @item }
       else
         format.html { render :edit }
@@ -69,6 +72,13 @@ class ItensController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params[:item]
+      params.require(:item).permit(:categoria_id, :nome_ptbr, :nome_en, :descricao)
+    end
+
+    def usuario_admin
+      unless is_admin?
+        flash[:danger] = "Você não possui privilégios para esta operação!"
+        redirect_to itens_url
+      end
     end
 end

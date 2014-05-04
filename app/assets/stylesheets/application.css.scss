@@ -11,12 +11,6 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require font-awesome
  *= require_self
  */
-
-/* Overwriting variables!
-*
-* $navbar-default-bg: #312312;
-* $light-orange: #ff8c00;
-* $navbar-default-color: $light-orange;
-*/

@@ -1,0 +1,9 @@
+<li>
+  <%= link_to item.nome_ptbr, item %>
+  <%= item.descricao %>
+  <% if is_admin? %>
+      | <%= link_to "excluir", item, method: :delete,
+                              data: { confirm: "Você tem certeza?" } %>
+      | <%= link_to "editar", edit_item_path(item) %>
+  <% end %>
+</li>
