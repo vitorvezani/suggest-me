@@ -1,15 +1,5 @@
 <%= form_for(@comentario) do |f| %>
-  <% if @comentario.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@comentario.errors.count, "error") %> proibiram este comentario de ser salvo:</h2>
-
-      <ul>
-      <% @comentario.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render 'compartilhado/mensagens_erro', object: f.object %>
 
   <div class="actions">
     <%= f.submit %>

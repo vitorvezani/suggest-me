@@ -8,21 +8,45 @@
 			<label>E-mail: </label> <%= @usuario.email %> </br>
 			<label>Primeiro Nome: </label> <%= @usuario.primeiro_nome %> </br>
 			<label>Ultimo Nome: </label> <%= @usuario.ultimo_nome %> </br>
-			<label>Sexo: </label> <%= @usuario.sexo %> </br>
+			<label>Sexo: </label> <%= @usuario.sexo == "M" ? "Masculino" : "Feminino" unless @usuario.sexo.nil? %> </br>
 			<label>Data de Nasc.: </label> <%= @usuario.dt_aniversario %></br>
 			<label>Classificação</label> <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span></br>
 			<hr>
       <%= link_to 'Editar', edit_usuario_path(@usuario) %>
     </section>
   </aside>
-	<div class="col-xs-9">
+	<div class="col-md-8">
     <% if @usuario.comentarios.any? %>
       <h3>Comentarios (<%= @usuario.comentarios.count %>)</h3>
-      <ol class="comentarios">
-        <!-- Loop para cada comentario do usuário -->
-        <%= render @comentarios %>
-      </ol>
+      <!-- Loop para cada comentario do usuário -->
+      <% @comentarios.each do |comentario| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <span> <%= link_to comentario.item.nome_ptbr, item_path(comentario.item) %></span>
+              <small>
+                <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
+                <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
+                <span class="text-right">
+                  <% if current_user == comentario.usuario %>
+                    <%= link_to "deletar", comentario, method: :delete,
+                                                      data: { confirm: "Você tem certeza?" }%>
+                  <% end %> 
+                </span>
+              </small>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <%= comentario.comentario %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
     <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
   </div>
 </div>
+
+<% if is_admin?%>
+  <%= link_to 'Excluir', destroy_usuario_path(@usuario) %> |
+  <%= link_to 'Voltar', usuarios_path %> |
+<% end %>

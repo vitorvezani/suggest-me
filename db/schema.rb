@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20140504173022) do
   create_table "comentarios", force: true do |t|
     t.integer  "usuario_id"
     t.integer  "item_id"
-    t.string   "titulo",     limit: 100,             null: false
     t.string   "comentario", limit: 200,             null: false
     t.integer  "like",                   default: 0
     t.integer  "dislike",                default: 0
@@ -56,6 +55,14 @@ ActiveRecord::Schema.define(version: 20140504173022) do
 
   add_index "generos", ["id"], name: "index_generos_on_id", using: :btree
 
+  create_table "generos_itens", id: false, force: true do |t|
+    t.integer "item_id"
+    t.integer "genero_id"
+  end
+
+  add_index "generos_itens", ["genero_id"], name: "index_generos_itens_on_genero_id", using: :btree
+  add_index "generos_itens", ["item_id"], name: "index_generos_itens_on_item_id", using: :btree
+
   create_table "itens", force: true do |t|
     t.integer  "categoria_id"
     t.string   "nome_ptbr",    limit: 100
@@ -68,14 +75,10 @@ ActiveRecord::Schema.define(version: 20140504173022) do
 
   add_index "itens", ["categoria_id"], name: "index_itens_on_categoria_id", using: :btree
   add_index "itens", ["id"], name: "index_itens_on_id", using: :btree
-
-  create_table "rel_generos_itens", id: false, force: true do |t|
-    t.integer "item_id"
-    t.integer "genero_id"
-  end
-
-  add_index "rel_generos_itens", ["genero_id"], name: "index_rel_generos_itens_on_genero_id", using: :btree
-  add_index "rel_generos_itens", ["item_id"], name: "index_rel_generos_itens_on_item_id", using: :btree
+  add_index "itens", ["nome_en", "categoria_id"], name: "page_id_nome_en_id_categoria", unique: true, using: :btree
+  add_index "itens", ["nome_en"], name: "index_itens_on_nome_en", using: :btree
+  add_index "itens", ["nome_ptbr", "categoria_id"], name: "page_id_nome_ptbr_id_categoria", unique: true, using: :btree
+  add_index "itens", ["nome_ptbr"], name: "index_itens_on_nome_ptbr", using: :btree
 
   create_table "usuarios", force: true do |t|
     t.string   "primeiro_nome",    limit: 50

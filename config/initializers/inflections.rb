@@ -22,7 +22,7 @@
    inflect.irregular 'ocupacao', 'ocupacoes'
    inflect.irregular 'usuario', 'usuarios'
    inflect.irregular 'comentario', 'comentarios'
-   inflect.irregular 'rel_genero_item', 'rel_generos_itens'
+   inflect.irregular 'genero_item', 'generos_itens'
    inflect.irregular 'item', 'itens'
    inflect.irregular 'genero', 'generos'
    inflect.irregular 'categoria', 'categorias'

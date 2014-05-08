@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :avaliacoes
 
-  resources :comentarios
+  resources :comentarios, only: [:create, :destroy]
 
   resources :usuarios
 
@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   match '/privacidade', to: 'suggestions#privacidade', via: 'get'
   match '/termos', to: 'suggestions#termos', via: 'get'
   match '/contato', to: 'suggestions#contato', via: 'get'
+
+  match '/comentarios', to: 'suggestions#index', via: 'get'
 
   match '/signup',  to: 'usuarios#new',         via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'

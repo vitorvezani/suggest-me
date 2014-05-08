@@ -25,7 +25,13 @@ source 'https://rubygems.org'
  gem 'font-awesome-sass'
 # Koala Facebook
  gem "koala"
+# Lastfm Gem
+ #gem 'lastfm'
 # Passenger
+#
+#
+# Gems não utilizadas
+#
  #gem 'passenger', '~> 4.0.41'
 # Sprockets
  #gem 'sprockets', '~> 2.11.0'

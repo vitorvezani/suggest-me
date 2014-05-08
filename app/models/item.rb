@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
 
 	has_many :comentarios
 	has_many :avaliacoes 
-	has_and_belongs_to_many :genero
-	has_one :categoria
+	has_and_belongs_to_many :generos
+	belongs_to :categoria
 
 end

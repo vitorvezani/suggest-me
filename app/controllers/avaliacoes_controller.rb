@@ -1,64 +1,27 @@
 class AvaliacoesController < ApplicationController
-  before_action :set_avaliacao, only: [:show, :edit, :update, :destroy]
-
-  # GET /avaliacoes
-  # GET /avaliacoes.json
-  def index
-    @avaliacoes = Avaliacao.all
-  end
-
-  # GET /avaliacoes/1
-  # GET /avaliacoes/1.json
-  def show
-  end
-
-  # GET /avaliacoes/new
-  def new
-    @avaliacao = Avaliacao.new
-  end
-
-  # GET /avaliacoes/1/edit
-  def edit
-  end
+  before_action :set_avaliacao, only: [:destroy]
 
   # POST /avaliacoes
   # POST /avaliacoes.json
   def create
-    @avaliacao = Avaliacao.new(avaliacao_params)
-
-    respond_to do |format|
-      if @avaliacao.save
-        format.html { redirect_to @avaliacao, notice: 'Avaliacao was successfully created.' }
-        format.json { render :show, status: :created, location: @avaliacao }
-      else
-        format.html { render :new }
-        format.json { render json: @avaliacao.errors, status: :unprocessable_entity }
-      end
+    @avaliacao = current_user.avaliacoes.build(avaliacao_params)
+    if @avaliacao.save
+      flash[:success] = @avaliacao.avaliacao == 1 ? flash[:success] = "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
+    else
+      flash[:danger] = "Avaliação não foi salvo!"
     end
-  end
-
-  # PATCH/PUT /avaliacoes/1
-  # PATCH/PUT /avaliacoes/1.json
-  def update
-    respond_to do |format|
-      if @avaliacao.update(avaliacao_params)
-        format.html { redirect_to @avaliacao, notice: 'Avaliacao was successfully updated.' }
-        format.json { render :show, status: :ok, location: @avaliacao }
-      else
-        format.html { render :edit }
-        format.json { render json: @avaliacao.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to item_path(@avaliacao.item)
   end
 
   # DELETE /avaliacoes/1
   # DELETE /avaliacoes/1.json
   def destroy
-    @avaliacao.destroy
-    respond_to do |format|
-      format.html { redirect_to avaliacoes_url }
-      format.json { head :no_content }
+    if @avaliacao.destroy
+      flash[:success] = "Avaliação excluido com sucesso!"
+    else
+      flash[:danger] = "Avaliação não foi excluido corretamente!"
     end
+      redirect_to item_path(@avaliacao.item)
   end
 
   private
@@ -69,6 +32,8 @@ class AvaliacoesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def avaliacao_params
-      params[:avaliacao]
+      params.require(:avaliacao).permit(:item_id, :avaliacao)
     end
+end
+
 end

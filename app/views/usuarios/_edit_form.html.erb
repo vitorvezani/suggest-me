@@ -1,14 +1,5 @@
 <%= form_for(@usuario) do |f| %>
-  <% if @usuario.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@usuario.errors.count, "erro") %> proibiram este usuário de ser salvo:</h2>
-      <ul>
-      <% @usuario.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render 'compartilhado/mensagens_erro', object: f.object %>
 
 <div class="row">
   <div class="col-md-4 col-md-offset-4">

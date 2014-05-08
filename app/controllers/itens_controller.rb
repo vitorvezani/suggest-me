@@ -1,6 +1,6 @@
 class ItensController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :usuario_admin, only: [:edit, :new, :create, :update, :destroy] # Verifica se é o usuário correto.
+  before_action :usuario_admin, only: [:edit, :update, :destroy] # Verifica se é o usuário correto.
 
   # GET /itens
   # GET /itens.json
@@ -11,6 +11,18 @@ class ItensController < ApplicationController
   # GET /itens/1
   # GET /itens/1.json
   def show
+    # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
+    if signed_in?
+      # Avaliacao
+      @avaliacao = current_user.avaliacoes.build
+      @avaliacao.item_id = @item.id
+      # Comentario
+      @comentario = current_user.comentarios.build
+      @comentario.item_id = @item.id
+    end
+
+    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 5)
+
   end
 
   # GET /itens/new
@@ -29,7 +41,7 @@ class ItensController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        flash.now[:success] = "O item foi editado com sucesso!"
+        flash.now[:success] = "O item foi criado com sucesso!"
         format.html { redirect_to @item }
         format.json { render :show, status: :created, location: @item }
       else

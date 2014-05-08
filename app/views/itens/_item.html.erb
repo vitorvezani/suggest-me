@@ -2,8 +2,8 @@
   <%= link_to item.nome_ptbr, item %>
   <%= item.descricao %>
   <% if is_admin? %>
-      | <%= link_to "excluir", item, method: :delete,
+      | <%= link_to "Excluir", item, method: :delete,
                               data: { confirm: "Você tem certeza?" } %>
-      | <%= link_to "editar", edit_item_path(item) %>
+      | <%= link_to "Editar", edit_item_path(item) %>
   <% end %>
 </li>

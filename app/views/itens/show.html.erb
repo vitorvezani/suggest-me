@@ -1,2 +1,77 @@
-<%= link_to 'Editar', edit_item_path(@item) %> |
+<% provide(:title, @item.nome_ptbr) %>
+<div class="row">
+  <aside class="col-md-3">
+    <section>
+      <h1><%= "Imagem do artista/banda" %></h1>
+      <hr>
+      <label>Categoria:</label> <%= @item.categoria.try(:descricao)%> </br>
+			<label>Nome: </label> <%= @item.nome_ptbr || @item.nome_en %> </br>
+			<label>Descrição: </label> <%= @item.descricao %> </br>
+			<hr>
+      <%= form_for(@avaliacao) do |f| %>
+          <%= render 'compartilhado/mensagens_erro', object: f.object %>
+          <%= f.hidden_field :item_id %>
+          <div class="field">
+            <%= f.text_area :avaliacao, placeholder: "Escreva seu Comentario..." %>
+          </div>
+          <div class="col-md-4.5 col-md-offset-8">
+            <%= f.submit "Comentar!", class: "btn btn-large btn-primary" %>
+          </div>
+        <% end %>
+    </section>
+  </aside>
+	<div class="col-md-4 col-md-offset-1">
+    <% if signed_in? %>
+      <div class="row">
+        <%= form_for(@comentario) do |f| %>
+          <%= render 'compartilhado/mensagens_erro', object: f.object %>
+          <%= f.hidden_field :item_id %>
+          <div class="field">
+            <%= f.text_area :comentario, placeholder: "Escreva seu Comentario..." %>
+          </div>
+          <div class="col-md-4.5 col-md-offset-8">
+            <%= f.submit "Comentar!", class: "btn btn-large btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="well">
+        <small>Deixe um comentário. <%= link_to "Faça login no SuggestMe", signin_path %> ou <%= link_to "registre-se.", signup_path %>
+        </small>
+      </div>
+    <% end %>
+    <% if @item.comentarios.any? %>
+      <h4>Comentarios (<%= @item.comentarios.count %>)</h4>
+      <!-- Loop para cada comentario do item -->
+      <% @comentarios.each do |comentario| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <span> <%= link_to comentario.usuario.username, usuario_path(comentario.usuario) %></span>
+              <small>  
+                <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
+                <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
+                <span>
+                  <% if current_user == comentario.usuario %>
+                    <%= link_to "deletar", comentario, method: :delete,
+                                                      data: { confirm: "Você tem certeza?" }%>
+                  <% end %> 
+                </span>
+              </small>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <%= comentario.comentario %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>
+
+<% if is_admin?%>
+  <%= link_to 'Editar', edit_item_path(@item) %> |
+	<%= link_to 'Excluir', edit_item_path(@item) %> |
+<% end %>
 <%= link_to 'Voltar', itens_path %>

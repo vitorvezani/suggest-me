@@ -1,64 +1,28 @@
 class ComentariosController < ApplicationController
-  before_action :set_comentario, only: [:show, :edit, :update, :destroy]
-
-  # GET /comentarios
-  # GET /comentarios.json
-  def index
-    @comentarios = Comentario.paginate(page: params[:page], :per_page => 30)
-  end
-
-  # GET /comentarios/1
-  # GET /comentarios/1.json
-  def show
-  end
-
-  # GET /comentarios/new
-  def new
-    @comentario = Comentario.new
-  end
-
-  # GET /comentarios/1/edit
-  def edit
-  end
+  before_action :set_comentario, only: [ :destroy ]
+  before_action :usuario_logado, only: [ :create, :destroy, :new ]
 
   # POST /comentarios
   # POST /comentarios.json
   def create
-    @comentario = Comentario.new(comentario_params)
-
-    respond_to do |format|
-      if @comentario.save
-        format.html { redirect_to @comentario, notice: 'Comentario was successfully created.' }
-        format.json { render :show, status: :created, location: @comentario }
-      else
-        format.html { render :new }
-        format.json { render json: @comentario.errors, status: :unprocessable_entity }
-      end
+    @comentario = current_user.comentarios.build(comentario_params)
+    if @comentario.save
+      flash[:success] = "Comentario salvo!"
+    else
+      flash[:danger] = "Comentario não foi salvo!"
     end
-  end
-
-  # PATCH/PUT /comentarios/1
-  # PATCH/PUT /comentarios/1.json
-  def update
-    respond_to do |format|
-      if @comentario.update(comentario_params)
-        format.html { redirect_to @comentario, notice: 'Comentario was successfully updated.' }
-        format.json { render :show, status: :ok, location: @comentario }
-      else
-        format.html { render :edit }
-        format.json { render json: @comentario.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to item_path(@comentario.item)
   end
 
   # DELETE /comentarios/1
   # DELETE /comentarios/1.json
   def destroy
-    @comentario.destroy
-    respond_to do |format|
-      format.html { redirect_to comentarios_url }
-      format.json { head :no_content }
+    if @comentario.destroy
+      flash[:success] = "Comentario excluido com sucesso!"
+    else
+      flash[:danger] = "Comentario não foi excluido corretamente!"
     end
+      redirect_to item_path(@comentario.item)
   end
 
   private
@@ -69,6 +33,6 @@ class ComentariosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comentario_params
-      params[:comentario]
+      params.require(:comentario).permit(:item_id, :comentario)
     end
 end

@@ -38,4 +38,12 @@ module SessionsHelper
     self.current_user.try(:admin?)
   end
 
+  # Se o usuário não está logado, redireciona para o login
+  def usuario_logado
+    unless signed_in?
+      flash.now[:warning] = "Por favor Sign in."
+      redirect_to signin_url
+    end
+  end
+
 end

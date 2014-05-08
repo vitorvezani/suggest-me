@@ -1,15 +1,5 @@
 <%= form_for(@categoria) do |f| %>
-  <% if @categoria.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@categoria.errors.count, "error") %> proibiram esta categoria de ser salva:</h2>
-
-      <ul>
-      <% @categoria.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= render 'compartilhado/mensagens_erro', object: f.object %>
 
   <div class="actions">
     <%= f.submit %>

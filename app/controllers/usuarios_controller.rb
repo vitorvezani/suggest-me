@@ -14,13 +14,13 @@ class UsuariosController < ApplicationController
   # GET /usuarios.json
   def index
     # Usando paginate na classe Usuario para trazer registros!
-    @usuarios = Usuario.paginate(page: params[:page], :per_page => 10)
+    @usuarios = Usuario.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /usuarios/1
   # GET /usuarios/1.json
   def show
-    @comentarios = @usuario.comentarios.paginate(page: params[:page], :per_page => 10)
+    @comentarios = @usuario.comentarios.paginate(page: params[:page], :per_page => 5)
   end
 
   # GET /usuarios/new
@@ -80,13 +80,13 @@ class UsuariosController < ApplicationController
 
   def facebook
 
-    @graph = Koala::Facebook::API.new("CAACEdEose0cBAMK4ZAHPAAEewS7KrTtZAS1BI5n5FGSgf0ihOloGx4ZAfZArvbvzCUlTLt42jtFFv7ZAZAgqVPMwNrXmBKQMCsS3wL16JaZB9sw12ZBGBWMWZCMc17Tp6uOCOB155VY3dpFXFDDP5U4WZA0ZClKZCRCLZC5qrBS702Sd8HcKNcFiE053QeFVZBZArohG28ZD")
+    graph = Koala::Facebook::API.new(@usuario.oauth_token)
 
-    @fb_user = @graph.get_objects(@usuario.uid)
-    @musicas = @graph.get_connections( @usuario.uid, "music")
-    @livros = @graph.get_connections( @usuario.uid, "books")
-    @videos = @graph.get_connections( @usuario.uid, "videos")
-    @jogos = @graph.get_connections( @usuario.uid, "games")
+    @fb_user = graph.get_objects(@usuario.uid)
+    @musicas = graph.get_connections @usuario, "music"
+    #@livros = get_all_objects graph, @usuario, "books"
+    #@filmes = get_all_objects graph, @usuario, "movies"
+    #@jogos = get_all_objects graph, @usuario, "games"
 
   end
 
@@ -104,14 +104,6 @@ class UsuariosController < ApplicationController
 
     # Before-filters function
 
-    # Se o usuário não está logado, redireciona para o login
-    def usuario_logado
-      unless signed_in?
-        flash.now[:warning] = "Por favor Sign in."
-        redirect_to signin_url
-      end
-    end
-
     # Verifica se o usuário a ser editado é o mesmo usuário logado.
     def usuario_correto
       @usuario = Usuario.find(params[:id])
@@ -127,5 +119,15 @@ class UsuariosController < ApplicationController
 
     def redireciona_usuario_logado    
         redirect_to root_url unless !current_user
+    end
+
+    def get_all_objects graph, user, tag
+      objects = graph.get_connections( user.uid, tag)
+      loop do
+        blah = objects.next_page 
+          break if blah.nil?
+        objects += blah
+      end 
+      return objects
     end
 end
