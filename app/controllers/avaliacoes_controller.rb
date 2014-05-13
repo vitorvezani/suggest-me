@@ -7,7 +7,7 @@ class AvaliacoesController < ApplicationController
     @avaliacao = current_user.avaliacoes.build(avaliacao_params)
 
     if @avaliacao.save
-      flash[:success] = @avaliacao.avaliacao == 1 ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
+      flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
     else
       flash[:danger] = "Avaliação não foi salvo!"
     end

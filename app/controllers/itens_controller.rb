@@ -9,7 +9,7 @@ class ItensController < ApplicationController
     @itens = Item.paginate(page: params[:page], :per_page => 30)
     @avaliacoes = Hash.new
     Item.all.each do |item|
-      @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, 0).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, 1).count]
+      @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, false).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, true).count]
     end
   end
 
@@ -27,7 +27,7 @@ class ItensController < ApplicationController
     end
 
     @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 5).order(created_at: :desc)
-    @avaliacoes = { positivas: @item.avaliacoes.where("avaliacao = ?", 1).count, negativas: @item.avaliacoes.where("avaliacao = ?", 0).count }
+    @avaliacoes = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
     @usuario_logado = signed_in?
     gon.usuario_logado = @usuario_logado
