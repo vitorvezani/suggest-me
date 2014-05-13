@@ -1,23 +1,39 @@
-<% provide(:title, @item.nome_ptbr) %>
+<% provide(:title, @item.get_name) %>
 <div class="row">
+  <div class="hidden alert alert-warning alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+  </div>
   <aside class="col-md-3">
     <section>
       <h1><%= "Imagem do artista/banda" %></h1>
       <hr>
-      <label>Categoria:</label> <%= @item.categoria.try(:descricao)%> </br>
-			<label>Nome: </label> <%= @item.nome_ptbr || @item.nome_en %> </br>
-			<label>Descrição: </label> <%= @item.descricao %> </br>
-			<hr>
-      <%= form_for(@avaliacao) do |f| %>
+      <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes[:positivas] %>
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+      </button>
+      <button type="button" class="btn btn-danger btn-md" id="dislike"> <%= @avaliacoes[:negativas] %>
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+      </button>
+      <% if signed_in? and @avaliacao_usuario.empty? %>
+        <%= form_for(@avaliacao) do |f| %>
           <%= render 'compartilhado/mensagens_erro', object: f.object %>
           <%= f.hidden_field :item_id %>
-          <div class="field">
-            <%= f.text_area :avaliacao, placeholder: "Escreva seu Comentario..." %>
-          </div>
+          <%= f.hidden_field :avaliacao, id: 'hidden_tipo' %>
           <div class="col-md-4.5 col-md-offset-8">
-            <%= f.submit "Comentar!", class: "btn btn-large btn-primary" %>
+            <%= f.submit "Like!", { class: "btn btn-large btn-primary", style: "display: none", id: "submit"} %>
           </div>
         <% end %>
+      <% end %>
+      <hr>
+      <label>Categoria:</label> <%= @item.categoria.try(:descricao)%> </br>
+			<label>Nome: </label> <%= @item.get_name %> </br>
+			<label>Descrição: </label> <%= @item.descricao %> </br></br></br>
+      <% if is_admin?%>
+        <%= link_to 'Editar', edit_item_path(@item) %> |
+        <%= link_to 'Excluir', edit_item_path(@item) %> |
+      <% end %>
+      <%= link_to 'Voltar', itens_path %>
+			<hr>
     </section>
   </aside>
 	<div class="col-md-4 col-md-offset-1">
@@ -27,7 +43,7 @@
           <%= render 'compartilhado/mensagens_erro', object: f.object %>
           <%= f.hidden_field :item_id %>
           <div class="field">
-            <%= f.text_area :comentario, placeholder: "Escreva seu Comentario..." %>
+            <%= f.text_area :comentario, placeholder: "Escreva seu Comentario...", rows: "4" %>
           </div>
           <div class="col-md-4.5 col-md-offset-8">
             <%= f.submit "Comentar!", class: "btn btn-large btn-primary" %>
@@ -55,6 +71,7 @@
                   <% if current_user == comentario.usuario %>
                     <%= link_to "deletar", comentario, method: :delete,
                                                       data: { confirm: "Você tem certeza?" }%>
+                    <% #link_to "editar", edit_comentario_path(comentario) %>
                   <% end %> 
                 </span>
               </small>
@@ -69,9 +86,3 @@
     <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
   </div>
 </div>
-
-<% if is_admin?%>
-  <%= link_to 'Editar', edit_item_path(@item) %> |
-	<%= link_to 'Excluir', edit_item_path(@item) %> |
-<% end %>
-<%= link_to 'Voltar', itens_path %>

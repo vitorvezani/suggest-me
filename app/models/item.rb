@@ -11,4 +11,8 @@ class Item < ActiveRecord::Base
 	has_and_belongs_to_many :generos
 	belongs_to :categoria
 
+	def get_name
+		self.nome_ptbr || self.nome_en
+	end
+
 end

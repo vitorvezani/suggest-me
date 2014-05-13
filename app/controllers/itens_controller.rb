@@ -1,11 +1,16 @@
 class ItensController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :usuario_admin, only: [:edit, :update, :destroy] # Verifica se é o usuário correto.
+  before_action :usuario_admin, only: [:edit, :update, :destroy] # Verifica se é o usuário admin.
 
   # GET /itens
   # GET /itens.json
   def index
+    #@itens = Item.joins(:avaliacoes).group("avaliacoes.item_id").order("sum(avaliacoes.avaliacao) desc").paginate(page: params[:page], :per_page => 30)
     @itens = Item.paginate(page: params[:page], :per_page => 30)
+    @avaliacoes = Hash.new
+    Item.all.each do |item|
+      @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, 0).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, 1).count]
+    end
   end
 
   # GET /itens/1
@@ -14,15 +19,18 @@ class ItensController < ApplicationController
     # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
     if signed_in?
       # Avaliacao
-      @avaliacao = current_user.avaliacoes.build
-      @avaliacao.item_id = @item.id
+      @avaliacao = current_user.avaliacoes.build(item_id: @item.id)
       # Comentario
-      @comentario = current_user.comentarios.build
-      @comentario.item_id = @item.id
+      @comentario = current_user.comentarios.build(item_id: @item.id)
+      # Avaliação do usuario, caso exista
+      @avaliacao_usuario = Avaliacao.where("usuario_id = ? and item_id = ?", current_user.id, @item.id)
     end
 
-    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 5)
+    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 5).order(created_at: :desc)
+    @avaliacoes = { positivas: @item.avaliacoes.where("avaliacao = ?", 1).count, negativas: @item.avaliacoes.where("avaliacao = ?", 0).count }
 
+    @usuario_logado = signed_in?
+    gon.usuario_logado = @usuario_logado
   end
 
   # GET /itens/new

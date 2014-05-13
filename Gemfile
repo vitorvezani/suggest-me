@@ -25,6 +25,10 @@ source 'https://rubygems.org'
  gem 'font-awesome-sass'
 # Koala Facebook
  gem "koala"
+# Gem Gon (Passando @variaveis para JS)
+ gem 'gon', '~> 5.0.4'
+# Use CoffeeScript for .js.coffee assets and views
+ gem 'coffee-rails', '~> 4.0.0'
 # Lastfm Gem
  #gem 'lastfm'
 # Passenger
@@ -37,8 +41,6 @@ source 'https://rubygems.org'
  #gem 'sprockets', '~> 2.11.0'
 # Use Uglifier as compressor for JavaScript assets
  #gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
- #gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
  #gem 'therubyracer',  platforms: :ruby
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

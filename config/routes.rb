@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :avaliacoes
 
-  resources :comentarios, only: [:create, :destroy]
+  resources :comentarios, only: [:create, :destroy, :edit, :update]
 
   resources :usuarios
 

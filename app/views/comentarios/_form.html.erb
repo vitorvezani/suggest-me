@@ -1,7 +1,17 @@
 <%= form_for(@comentario) do |f| %>
 <%= render 'compartilhado/mensagens_erro', object: f.object %>
 
-  <div class="actions">
-    <%= f.submit %>
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <%= form_for(@comentario) do |f| %>
+      <div class="form-group">
+      <%= f.label :comentario, "Comentario" %>
+      <%= f.text_area :comentario, class: "form-control" %>
+      </div>
+      <hr>
+      <%= f.submit "Update", class: "btn btn-large btn-primary" %>
+      <p></p>
+    <% end %>
   </div>
+</div>
 <% end %>

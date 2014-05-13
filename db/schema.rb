@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20140504173022) do
   create_table "comentarios", force: true do |t|
     t.integer  "usuario_id"
     t.integer  "item_id"
-    t.string   "comentario", limit: 200,             null: false
+    t.string   "comentario", limit: 500,             null: false
     t.integer  "like",                   default: 0
     t.integer  "dislike",                default: 0
     t.datetime "created_at"

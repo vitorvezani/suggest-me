@@ -1,6 +1,9 @@
 <li>
   <%= link_to item.nome_ptbr, item %>
   <%= item.descricao %>
+  <%= @avaliacoes[item.id][1].to_s %><span class="glyphicon glyphicon-thumbs-up"> </span> 
+  <%= @avaliacoes[item.id][0].to_s %><span class="glyphicon glyphicon-thumbs-down"></span> 
+  <span class="label label-info"><%= item.categoria.descricao %></span>
   <% if is_admin? %>
       | <%= link_to "Excluir", item, method: :delete,
                               data: { confirm: "Você tem certeza?" } %>

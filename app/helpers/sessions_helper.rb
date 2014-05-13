@@ -9,7 +9,6 @@ module SessionsHelper
     cookies[:remember_token] = { value: remember_token, expires: (user.oauth_expires_at || 20.years.from_now.localtime) }
     user.update_attribute(:remember_token, Usuario.digest(remember_token))
     self.current_user = user
-    puts "Usuario: " + self.current_user.inspect
   end
 
   # Seta o current_user

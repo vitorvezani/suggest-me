@@ -1,6 +1,24 @@
 class ComentariosController < ApplicationController
-  before_action :set_comentario, only: [ :destroy ]
+  before_action :set_comentario, only: [ :destroy, :edit, :update ]
   before_action :usuario_logado, only: [ :create, :destroy, :new ]
+
+  # GET /comentarios/1/edit
+  def edit
+  end
+
+  # PATCH/PUT /comentarios/1
+  # PATCH/PUT /comentarios/1.json
+  def update
+    respond_to do |format|
+      if @comentario.update(comentario_params)
+        format.html { redirect_to item_path(@comentario.item), notice: 'Comentario was successfully updated.' }
+        format.json { render :show, status: :ok, location: @comentario }
+      else
+        format.html { render :edit }
+        format.json { render json: @comentario.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # POST /comentarios
   # POST /comentarios.json

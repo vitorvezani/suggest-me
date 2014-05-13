@@ -12,6 +12,28 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require turbolinks
 //= require bootstrap
 //= require_tree .
+
+$(document).ready(function() {
+
+	$('#like').click(function() {
+		if (gon.usuario_logado){
+		  $('#hidden_tipo').val('1');
+		  $('#submit').click();
+		}else
+			bootbox.alert("Você deve estar logado para avaliar um item.");
+	});
+
+	$('#dislike').click(function() {
+		if (gon.usuario_logado){
+		  $('#hidden_tipo').val('0');
+		  $('#submit').click();
+		}else
+		bootbox.alert("Você deve estar logado para avaliar um item.");
+	});
+
+	$(function() {
+		$('.nav-tabs a:first').tab('show');
+	});
+});
