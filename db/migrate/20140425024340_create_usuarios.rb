@@ -8,7 +8,7 @@ class CreateUsuarios < ActiveRecord::Migration
 	 t.column "sexo", 			:string, limit: 1
 	 t.column "email", 			:string, limit: 50, unique: true, null: false
 	 t.column "senha", 			:string, limit: 40, unique: true, null: false
-	 t.column "role", 			:string, limit: 10, default: "regular"
+	 t.column "role", 			:string
 
      t.timestamps
     end
