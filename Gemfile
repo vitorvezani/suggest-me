@@ -36,7 +36,7 @@ ruby '2.0.0'
 # Sprockets
  gem 'sprockets', '~> 2.11.0'
 # Use Uglifier as comprsessor for JavaScript assets
- gem 'uglifier', '>= 1.3.0'
+ gem 'uglifier'
 # Productions Gems
 group :production do
   gem 'pg'
