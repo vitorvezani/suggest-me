@@ -13,6 +13,10 @@
 			<label>Classificação</label> <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span></br>
 			<hr>
       <%= link_to 'Editar', edit_usuario_path(@usuario) %>
+      <% if is_admin?%>
+        | <%= link_to 'Excluir', @usuario, method: :delete %> 
+        | <%= link_to 'Voltar', usuarios_path %>
+      <% end %>
     </section>
   </aside>
 	<div class="col-md-8">
@@ -29,8 +33,7 @@
                 <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
                 <span class="text-right">
                   <% if current_user == comentario.usuario %>
-                    <%= link_to "deletar", comentario, method: :delete,
-                                                      data: { confirm: "Você tem certeza?" }%>
+                    <%= link_to "deletar", comentario, method: :delete %>
                   <% end %> 
                 </span>
               </small>
@@ -45,8 +48,3 @@
     <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
   </div>
 </div>
-
-<% if is_admin?%>
-  <%= link_to 'Excluir', destroy_usuario_path(@usuario) %> |
-  <%= link_to 'Voltar', usuarios_path %> |
-<% end %>

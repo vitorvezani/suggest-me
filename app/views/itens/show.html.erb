@@ -69,8 +69,7 @@
                 <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
                 <span>
                   <% if current_user == comentario.usuario %>
-                    <%= link_to "deletar", comentario, method: :delete,
-                                                      data: { confirm: "Você tem certeza?" }%>
+                    <%= link_to "deletar", comentario, method: :delete %>
                     <% #link_to "editar", edit_comentario_path(comentario) %>
                   <% end %> 
                 </span>

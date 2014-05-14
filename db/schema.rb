@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20140504173022) do
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
     t.integer  "usuario_id"
-    t.integer  "avaliacao",  null: false
+    t.boolean  "avaliacao"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -75,9 +75,7 @@ ActiveRecord::Schema.define(version: 20140504173022) do
 
   add_index "itens", ["categoria_id"], name: "index_itens_on_categoria_id", using: :btree
   add_index "itens", ["id"], name: "index_itens_on_id", using: :btree
-  add_index "itens", ["nome_en", "categoria_id"], name: "page_id_nome_en_id_categoria", unique: true, using: :btree
   add_index "itens", ["nome_en"], name: "index_itens_on_nome_en", using: :btree
-  add_index "itens", ["nome_ptbr", "categoria_id"], name: "page_id_nome_ptbr_id_categoria", unique: true, using: :btree
   add_index "itens", ["nome_ptbr"], name: "index_itens_on_nome_ptbr", using: :btree
 
   create_table "usuarios", force: true do |t|

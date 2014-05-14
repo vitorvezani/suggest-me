@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 	$('#like').click(function() {
 		if (gon.usuario_logado){
-		  $('#hidden_tipo').val('1');
+		  $('#hidden_tipo').val(true);
 		  $('#submit').click();
 		}else
 			bootbox.alert("Você deve estar logado para avaliar um item.");
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 	$('#dislike').click(function() {
 		if (gon.usuario_logado){
-		  $('#hidden_tipo').val('0');
+		  $('#hidden_tipo').val(false);
 		  $('#submit').click();
 		}else
 		bootbox.alert("Você deve estar logado para avaliar um item.");

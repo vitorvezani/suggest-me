@@ -1,7 +1,7 @@
 <li>
   <%= link_to usuario.username, usuario %>
-  <% if is_admin? && current_user != usuario %>
-      | <%= link_to "excluir", usuario, method: :delete,
-                              data: { confirm: "Você tem certeza?" } %>
+  | <%= link_to 'Editar', edit_usuario_path(usuario) %>
+  <% if current_user != usuario %>
+      | <%= link_to "Excluir", usuario, method: :delete %>
 	<% end %>
 </li>
