@@ -32,22 +32,23 @@ ruby '2.0.0'
  gem 'gon', '~> 5.0.4'
 # Use CoffeeScript for .js.coffee assets and views
  gem 'coffee-rails', '~> 4.0.0'
-# Lastfm Gem
+  #gem 'passenger', '~> 4.0.41'
+# Sprockets
+ gem 'sprockets', '~> 2.11.0'
+# Use Uglifier as comprsessor for JavaScript assets
+ gem 'uglifier', '>= 1.3.0'
+# Productions Gems
 group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
+# Lastfm Gem
  #gem 'lastfm'
 # Passenger
 #
 #
 # Gems não utilizadas
 #
- #gem 'passenger', '~> 4.0.41'
-# Sprockets
- #gem 'sprockets', '~> 2.11.0'
-# Use Uglifier as compressor for JavaScript assets
- #gem 'uglifier', '>= 1.3.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
  #gem 'therubyracer',  platforms: :ruby
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
