@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  match '/recomendacao', to: 'itens#recomendacao', via: 'get'
+
   resources :generos
 
   resources :categorias

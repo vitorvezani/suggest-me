@@ -37,6 +37,8 @@ ruby '2.0.0'
  gem 'sprockets', '~> 2.11.0'
 # Use Uglifier as comprsessor for JavaScript assets
  gem 'uglifier'
+# Image Sucker
+ gem 'image_suckr'
 # Productions Gems
 group :production do
   gem 'pg'

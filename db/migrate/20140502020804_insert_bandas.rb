@@ -19,32 +19,32 @@ class InsertBandas < ActiveRecord::Migration
   	Item.create nome_ptbr: 'Capital Inicial', id_categoria: 3
   	Item.create nome_ptbr: 'Nando Reis', id_categoria: 3
   	Item.create nome_ptbr: 'Raul Seixas', id_categoria: 3
-		Item.create nome_ptbr: 'Marisa Monte', id_categoria: 3
-		Item.create nome_ptbr: 'Mallu Magalhães', id_categoria: 3
-		Item.create nome_ptbr: 'Anitta', id_categoria: 3
-		Item.create nome_ptbr: 'Apanhador Só', id_categoria: 3
-		Item.create nome_ptbr: 'Marcelo Camelo', id_categoria: 3
-		Item.create nome_ptbr: 'Titãs', id_categoria: 3
-		Item.create nome_ptbr: 'Os Paralamas Do Sucesso', id_categoria: 3
-		Item.create nome_ptbr: 'Banda Uó', id_categoria: 3
-		Item.create nome_ptbr: 'Forfun', id_categoria: 3
-		Item.create nome_ptbr: 'CPM 22', id_categoria: 3
-		Item.create nome_ptbr: 'Vanessa da Mata', id_categoria: 3
-		Item.create nome_ptbr: 'Kid Abelha', id_categoria: 3
-		Item.create nome_ptbr: 'Emicida', id_categoria: 3
-		Item.create nome_ptbr: 'Elis Regina', id_categoria: 3
-		Item.create nome_ptbr: 'Racionais Mc', id_categoria: 3
-		Item.create nome_ptbr: 'Ana Carolina', id_categoria: 3
-		Item.create nome_ptbr: 'Jorge Ben', id_categoria: 3
-		Item.create nome_ptbr: 'Rita Lee', id_categoria: 3		  
-		Item.create nome_ptbr: 'A Banda Mais Bonita da Cidade', id_categoria: 3
-		Item.create nome_ptbr: 'Detonautas Roque Clube', id_categoria: 3
-		Item.create nome_ptbr: 'Zeca Baleiro', id_categoria: 3
-		Item.create nome_ptbr: 'Barão Vermelho', id_categoria: 3
-		Item.create nome_ptbr: 'Natiruts', id_categoria: 3
-		Item.create nome_ptbr: 'Djavan', id_categoria: 3
-		Item.create nome_ptbr: 'NX Zero', id_categoria: 3		  
-		Item.create nome_ptbr: 'Marcelo D2', id_categoria: 3
+  	Item.create nome_ptbr: 'Marisa Monte', id_categoria: 3
+  	Item.create nome_ptbr: 'Mallu Magalhães', id_categoria: 3
+  	Item.create nome_ptbr: 'Anitta', id_categoria: 3
+  	Item.create nome_ptbr: 'Apanhador Só', id_categoria: 3
+  	Item.create nome_ptbr: 'Marcelo Camelo', id_categoria: 3
+  	Item.create nome_ptbr: 'Titãs', id_categoria: 3
+  	Item.create nome_ptbr: 'Os Paralamas Do Sucesso', id_categoria: 3
+  	Item.create nome_ptbr: 'Banda Uó', id_categoria: 3
+  	Item.create nome_ptbr: 'Forfun', id_categoria: 3
+  	Item.create nome_ptbr: 'CPM 22', id_categoria: 3
+  	Item.create nome_ptbr: 'Vanessa da Mata', id_categoria: 3
+  	Item.create nome_ptbr: 'Kid Abelha', id_categoria: 3
+  	Item.create nome_ptbr: 'Emicida', id_categoria: 3
+  	Item.create nome_ptbr: 'Elis Regina', id_categoria: 3
+  	Item.create nome_ptbr: 'Racionais Mc', id_categoria: 3
+  	Item.create nome_ptbr: 'Ana Carolina', id_categoria: 3
+  	Item.create nome_ptbr: 'Jorge Ben', id_categoria: 3
+  	Item.create nome_ptbr: 'Rita Lee', id_categoria: 3		  
+  	Item.create nome_ptbr: 'A Banda Mais Bonita da Cidade', id_categoria: 3
+  	Item.create nome_ptbr: 'Detonautas Roque Clube', id_categoria: 3
+  	Item.create nome_ptbr: 'Zeca Baleiro', id_categoria: 3
+  	Item.create nome_ptbr: 'Barão Vermelho', id_categoria: 3
+  	Item.create nome_ptbr: 'Natiruts', id_categoria: 3
+  	Item.create nome_ptbr: 'Djavan', id_categoria: 3
+  	Item.create nome_ptbr: 'NX Zero', id_categoria: 3		  
+  	Item.create nome_ptbr: 'Marcelo D2', id_categoria: 3
     ##
     Item.create nome_ptbr: '2 Pac / Tupac', id_categoria: 3
     Item.create nome_ptbr: '3 Days Grace', id_categoria: 3
@@ -1335,5 +1335,5 @@ class InsertBandas < ActiveRecord::Migration
     Item.create nome_ptbr: 'Yourcodenameis:Milo', id_categoria: 3
     Item.create nome_ptbr: 'Youth Group', id_categoria: 3
     Item.create nome_ptbr: 'Yuck', id_categoria: 3
-		end
+	end
 end

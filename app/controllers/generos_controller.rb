@@ -28,9 +28,11 @@ class GenerosController < ApplicationController
 
     respond_to do |format|
       if @genero.save
-        format.html { redirect_to @genero, notice: 'Genero was successfully created.' }
+        flash[:success] = "Genero #{@genero.nome} foi criado com sucesso!"
+        format.html { redirect_to @genero }
         format.json { render :show, status: :created, location: @genero }
       else
+        flash[:danger] = "Genero #{@genero.nome} não foi criado com sucesso!"
         format.html { render :new }
         format.json { render json: @genero.errors, status: :unprocessable_entity }
       end
@@ -42,9 +44,11 @@ class GenerosController < ApplicationController
   def update
     respond_to do |format|
       if @genero.update(genero_params)
-        format.html { redirect_to @genero, notice: 'Genero was successfully updated.' }
+        flash[:success] = "Genero #{@genero.nome} foi editado com sucesso!"
+        format.html { redirect_to @genero }
         format.json { render :show, status: :ok, location: @genero }
       else
+        flash[:success] = "Genero #{@genero.nome} não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @genero.errors, status: :unprocessable_entity }
       end
@@ -56,6 +60,7 @@ class GenerosController < ApplicationController
   def destroy
     @genero.destroy
     respond_to do |format|
+      flash[:success] = "Genero #{@genero.nome} foi excluido com sucesso!"
       format.html { redirect_to generos_url }
       format.json { head :no_content }
     end
@@ -69,6 +74,6 @@ class GenerosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def genero_params
-      params[:genero]
+      params.require(:genero).permit(:nome, :descricao)
     end
 end

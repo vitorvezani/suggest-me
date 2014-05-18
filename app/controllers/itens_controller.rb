@@ -26,11 +26,17 @@ class ItensController < ApplicationController
       @avaliacao_usuario = Avaliacao.where("usuario_id = ? and item_id = ?", current_user.id, @item.id)
     end
 
-    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 5).order(created_at: :desc)
+    # Atributos do item em questão
+    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 10).order(created_at: :desc)
     @avaliacoes = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
     @usuario_logado = signed_in?
     gon.usuario_logado = @usuario_logado
+
+    # Imagem do Item
+    suckr = ImageSuckr::GoogleSuckr.new
+    @img_url = suckr.get_image_url({"q" => @item.nome_ptbr})
+
   end
 
   # GET /itens/new
@@ -40,6 +46,15 @@ class ItensController < ApplicationController
 
   # GET /itens/1/edit
   def edit
+  end
+
+  # GET /itens/
+  def recomendacao
+    @jogos = Item.where(categoria_id: 1).take 6 # Jogos
+    @livros = Item.where(categoria_id: 2).take 6 # Livros
+    @bandas = Item.where(categoria_id: 3).take 6 # Bandas
+    @filmes = Item.where(categoria_id: 4).take 6 # Filmes
+
   end
 
   # POST /itens

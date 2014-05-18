@@ -10,7 +10,6 @@
       <li><a href="#jogos" data-toggle = "tab"><span class="glyphicon glyphicon-tower"></span> Jogos</a></li>
       <li><a href="#livros" data-toggle = "tab"><span class="glyphicon glyphicon-book"></span>Livros</a></li>
     </ul>
-
     <!-- Filmes -->
     <div class = "tab-content">
       <!-- Filmes -->
@@ -19,17 +18,17 @@
           <div class="panel panel-default">
             <div class="panel-heading"><h1><span class ="glyphicon glyphicon-film"></span> Filmes</h1></div>
             <div class="panel-body">
-              <% 6.times do %>
+              <% @filmes.each do |filme| %>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                   <div class= "thumbnail align-center">
                     <div class = "caption">
-                      <h2>Titulo</h2>
-                      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
-                      <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                      <h2><%= filme.nome_ptbr %></h2>
+                      <p><%= truncate(filme.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                      <p><%= link_to "Veja Mais", item_path(filme) %> &raquo;</p>
                     </div>
                   </div>
                 </div>
-              <%end %>
+              <% end %>
             </div>
           </div>
         </div>
@@ -40,17 +39,17 @@
             <div class="panel panel-default">
               <div class="panel-heading"><h1><span class ="glyphicon glyphicon-music"></span> Musicas</h1></div>
               <div class="panel-body">
-                <% 6.times do %>
+                <% @bandas.each do |banda| %>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class= "thumbnail align-center">
                       <div class = "caption">
-                        <h2>Bandas</h2>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
-                        <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                        <h2><%= banda.nome_ptbr %></h2>
+                        <p><%= truncate(banda.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                        <p><%=link_to "Veja Mais", item_path(banda) %> &raquo;</p>
                       </div>
                     </div>
                   </div>
-                <%end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -61,17 +60,17 @@
             <div class="panel panel-default">
               <div class="panel-heading"><h1><span class ="glyphicon glyphicon-tower"></span> Jogos</h1></div>
               <div class="panel-body">
-                <% 6.times do %>
+                <% @jogos.each do |jogo| %>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class= "thumbnail align-center">
                       <div class = "caption">
-                        <h2>Titulo dos Jogos</h2>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
-                        <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                        <h2><%= jogo.nome_ptbr %></h2>
+                        <p><%= truncate(jogo.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                        <p><%= link_to "Veja Mais", item_path(jogo) %>&raquo;</p>
                       </div>
                     </div>
                   </div>
-                <%end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -82,38 +81,19 @@
             <div class="panel panel-default">
               <div class="panel-heading"><h1><span class ="glyphicon glyphicon-book"></span> Livros</h1></div>
               <div class="panel-body">
-                <% 6.times do %>
+                <% @livros.each do |livro| %>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class= "thumbnail align-center">
                       <div class = "caption">
-                        <h2>Titulo - Autor</h2>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh... </p>
-                        <p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#" role="button">Veja mais &raquo;</a></p>
+                        <h2><%= livro.nome_ptbr %></h2>
+                        <p><%= truncate(livro.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                        <p><%= link_to "Veja Mais", item_path(livro) %> &raquo;</p>
                       </div>
                     </div>
                   </div>
-                <%end %>
+                <%end%>
               </div>
             </div>
           </div>
         </div>
     </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Titulo</h4>
-          </div>
-          <div class="modal-body">
-            <p>Sobre o Filme!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /Modal -->

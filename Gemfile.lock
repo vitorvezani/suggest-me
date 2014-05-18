@@ -52,6 +52,7 @@ GEM
     hashie (2.1.1)
     hike (1.2.3)
     i18n (0.6.9)
+    image_suckr (0.1.0)
     jbuilder (2.0.6)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -155,6 +156,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   font-awesome-sass
   gon (~> 5.0.4)
+  image_suckr
   jbuilder (~> 2.0)
   jquery-rails
   koala

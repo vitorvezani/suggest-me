@@ -1,12 +1,10 @@
 <% provide(:title, @item.get_name) %>
 <div class="row">
-  <div class="hidden alert alert-warning alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong>Warning!</strong> Better check yourself, you're not looking too good.
-  </div>
   <aside class="col-md-3">
     <section>
-      <h1><%= "Imagem do artista/banda" %></h1>
+      <div class="row clearfix">
+        <img alt="140x140" src=<%= @img_url %> class="img-thumbnail" />
+      <div>
       <hr>
       <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes[:positivas] %>
         <span class="glyphicon glyphicon-thumbs-up"></span>
@@ -27,7 +25,19 @@
       <hr>
       <label>Categoria:</label> <%= @item.categoria.try(:descricao)%> </br>
 			<label>Nome: </label> <%= @item.get_name %> </br>
-			<label>Descrição: </label> <%= @item.descricao %> </br></br></br>
+			<label>Descrição: </label> <%= @item.descricao %> </br>
+      <label>Tags: </label> 
+        <% @item.generos.each do |genero| %>
+          <%= link_to genero.nome, genero_path(genero) %>,
+        <% end %>
+
+      <% if signed_in? %>
+        <!-- Button trigger modal Tags-->
+        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+          Adicionar Tags
+        </button>
+      <% end %>
+      </br></br>
       <% if is_admin?%>
         <%= link_to 'Editar', edit_item_path(@item) %> |
         <%= link_to 'Excluir', edit_item_path(@item) %> |
@@ -83,5 +93,24 @@
       <% end %>
     <% end %>
     <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"> <%= @item.get_name %></h4>
+      </div>
+      <div class="modal-body">
+        <%= link_to "Criar nova Tag", new_genero_path%>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary">Salvar!</button>
+      </div>
+    </div>
   </div>
 </div>

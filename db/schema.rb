@@ -48,7 +48,8 @@ ActiveRecord::Schema.define(version: 20140504173022) do
   add_index "comentarios", ["usuario_id"], name: "index_comentarios_on_usuario_id", using: :btree
 
   create_table "generos", force: true do |t|
-    t.string   "descricao",  limit: 50
+    t.string   "nome",       limit: 40
+    t.string   "descricao",  limit: 1000
     t.datetime "created_at"
     t.datetime "updated_at"
   end

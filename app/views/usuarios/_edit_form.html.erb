@@ -5,33 +5,32 @@
   <div class="col-md-4 col-md-offset-4">
     <%= form_for(@usuario) do |f| %>
       <div class="form-group">
-      <%= f.label :username, "Username" %>*
-      <%= f.text_field :username, class: "form-control", placeholder: "stephenhawking" %>
+        <%= f.label :username, "Username" %>*
+        <%= f.text_field :username, class: "form-control", placeholder: "stephenhawking" %>
       </div>
       <div class="form-group">
-      <%= f.label :email, "Email" %>*
-      <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com" %>
+        <%= f.label :email, "Email" %>*
+        <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com" %>
       </div>
       <div class="form-group">
-      <%= f.label :password, "Senha" %>*
-      <%= f.password_field :password, class: "form-control" %>
+        <%= f.label :password, "Senha" %>*
+        <%= f.password_field :password, class: "form-control" %>
       </div>
       <div class="form-group">
-      <%= f.label :password_confirmation, "Confirmação da senha" %>*
-      <%= f.password_field :password_confirmation, class: "form-control" %>
+        <%= f.label :password_confirmation, "Confirmação da senha" %>*
+        <%= f.password_field :password_confirmation, class: "form-control" %>
       </div>
       <div class="form-group">
-      <%= f.label :primeiro_nome, "Primeiro Nome" %>
-      <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "stephenhawking" %>
+        <%= f.label :primeiro_nome, "Primeiro Nome" %>
+        <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "stephenhawking" %>
       </div>
       <div class="form-group">
-      <%= f.label :ultimo_nome, "Último Nome" %>
-      <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "stephen.hawking@email.com" %>
+        <%= f.label :ultimo_nome, "Último Nome" %>
+        <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "stephen.hawking@email.com" %>
       </div>
       <div class="form-group">
-      <%= f.label :sexo, "Sexo" %>
-      <p>Masculino <%= f.radio_button( :sexo, "M") %></p>
-      <p>Feminino <%= f.radio_button( :sexo, "F") %></p>
+        <%= f.label :sexo, "Sexo" %>
+        <%= f.select :sexo, options_for_select([["Masculino", "M"], ["Feminino", "F"]]) %>
       </div>
       <div class="form-group">
       <%= f.label :dt_aniversario, "Data de Nascimento" %>
