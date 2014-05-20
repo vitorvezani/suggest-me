@@ -26,4 +26,5 @@
    inflect.irregular 'item', 'itens'
    inflect.irregular 'genero', 'generos'
    inflect.irregular 'categoria', 'categorias'
+   inflect.irregular 'generalizacao', 'generalizacoes'
  end

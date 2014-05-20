@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 20140504173022) do
   add_index "comentarios", ["item_id"], name: "index_comentarios_on_item_id", using: :btree
   add_index "comentarios", ["usuario_id"], name: "index_comentarios_on_usuario_id", using: :btree
 
+  create_table "generalizacoes", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "genero_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "generalizacoes", ["genero_id"], name: "index_generalizacoes_on_genero_id", using: :btree
+  add_index "generalizacoes", ["item_id"], name: "index_generalizacoes_on_item_id", using: :btree
+
   create_table "generos", force: true do |t|
     t.string   "nome",       limit: 40
     t.string   "descricao",  limit: 1000
@@ -55,14 +65,6 @@ ActiveRecord::Schema.define(version: 20140504173022) do
   end
 
   add_index "generos", ["id"], name: "index_generos_on_id", using: :btree
-
-  create_table "generos_itens", id: false, force: true do |t|
-    t.integer "item_id"
-    t.integer "genero_id"
-  end
-
-  add_index "generos_itens", ["genero_id"], name: "index_generos_itens_on_genero_id", using: :btree
-  add_index "generos_itens", ["item_id"], name: "index_generos_itens_on_item_id", using: :btree
 
   create_table "itens", force: true do |t|
     t.integer  "categoria_id"

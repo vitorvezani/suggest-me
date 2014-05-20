@@ -18,7 +18,7 @@ class AdicionandoIndexColunasTabelas < ActiveRecord::Migration
     add_index  :itens, :nome_ptbr
     add_index  :itens, :nome_en
   	# Rel_Generos_Itens
-  	add_index  :generos_itens, :id_genero
-  	add_index  :generos_itens, :id_item
+  	add_index  :generalizacoes, :genero_id
+  	add_index  :generalizacoes, :item_id
   end
 end

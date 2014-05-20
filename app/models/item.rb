@@ -8,7 +8,10 @@ class Item < ActiveRecord::Base
 
 	has_many :comentarios
 	has_many :avaliacoes 
-	has_and_belongs_to_many :generos
+
+	has_many :generalizacoes
+	has_many :generos, through: :generalizacoes
+
 	belongs_to :categoria
 
 	def get_name

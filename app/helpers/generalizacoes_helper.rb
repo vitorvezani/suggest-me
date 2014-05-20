@@ -1,0 +1,2 @@
+module GeneralizacoesHelper
+end

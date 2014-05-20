@@ -19,23 +19,24 @@ class ItensController < ApplicationController
     # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
     if signed_in?
       # Avaliacao
-      @avaliacao = current_user.avaliacoes.build(item_id: @item.id)
+      @new_avaliacao = current_user.avaliacoes.build(item_id: @item.id)
       # Comentario
-      @comentario = current_user.comentarios.build(item_id: @item.id)
+      @new_comentario = current_user.comentarios.build(item_id: @item.id)
+      # Generalizacao
+      @new_genero = @item.generalizacoes.build(item_id: @item.id)
       # Avaliação do usuario, caso exista
-      @avaliacao_usuario = Avaliacao.where("usuario_id = ? and item_id = ?", current_user.id, @item.id)
+      @new_avaliacao_usuario = Avaliacao.where("usuario_id = ? and item_id = ?", current_user.id, @item.id)
     end
 
     # Atributos do item em questão
     @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 10).order(created_at: :desc)
     @avaliacoes = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
-    @usuario_logado = signed_in?
-    gon.usuario_logado = @usuario_logado
+    gon.usuario_logado = signed_in?
 
     # Imagem do Item
     suckr = ImageSuckr::GoogleSuckr.new
-    @img_url = suckr.get_image_url({"q" => @item.nome_ptbr})
+    @img_url = suckr.get_image_url({ q: @item.nome_ptbr, safe: "active"} )
 
   end
 

@@ -10,6 +10,7 @@ class GenerosController < ApplicationController
   # GET /generos/1
   # GET /generos/1.json
   def show
+    @itens = @genero.itens.group(:item_id).paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /generos/new

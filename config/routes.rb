@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   resources :categorias
 
+  resources :generalizacoes
+
   resources :itens
 
   resources :avaliacoes
