@@ -46,6 +46,10 @@ class Usuario < ActiveRecord::Base
 	  end
   end
 
+  def self.no_pic_url
+    "http://ieee-sb.ca/sites/default/files/default_user.jpg"
+  end
+
 	private
 
 		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar

@@ -1,7 +1,8 @@
 <% provide(:title, 'Todos os Itens') %>
 
-<h1>Todos os Itens!</h1>
+<%= render "compartilhado/breadcrumb", pag: "Top Itens" %>
 
+<h1>Todos os Itens!</h1>
 
 <% if signed_in? %>
 		<h5> Você pode criar um novo item <%= link_to "Aqui!", new_item_path %></h3>

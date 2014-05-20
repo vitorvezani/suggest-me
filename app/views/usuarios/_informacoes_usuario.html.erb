@@ -1,0 +1,15 @@
+<h1><%= image_tag @usuario.image || Usuario.no_pic_url %></h1>
+<hr>
+<label>Username:</label> <%= @usuario.username %> </br>
+<label>E-mail: </label> <%= @usuario.email %> </br>
+<label>Primeiro Nome: </label> <%= @usuario.primeiro_nome %> </br>
+<label>Ultimo Nome: </label> <%= @usuario.ultimo_nome %> </br>
+<label>Sexo: </label> <%= @usuario.sexo == "M" ? "Masculino" : "Feminino" unless @usuario.sexo.nil? %> </br>
+<label>Data de Nasc.: </label> <%= @usuario.dt_aniversario %></br>
+<label>Classificação</label> <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span></br>
+<hr>
+<%= link_to 'Editar', edit_usuario_path(@usuario) %>
+<% if is_admin?%>
+  | <%= link_to 'Excluir', @usuario, method: :delete %> 
+  | <%= link_to 'Voltar', usuarios_path %>
+<% end %>
