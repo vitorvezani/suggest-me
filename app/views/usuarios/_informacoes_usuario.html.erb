@@ -5,10 +5,11 @@
 <label>Primeiro Nome: </label> <%= @usuario.primeiro_nome %> </br>
 <label>Ultimo Nome: </label> <%= @usuario.ultimo_nome %> </br>
 <label>Sexo: </label> <%= @usuario.sexo == "M" ? "Masculino" : "Feminino" unless @usuario.sexo.nil? %> </br>
-<label>Data de Nasc.: </label> <%= @usuario.dt_aniversario %></br>
+<label>Data de Nasc.: </label> <%= @usuario.dt_aniversario.strftime("%m/%d/%Y") unless @usuario.dt_aniversario.nil?  %></br>
 <label>Classificação</label> <span class="label label-<%= @usuario.admin? ? :danger : :info %>"><%= @usuario.admin? ? "Admin" : "Comum" %></span></br>
 <hr>
 <%= link_to 'Editar', edit_usuario_path(@usuario) %>
+| <%= link_to 'Mudar Senha', "edit_password_form" %>
 <% if is_admin?%>
   | <%= link_to 'Excluir', @usuario, method: :delete %> 
   | <%= link_to 'Voltar', usuarios_path %>

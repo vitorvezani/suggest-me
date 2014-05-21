@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
   match '/recomendacao', to: 'itens#recomendacao', via: 'get'
 
+  match '/usuarios/edit_password_form', to: 'usuarios#edit_password_form', via: 'get'
+  match '/usuarios/edit_password_form/edit_password', to: 'usuarios#edit_password', via: 'post'
+
   resources :generos
 
   resources :categorias

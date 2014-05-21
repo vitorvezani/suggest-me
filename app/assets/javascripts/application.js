@@ -36,4 +36,8 @@ $(document).ready(function() {
 	$(function() {
 		$('.nav-tabs a:first').tab('show');
 	});
+
+  $(".close").click(function(){
+        $(".alert").alert();
+  });
 });

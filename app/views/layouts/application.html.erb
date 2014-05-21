@@ -17,7 +17,10 @@
     <div class="container" id="content">
 
     <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>"><%= value %></div>
+      <div class="alert alert-<%= key %>">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <%= value %>
+      </div>
     <% end %>
     <!-- Content! -->
     <%= yield %>

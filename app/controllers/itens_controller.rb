@@ -1,6 +1,6 @@
 class ItensController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :usuario_admin, only: [:edit, :update, :destroy] # Verifica se é o usuário admin.
+  before_action :usuario_admin, only: [:destroy] # Verifica se é o usuário admin.
 
   # GET /itens
   # GET /itens.json
@@ -36,7 +36,7 @@ class ItensController < ApplicationController
 
     # Imagem do Item
     suckr = ImageSuckr::GoogleSuckr.new
-    @img_url = suckr.get_image_url({ q: @item.nome_ptbr, safe: "active"} )
+    @img_url = suckr.get_image_url ({q: @item.nome_ptbr})
 
   end
 
@@ -47,6 +47,7 @@ class ItensController < ApplicationController
 
   # GET /itens/1/edit
   def edit
+    @disabled_options= ['Filmes', 'Jogos', 'Bandas', 'Livros']
   end
 
   # GET /itens/
@@ -55,7 +56,6 @@ class ItensController < ApplicationController
     @livros = Item.where(categoria_id: 2).take 6 # Livros
     @bandas = Item.where(categoria_id: 3).take 6 # Bandas
     @filmes = Item.where(categoria_id: 4).take 6 # Filmes
-
   end
 
   # POST /itens
@@ -65,7 +65,7 @@ class ItensController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        flash.now[:success] = "O item foi criado com sucesso!"
+        flash[:success] = "Item foi criado com sucesso!"
         format.html { redirect_to @item }
         format.json { render :show, status: :created, location: @item }
       else
@@ -94,6 +94,7 @@ class ItensController < ApplicationController
   # DELETE /itens/1.json
   def destroy
     @item.destroy
+    flash[:success] = "Item foi excluído com sucesso!"
     respond_to do |format|
       format.html { redirect_to itens_url }
       format.json { head :no_content }

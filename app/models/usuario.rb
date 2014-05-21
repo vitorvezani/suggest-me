@@ -1,10 +1,15 @@
 class Usuario < ActiveRecord::Base
 	
+	before_validation :strip_spaces
+
 	before_create :criar_remember_token
 
-	has_secure_password on: :create
+	validates_presence_of :password, message: "deve estar preenchido", :on => :create
 
-	validates_presence_of :username, :email, :password, message: "deve estar preenchido!", on: :create
+	validates :password, length: { minimum: 6, message: "deve conter no mínimo 6 caracteres!" },
+                     	 :if => lambda{ new_record? || !password.nil? }
+
+	validates_presence_of :username, :email, message: "deve estar preenchido!", on: :create
 
 	validates_uniqueness_of :username, :email, message: "já cadastrado!"
 
@@ -12,9 +17,10 @@ class Usuario < ActiveRecord::Base
 	validates_size_of :ultimo_nome, :maximum => 50, message: "deve conter no máximo 50 caracteres!"
 	validates_size_of :username, :minimum => 4, :maximum => 50, message: "deve conter no mínimo 4 caracteres e máximo 50 caracteres!"
 	validates_size_of :email, :maximum => 50, message: "deve conter no máximo 50 caracteres!"
-	validates_size_of :password, :minimum => 6, message: "deve conter no mínimo 6 caracteres!", on: :create
 
 	validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "formato invalido!" 
+
+  has_secure_password
 
 	# Relação da Tabela
 	has_many :comentarios
@@ -55,6 +61,12 @@ class Usuario < ActiveRecord::Base
 		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar
 		def criar_remember_token
 	  	self.remember_token = Usuario.digest(Usuario.novo_remember_token)
+		end
+
+		# Retirar Espaços
+		def strip_spaces
+			self.email = email.strip if attribute_present?("email")
+			self.username = username.strip if attribute_present?("username")
 		end
 
 end

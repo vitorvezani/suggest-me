@@ -4,15 +4,16 @@
 	    <%= render 'compartilhado/mensagens_erro', object: f.object %>
 	    <div class="form-group">
 	    <%= f.label :nome, "Genero" %>
-	    <%= f.text_field(:nome, class: "form-control") %>
+	    <%= f.text_field :nome, class: "form-control", disabled: true if not is_admin? %>
 	    </div>
 	    <div class="form-group">
 	    <%= f.label :descricao, "Descrição" %>
-	    <%= f.text_area :descricao, rows: 4, class: "form-control" %>
+	    <%= f.text_area :descricao, rows: 6, class: "form-control" %>
 	    </div>
 	    <hr>
 	    <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
-	    <p></p>
+	    <hr>
+	    NOTA: O mau uso do sistema suggestme resultará na expulsão do usuário do site.
 	  <% end %>
 	</div>
 </div>

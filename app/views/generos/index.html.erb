@@ -1,8 +1,11 @@
 <h1>Todos os Generos</h1>
 
+<% if signed_in? %>
 <p>
-<span>Não achou o genero que procurava?</span> 
-<%= link_to 'Crie um novo genero', new_genero_path %></p>
+	<span>Não achou o genero que procurava?</span> 
+	<%= link_to 'Crie um novo genero', new_genero_path %>
+</p>
+<% end %>
 
 <ul class="itens">
   <%= render @generos %>

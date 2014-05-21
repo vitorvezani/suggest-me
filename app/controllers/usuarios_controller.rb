@@ -1,6 +1,6 @@
 class UsuariosController < ApplicationController
 
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook]
+  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook, :edit_password_form]
   # Para qualquer dessas ação é necessario o login do usuário
   before_action :usuario_logado, only: [:edit, :update, :destroy]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
@@ -40,11 +40,10 @@ class UsuariosController < ApplicationController
     respond_to do |format|
       if @usuario.save
         sign_in @usuario
-        flash.now[:success] = "Olá #{@usuario.username}. Bem Vindo ao Suggest Me!"
+        flash[:success] = "Olá #{@usuario.username}. Bem Vindo ao Suggest Me!"
         format.html { redirect_to @usuario }
         format.json { render :show, status: :created, location: @usuario }
       else
-        flash.now[:danger] = "Não foi possível criar o usuário!"
         format.html { render :new }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
       end
@@ -56,11 +55,10 @@ class UsuariosController < ApplicationController
   def update
     respond_to do |format|
       if @usuario.update(usuario_params)
-        flash.now[:success] = "Perfil editado com sucesso!"
+        flash[:success] = "Perfil editado com sucesso!"
         format.html { redirect_to @usuario }
         format.json { render :show, status: :ok, location: @usuario }
       else
-        flash.now[:danger] = "Perfil não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
       end
@@ -71,7 +69,7 @@ class UsuariosController < ApplicationController
   # DELETE /usuarios/1.json
   def destroy
     @usuario.destroy
-    flash.now[:success] = "Perfil excluido com sucesso!"
+    flash[:success] = "Perfil excluido com sucesso!"
     respond_to do |format|
       format.html { redirect_to usuarios_url }
       format.json { head :no_content }
@@ -88,6 +86,16 @@ class UsuariosController < ApplicationController
     #@filmes = get_all_objects graph, @usuario, "movies"
     #@jogos = get_all_objects graph, @usuario, "games"
 
+  end
+
+  def edit_password
+    if @usuario.update_attributes(params[:usuario])
+        flash[:success] = "Senha modificada com sucesso!"
+        redirect_to @usuario
+    else
+      flash[:warning] = "Senha não foi salva!"
+      render "edit_password_form"
+    end
   end
 
   private
@@ -112,22 +120,14 @@ class UsuariosController < ApplicationController
 
     # Somente admin pode vizualizar a pagina de usuários
     def usuario_admin
-      unless ( is_admin? && current_user != @usuario)
+      unless is_admin?
         redirect_to root_url
       end
     end
 
-    def redireciona_usuario_logado    
-        redirect_to root_url unless !current_user
-    end
-
-    def get_all_objects graph, user, tag
-      objects = graph.get_connections( user.uid, tag)
-      loop do
-        blah = objects.next_page 
-          break if blah.nil?
-        objects += blah
-      end 
-      return objects
+    def redireciona_usuario_logado
+      unless !signed_in?
+        redirect_to root_url
+      end
     end
 end

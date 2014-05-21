@@ -6,27 +6,19 @@
     <%= form_for(@usuario) do |f| %>
       <div class="form-group">
         <%= f.label :username, "Username" %>*
-        <%= f.text_field :username, class: "form-control", placeholder: "stephenhawking" %>
+        <%= f.text_field :username, class: "form-control", placeholder: "stephen.hawking" %>
       </div>
       <div class="form-group">
-        <%= f.label :email, "Email" %>*
-        <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :password, "Senha" %>*
-        <%= f.password_field :password, class: "form-control" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :password_confirmation, "Confirmação da senha" %>*
-        <%= f.password_field :password_confirmation, class: "form-control" %>
+        <%= f.label :email, "Email" %>
+        <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com", disabled: true %>
       </div>
       <div class="form-group">
         <%= f.label :primeiro_nome, "Primeiro Nome" %>
-        <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "stephenhawking" %>
+        <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "Stephen" %>
       </div>
       <div class="form-group">
         <%= f.label :ultimo_nome, "Último Nome" %>
-        <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "stephen.hawking@email.com" %>
+        <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "Hawking" %>
       </div>
       <div class="form-group">
         <%= f.label :sexo, "Sexo" %>
@@ -34,11 +26,18 @@
       </div>
       <div class="form-group">
       <%= f.label :dt_aniversario, "Data de Nascimento" %>
-      <%= f.date_field :dt_aniversario, { value: Time.now.strftime("%Y-%m-%d"), class: "form-control"}  %>
+      <%= f.date_field :dt_aniversario, class: "form-control" %>
       </div>
       <hr>
-      <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
-      <p></p>
+      <div class="row">
+        <div class="col-md-6">
+          <%= link_to 'Cancelar', usuario_path(@usuario), class: "btn btn-large btn-warning" %>
+        </div>
+        <div class="col-md-6">
+          <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
+        </div>
+      </div>
+      <hr>
       <p>* Atributos Obrigatórios </p>
     <% end %>
   </div>
