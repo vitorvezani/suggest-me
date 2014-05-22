@@ -6,7 +6,7 @@ module SessionsHelper
 	# 4 - Seta o current_user, variavel da instancia com o usuário
   def sign_in(user)
     remember_token = Usuario.novo_remember_token
-    cookies[:remember_token] = { value: remember_token, expires: (user.oauth_expires_at || 20.years.from_now.localtime) }
+    cookies[:remember_token] = { value: remember_token, expires: 20.years.from_now.localtime }
     user.update_attribute(:remember_token, Usuario.digest(remember_token))
     self.current_user = user
   end

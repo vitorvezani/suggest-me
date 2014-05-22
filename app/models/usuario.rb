@@ -23,8 +23,8 @@ class Usuario < ActiveRecord::Base
   has_secure_password
 
 	# Relação da Tabela
-	has_many :comentarios
-	has_many :avaliacoes
+	has_many :comentarios, :dependent => :destroy
+	has_many :avaliacoes, :dependent => :destroy
 
 	# Metodos Estaticos
 	def Usuario.novo_remember_token
@@ -40,11 +40,11 @@ class Usuario < ActiveRecord::Base
       usuario.provider = auth.provider
       usuario.uid = auth.uid
       usuario.email ||= auth.info.email
-      usuario.username ||= (auth.info.first_name + "." + auth.info.last_name).downcase
-      usuario.primeiro_nome ||= auth.info.first_name
-    	usuario.ultimo_nome ||= auth.info.last_name
+      usuario.username = (auth.info.first_name + "." + auth.info.last_name).downcase
+      usuario.primeiro_nome = auth.info.first_name
+    	usuario.ultimo_nome = auth.info.last_name
     	usuario.image = auth.info.image
-    	usuario.sexo ||= auth.extra.raw_info.gender == "male" ? 'M' : 'F'
+    	usuario.sexo = auth.extra.raw_info.gender == "male" ? 'M' : 'F'
       usuario.oauth_token = auth.credentials.token
       usuario.oauth_expires_at = Time.at(auth.credentials.expires_at)
       usuario.save(perform_validation: false)

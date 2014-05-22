@@ -11,10 +11,10 @@ class Item < ActiveRecord::Base
 	validates_uniqueness_of :nome_ptbr, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_ptbr.nil? }
   validates_uniqueness_of :nome_en, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_en.nil? }
 
-	has_many :comentarios
-	has_many :avaliacoes 
+	has_many :comentarios, :dependent => :destroy
+	has_many :avaliacoes, :dependent => :destroy
 
-	has_many :generalizacoes
+	has_many :generalizacoes, :dependent => :destroy
 	has_many :generos, through: :generalizacoes
 
 	belongs_to :categoria
