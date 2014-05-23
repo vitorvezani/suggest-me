@@ -32,13 +32,14 @@
       <!-- /Botões do navbar -->
       <ul class="nav navbar-nav navbar-right">
         <% if signed_in? %> <!-- Está Logado -->
-          <li><%= link_to "Suggest Me!", "recomendacao" %></li>
+          <li><%= link_to "Suggest Me!", "/recomendacao" %></li>
           <li class="dropdown">
             
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <%= display_nome current_user %> <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Perfil", current_user %></li>
-              <li><%= link_to "Configurações", edit_usuario_path(current_user) %></li>
+              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Configuração", edit_usuario_path(current_user) %></li>
+              <li><%= link_to "Editar Senha", {controller: :usuarios, action: :edit_password, id: current_user} %></li>
               <li class="divider"></li>
               <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
             </ul>

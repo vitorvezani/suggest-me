@@ -2,22 +2,14 @@ Rails.application.routes.draw do
 
   match '/recomendacao', to: 'itens#recomendacao', via: 'get'
 
-  match '/usuarios/edit_password_form', to: 'usuarios#edit_password_form', via: 'get'
-  match '/usuarios/edit_password_form/edit_password', to: 'usuarios#edit_password', via: 'post'
+  match '/usuarios/edit_password/:id', to: 'usuarios#edit_password', via: 'get'
+  match '/usuarios/update_password/:id', to: 'usuarios#update_password', via: 'patch'
 
-  resources :generos
-
-  resources :categorias
-
-  resources :generalizacoes
-
-  resources :itens
+  resources :generos, :categorias, :generalizacoes, :itens, :usuarios
 
   resources :avaliacoes
 
   resources :comentarios, only: [:create, :destroy, :edit, :update]
-
-  resources :usuarios
 
   resources :sessions, only: [:new, :create, :destroy]
 
@@ -32,8 +24,6 @@ Rails.application.routes.draw do
   match '/privacidade', to: 'suggestions#privacidade', via: 'get'
   match '/termos', to: 'suggestions#termos', via: 'get'
   match '/contato', to: 'suggestions#contato', via: 'get'
-
-  match '/comentarios', to: 'suggestions#index', via: 'get'
 
   match '/signup',  to: 'usuarios#new',         via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'

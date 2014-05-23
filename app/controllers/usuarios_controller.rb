@@ -1,10 +1,10 @@
 class UsuariosController < ApplicationController
 
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook, :edit_password_form]
+  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook, :edit_password, :update_password]
   # Para qualquer dessas ação é necessario o login do usuário
-  before_action :usuario_logado, only: [:edit, :update, :destroy]
+  before_action :usuario_logado, only: [:edit, :update, :destroy, :edit_password, :update_password]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
-  before_action :usuario_correto, only: [:edit, :update] 
+  before_action :usuario_correto, only: [:edit, :update, :edit_password, :update_password] 
   # Somente admin pode vizualizar a lista de todos os usuários
   before_action :usuario_admin, only: [:index]
   # Se o usuario está logado ele não pode acessar a pagina de new e create
@@ -30,6 +30,10 @@ class UsuariosController < ApplicationController
 
   # GET /usuarios/1/edit
   def edit
+  end
+
+  # GET /usuarios/1/edit_password
+  def edit_password
   end
 
   # POST /usuarios
@@ -88,13 +92,15 @@ class UsuariosController < ApplicationController
 
   end
 
-  def edit_password
-    if @usuario.update_attributes(params[:usuario])
+  def update_password
+    respond_to do |format|
+      if @usuario.update(usuario_params)
         flash[:success] = "Senha modificada com sucesso!"
-        redirect_to @usuario
-    else
-      flash[:warning] = "Senha não foi salva!"
-      render "edit_password_form"
+        format.html { redirect_to @usuario} 
+      else
+        flash[:danger] = "Senha não foi salva!"
+        format.html { render action: :edit_password, id: @usuario} 
+      end
     end
   end
 

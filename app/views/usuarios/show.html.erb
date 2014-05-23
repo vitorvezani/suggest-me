@@ -1,4 +1,6 @@
-<% provide(:title, @usuario.username) %>
+<%= form_for(@usuario) do |f| %>
+	<%= render 'compartilhado/mensagens_erro', object: f.object %>
+<% end %>
 
 <%= render "compartilhado/breadcrumb", pag: "Usuário" %>
 
@@ -6,6 +8,12 @@
   <aside class="col-xs-3">
     <section>
       <%= render "informacoes_usuario", usuario: @usuario %>
+      <%= link_to 'Editar', edit_usuario_path(@usuario) %>
+			| <%= link_to 'Mudar Senha', { action: "edit_password", id: @usuario.id } %>
+			<% if is_admin?%>
+			  | <%= link_to 'Excluir', @usuario, method: :delete %> 
+			  | <%= link_to 'Voltar', usuarios_path %>
+			<% end %>
     </section>
   </aside>
 	<div class="col-md-8">

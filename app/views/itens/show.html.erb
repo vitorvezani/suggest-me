@@ -17,7 +17,6 @@
       </button>
       <% if signed_in? and @new_avaliacao_usuario.empty? %>
         <%= form_for(@new_avaliacao) do |f| %>
-          <%= render 'compartilhado/mensagens_erro', object: f.object %>
           <%= f.hidden_field :item_id %>
           <%= f.hidden_field :avaliacao, id: 'hidden_tipo' %>
           <div class="col-md-4.5 col-md-offset-8">

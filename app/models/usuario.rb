@@ -10,7 +10,7 @@ class Usuario < ActiveRecord::Base
                      	 :if => lambda{ new_record? || !password.nil? }
 
 	validates_presence_of :username, :email, message: "deve estar preenchido!", on: :create
-
+	
 	validates_uniqueness_of :username, :email, message: "já cadastrado!"
 
 	validates_size_of :primeiro_nome, :maximum => 50, message: "deve conter no máximo 50 caracteres!"
