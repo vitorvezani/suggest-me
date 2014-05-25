@@ -35,9 +35,9 @@ class ItensController < ApplicationController
     gon.usuario_logado = signed_in?
 
     # Imagem do Item
-    suckr = ImageSuckr::GoogleSuckr.new
-    @img_url = suckr.get_image_url ({q: @item.nome_ptbr})
-
+    #suckr = ImageSuckr::GoogleSuckr.new
+    #@img_url = suckr.get_image_url ({q: @item.nome_ptbr})
+    @img_url = nil
   end
 
   # GET /itens/new

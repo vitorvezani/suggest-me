@@ -26,12 +26,13 @@
       <% end %>
       <hr>
       <label>Categoria:</label> <%= @item.categoria.try(:descricao)%> </br>
-			<label>Nome: </label> <%= @item.get_name %> </br>
+			<label>Nome: </label> <%= @item.try(:nome_ptbr) %> </br>
+      <small><label>    Inglês: </label> <%= @item.try(:nome_en) %></small> </br>
 			<label>Descrição: </label> <%= @item.descricao %> </br>
       <label>Generos: </label> 
         <% unless @item.generos.empty? %>
           <% @item.generos.group("generos.id").each do |genero| %>
-            <%= link_to genero.nome, genero_path(genero) %>
+            <%= link_to genero.nome, genero_path(genero) %>,
           <% end %>
         <% end %>
       <% if signed_in? %>
