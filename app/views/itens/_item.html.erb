@@ -3,7 +3,7 @@
   <small> <%= truncate(item.descricao,{ :length => 50, omission: '... (continua)' }) %> </small>
   <%= @avaliacoes[item.id][1].to_s %><span class="glyphicon glyphicon-thumbs-up"> </span> 
   <%= @avaliacoes[item.id][0].to_s %><span class="glyphicon glyphicon-thumbs-down"></span> 
-  <span class="label label-info"><%= item.categoria.descricao %></span>
+  <span class="label label-info"><%= link_to item.categoria.descricao, categoria_path(item.categoria) %></span>
   <% if is_admin? %>
       | <%= link_to "Excluir", item, method: :delete %>
       | <%= link_to "Editar", edit_item_path(item) %>

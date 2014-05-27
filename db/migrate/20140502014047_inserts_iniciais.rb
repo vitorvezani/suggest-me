@@ -3,11 +3,9 @@ class InsertsIniciais < ActiveRecord::Migration
   	 # Categorias
   	 Categoria.create descricao: 'Jogos'
   	 Categoria.create descricao: 'Livros'
-  	 Categoria.create descricao: 'Bandas'
+  	 Categoria.create descricao: 'Musicas'
   	 Categoria.create descricao: 'Filmes'
   	 # Generos
-  	  # Genéricos
-  	   Genero.create nome: 'Outros'
   	 	# Filmes
 	  	 Genero.create nome: 'Ação'
 	  	 Genero.create nome: 'Aventura'
@@ -33,7 +31,7 @@ class InsertsIniciais < ActiveRecord::Migration
 		  	 Genero.create nome: 'HipHop'
 		  	 Genero.create nome: 'Pop'
 		  	 Genero.create nome: 'Rock'
-		  	 # Brasileiros
+		  	 # Nacionais
 		  	 Genero.create nome: 'Axé'
 		  	 Genero.create nome: 'Bossa Nova'
 		  	 Genero.create nome: 'Forró'

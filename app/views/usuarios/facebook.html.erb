@@ -1,40 +1,42 @@
 <% provide(:title, 'Todos musics') %>
 
 <h1>Meus dados no facebook!</h1>
-
-<% @fb_user.each do |key, value| %>
-  <%=  "#{key} - " %>
-  <% value.each do |k,v| %>
-    <%= "#{k} - " %>
-    <%= "#{v}." %></br>
-  <% end %>
-<% end %>
 <hr>
 <ul>
+	<li><strong>Dados do Usuaário:</strong></li>
+	<p> <%= @fb_user.inspect %> <p>
+</ul>
+<ul>
 	<li><strong>Musicas</strong></li>
-	<ul>
+	<ol>
 		<% @musicas.each do |musica| %>
-		<li><%= musica["name"] %></li>
+			 <% musica.try(:each) do |f| %>
+			 		<li> <%= f["name"] %> </li>
+			 <% end %>
 		<% end %>
-	</ul>
-	<!--
-	<li><strong>Livros</strong></li>
-	<ul>
-	<% @livros.each do |livro| %>
-		<li><%= livro["name"] %></li>
-	<% end %>
-	</ul>
-	<li><strong>Videos</strong></li>
-		<ul>
-		<% @videos.each do |video| %>
-		<li><%= video["name"] %></li>
-		<% end %>
-	</ul>
+	</ol>
 	<li><strong>Jogos</strong></li>
-		<ul>
+	<ol>
 		<% @jogos.each do |jogo| %>
-		<li><%= jogo["name"] %></li>
+			 <% jogo.try(:each) do |f| %>
+			 		<li> <%= f["name"] %> </li>
+			 <% end %>
 		<% end %>
-	</ul>
-	-->
+	</ol>
+	<li><strong>Livros</strong></li>
+	<ol>
+		<% @livros.each do |livro| %>
+			 <% livro.try(:each) do |f| %>
+			 		<li> <%= f["name"] %> </li>
+			 <% end %>
+		<% end %>
+	</ol>
+	<li><strong>Filmes</strong></li>
+	<ol>
+		<% @filmes.each do |filme| %>
+			 <% filme.try(:each) do |f| %>
+			 		<li> <%= f["name"] %> </li>
+			 <% end %>
+		<% end %>
+	</ol>
 </ul>

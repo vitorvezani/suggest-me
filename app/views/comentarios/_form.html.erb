@@ -1,5 +1,6 @@
 <%= form_for(@comentario) do |f| %>
-<%= render 'compartilhado/mensagens_erro', object: f.object %>
+  <%= render 'compartilhado/mensagens_erro', object: f.object %>
+<% end %>
 
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
@@ -14,4 +15,4 @@
     <% end %>
   </div>
 </div>
-<% end %>
+

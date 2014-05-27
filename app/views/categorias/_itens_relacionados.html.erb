@@ -1,0 +1,16 @@
+<% if itens.any? %>
+  <h3>Itens relacionados (<%= itens.count %>)</h3>
+  <!-- Loop para cada item do usuário -->
+  <% itens.each do |item| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span> <%= link_to item.nome_ptbr, item_path(item) %></span>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <%= truncate(item.descricao, { :length => 50, omission: '... (continua)' } ) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

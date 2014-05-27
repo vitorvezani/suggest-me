@@ -6,7 +6,7 @@ class Categoria < ActiveRecord::Base
 	
 	validates_uniqueness_of :descricao, message: "já cadastrado!"
 
-	has_and_belongs_to_many :itens
+	has_many :itens
 	
 private
 	def strip_spaces

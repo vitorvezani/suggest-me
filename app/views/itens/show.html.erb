@@ -25,7 +25,7 @@
         <% end %>
       <% end %>
       <hr>
-      <label>Categoria:</label> <%= @item.categoria.try(:descricao)%> </br>
+      <label>Categoria:</label> <%= link_to @item.categoria.descricao, categoria_path(@item.categoria) %> </br>
 			<label>Nome: </label> <%= @item.try(:nome_ptbr) %> </br>
       <small><label>    Inglês: </label> <%= @item.try(:nome_en) %></small> </br>
 			<label>Descrição: </label> <%= @item.descricao %> </br>

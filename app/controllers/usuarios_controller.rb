@@ -82,13 +82,14 @@ class UsuariosController < ApplicationController
 
   def facebook
 
-    graph = Koala::Facebook::API.new(@usuario.oauth_token)
+    @graph = Koala::Facebook::API.new("CAACEdEose0cBALUanIGdFbbCeLAnePiZBfs1H7swQdqNPZCrOQ6Xlg5QngxxDNxSO7aFIhdV1O74DDOU3DKh7HtWwagbvxD0s8UsVh0omUl44YHFVtcUM9G8l2aGNJ2nKGzrWFhPAHYUxJr2f7Kxn9EU1ehW9jkgJ8Uq9c1DsBcQQf9W2c3NgJdhzT53UZD")
 
-    @fb_user = graph.get_objects(@usuario.uid)
-    @musicas = graph.get_connections @usuario, "music"
-    #@livros = get_all_objects graph, @usuario, "books"
-    #@filmes = get_all_objects graph, @usuario, "movies"
-    #@jogos = get_all_objects graph, @usuario, "games"
+    @fb_user = @graph.get_objects(@usuario.uid)
+
+    @musicas = get_lista("me", "music").dup
+    #@livros  = get_lista("me", "books").dup
+    #@filmes  = get_lista("me", "movies").dup
+    #@jogos   = get_lista("me", "games").dup
 
   end
 
@@ -135,5 +136,16 @@ class UsuariosController < ApplicationController
       unless !signed_in?
         redirect_to root_url
       end
+    end
+
+    def get_lista who, what
+      array = Array.new
+      n = 0
+      array.insert(n, @graph.get_connections(who, what))
+      while !array.at(n).nil? do
+        n = n + 1
+        array.insert(n, array.at(n-1).next_page)
+      end
+      return array
     end
 end
