@@ -17,6 +17,19 @@
     </section>
   </aside>
 	<div class="col-md-8">
-    <%= render "todos_comentarios", comentarios: @comentarios%>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#comentario" data-toggle="tab">Comentários <span class="badge"><%= @comentarios.count %></span></a></li>
+      <li><a href="#avaliacao" data-toggle="tab">Avaliações <span class="badge"><%= @avaliacoes.count %></span></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="comentario">
+        <%= render "todos_comentarios", comentarios: @comentarios%>
+      </div>
+      <div class="tab-pane" id="avaliacao">
+        <%= render "todas_avaliacoes", avaliacoes: @avaliacoes%>
+      </div>
+    </div>
   </div>
 </div>

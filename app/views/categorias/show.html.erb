@@ -5,7 +5,7 @@
     </section>
   </aside>
   <div class="col-md-4 col-md-offset-1">
-      <%= render "itens_relacionados", itens: @itens %>
+    <%= render "itens_relacionados", itens: @itens %>
+    <%= will_paginate @itens, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
   </div>
-  <%= will_paginate @itens, renderer: BootstrapPagination::Rails %>
 </div>

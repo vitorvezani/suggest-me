@@ -56,11 +56,35 @@ class Usuario < ActiveRecord::Base
     "http://ieee-sb.ca/sites/default/files/default_user.jpg"
   end
 
+  def facebook_update
+
+    lista_final = Array.new
+    @graph = Koala::Facebook::API.new( self.oauth_token )
+
+    start_t = Time.now
+
+    #@fb_user = @graph.get_objects( self.uid )
+    lista_facebook =  get_lista( "me", "music" ).dup
+    lista_facebook += get_lista( "me", "books" ).dup
+    lista_facebook += get_lista( "me", "movies" ).dup
+    lista_facebook += get_lista( "me", "games" ).dup
+
+    lista_interna = Item.all
+
+    lista_final = get_matched_list( lista_interna, lista_facebook ).dup
+
+    adiciona_avaliacoes( lista_final, self)
+
+    finish_t = Time.now
+    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+
+  end
+
 	private
 
 		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar
 		def criar_remember_token
-	  	self.remember_token = Usuario.digest(Usuario.novo_remember_token)
+	  	self.remember_token = Usuario.digest( Usuario.novo_remember_token )
 		end
 
 		# Retirar Espaços
@@ -68,5 +92,44 @@ class Usuario < ActiveRecord::Base
 			self.email = email.strip if attribute_present?("email")
 			self.username = username.strip if attribute_present?("username")
 		end
+
+		def get_lista(who, what)
+      array = Array.new
+      n = 0
+      array.insert(n, @graph.get_connections(who, what))
+      while !array.at(n).nil? do
+        n += 1
+        array.insert(n, array.at(n-1).next_page)
+      end
+      return array
+    end
+
+    def get_matched_list lista_interna, lista_facebook
+      list = Array.new
+
+      lista_interna.each do |item_interno|
+        lista_facebook.try(:each) do |objeto_face|
+          objeto_face.try(:each) do |f|
+            if (item_interno.nome_ptbr.try(:downcase).try(:include?, f["name"].downcase)) || (item_interno.nome_en.try(:downcase).try(:include?, f["name"].downcase))
+              list.push(item_interno)
+            end
+          end
+        end
+      end
+      return list
+    end
+
+    def adiciona_avaliacoes lista_itens, usuario
+      lista_itens.each do |item|
+      	avaliacao = usuario.avaliacoes.build({item_id: item.id, avaliacao: true})
+      	begin
+        	avaliacao.save
+      	rescue Exception => e
+        	if e.is_a? ActiveRecord::RecordNotUnique
+          Rails.logger.warn(e)
+        	end
+      	end
+    	end
+  	end
 
 end

@@ -3,15 +3,36 @@ class AvaliacoesController < ApplicationController
 
   # POST /avaliacoes
   # POST /avaliacoes.json
-  def create
-    @avaliacao = current_user.avaliacoes.build(avaliacao_params)
+  def create_update
 
-    if @avaliacao.save
-      flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
+    old_avaliacao = Avaliacao.where("item_id = ? and usuario_id = ? ", params[:avaliacao][:item_id], current_user.id).first
+
+    puts @old_avaliacao.inspect
+
+    if old_avaliacao.nil?
+      # Nova avaliação
+      @avaliacao = current_user.avaliacoes.build(avaliacao_params)
+
+      if @avaliacao.save
+        flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
+      else
+        flash[:danger] = "Avaliação não foi salvo!"
+      end
+      redirect_to item_path(@avaliacao.item)
     else
-      flash[:danger] = "Avaliação não foi salvo!"
+      #update da avaliacao
+      if old_avaliacao.avaliacao == params[:avaliacao][:avaliacao]# avaliacao igual
+        flash[:danger] = "Você já avaliou está opção!"
+      else
+        if old_avaliacao.update(avaliacao: params[:avaliacao][:avaliacao])
+          flash[:success] = old_avaliacao.avaliacao ? "Você curtiu #{old_avaliacao.item.nome_ptbr}!" : "Você não curtiu #{old_avaliacao.item.nome_ptbr}!"
+        else 
+          flash[:danger] = "Avaliação não foi salvo!"
+        end
+      end
+      redirect_to item_path(old_avaliacao.item)
     end
-    redirect_to item_path(@avaliacao.item)
+
   end
 
   # DELETE /avaliacoes/1

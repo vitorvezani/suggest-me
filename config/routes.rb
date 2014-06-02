@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   match '/recomendacao', to: 'itens#recomendacao', via: 'get'
+  match '/search', to: 'itens#search', via: 'get'
 
   match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
 
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :generos, :categorias, :generalizacoes, :itens, :usuarios
 
-  resources :avaliacoes
+  match '/avaliacoes', to: 'avaliacoes#create_update', via: 'post'
 
   resources :comentarios, only: [:create, :destroy, :edit, :update]
 

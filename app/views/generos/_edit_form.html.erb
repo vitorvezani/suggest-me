@@ -4,7 +4,7 @@
 	    <%= render 'compartilhado/mensagens_erro', object: f.object %>
 	    <div class="form-group">
 	    <%= f.label :nome, "Genero" %>
-	    <%= f.text_field :nome, class: "form-control", disabled: true if not is_admin? %>
+	    <%= f.text_field :nome, class: "form-control", disabled: !is_admin? %>
 	    </div>
 	    <div class="form-group">
 	    <%= f.label :descricao, "Descrição" %>

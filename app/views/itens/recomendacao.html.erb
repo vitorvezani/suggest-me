@@ -36,13 +36,13 @@
             <div class="panel panel-default">
               <div class="panel-heading"><h1><span class ="glyphicon glyphicon-music"></span> Musicas</h1></div>
               <div class="panel-body">
-                <% @bandas.each do |banda| %>
+                <% @musicas.each do |musica| %>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class= "thumbnail align-center">
                       <div class = "caption">
-                        <h2><%= banda.nome_ptbr %></h2>
-                        <p><%= truncate(banda.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                        <p><%=link_to "Veja Mais", item_path(banda) %> &raquo;</p>
+                        <h2><%= musica.nome_ptbr %></h2>
+                        <p><%= truncate(musica.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                        <p><%=link_to "Veja Mais", item_path(musica) %> &raquo;</p>
                       </div>
                     </div>
                   </div>

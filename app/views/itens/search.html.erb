@@ -1,0 +1,15 @@
+<% provide(:title, 'Seach') %>
+
+<%= render "compartilhado/breadcrumb", pag: "Search" %>
+
+<h1>Procura por <%= @q %>!</h1>
+
+<% if signed_in? %>
+		<h5> Não achou o que procurava? Pode criar um novo item <%= link_to "Aqui!", new_item_path %></h3>
+<% end %>
+
+<table class="table table-hover">
+  <%= render @itens_seach %>
+</table>
+
+<%= will_paginate @itens_seach,:previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

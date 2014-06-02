@@ -18,6 +18,12 @@ class SessionsController < ApplicationController
     usuario = Usuario.from_omniauth(env["omniauth.auth"])
     flash[:success] = 'Você logou pelo Facebook com sucesso!'
     sign_in usuario
+
+    Thread.new do
+      usuario.facebook_update
+      ActiveRecord::Base.connection.close
+    end
+
     redirect_to root_url
   end
 

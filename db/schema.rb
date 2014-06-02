@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140523014959) do
+ActiveRecord::Schema.define(version: 20140531140507) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20140523014959) do
 
   add_index "avaliacoes", ["id"], name: "index_avaliacoes_on_id", using: :btree
   add_index "avaliacoes", ["item_id"], name: "index_avaliacoes_on_item_id", using: :btree
+  add_index "avaliacoes", ["usuario_id", "item_id"], name: "index_avaliacoes_on_usuario_id_and_item_id", unique: true, using: :btree
   add_index "avaliacoes", ["usuario_id"], name: "index_avaliacoes_on_usuario_id", using: :btree
 
   create_table "categorias", force: true do |t|

@@ -7,36 +7,10 @@
 	<p> <%= @fb_user.inspect %> <p>
 </ul>
 <ul>
-	<li><strong>Musicas</strong></li>
+	<li><strong>Lista de Avaliações</strong></li>
 	<ol>
-		<% @musicas.each do |musica| %>
-			 <% musica.try(:each) do |f| %>
-			 		<li> <%= f["name"] %> </li>
-			 <% end %>
-		<% end %>
-	</ol>
-	<li><strong>Jogos</strong></li>
-	<ol>
-		<% @jogos.each do |jogo| %>
-			 <% jogo.try(:each) do |f| %>
-			 		<li> <%= f["name"] %> </li>
-			 <% end %>
-		<% end %>
-	</ol>
-	<li><strong>Livros</strong></li>
-	<ol>
-		<% @livros.each do |livro| %>
-			 <% livro.try(:each) do |f| %>
-			 		<li> <%= f["name"] %> </li>
-			 <% end %>
-		<% end %>
-	</ol>
-	<li><strong>Filmes</strong></li>
-	<ol>
-		<% @filmes.each do |filme| %>
-			 <% filme.try(:each) do |f| %>
-			 		<li> <%= f["name"] %> </li>
-			 <% end %>
+		<% @lista_final.each do |item| %>
+			<li> <%= item.nome_ptbr || item.nome_en %> </li>
 		<% end %>
 	</ol>
 </ul>

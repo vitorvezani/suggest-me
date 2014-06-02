@@ -1,0 +1,16 @@
+<% if @avaliacoes.any? %>
+  <!-- Loop para cada avaliacao do usuário -->
+  <ul class="list-group">
+  <% @avaliacoes.each do |avaliacao| %>
+      <li class="list-group-item">
+        <%= link_to avaliacao.item.nome_ptbr, item_path(avaliacao.item) %>
+        <% if avaliacao.avaliacao %>
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+        <% else %>
+          <span class="glyphicon glyphicon-thumbs-down"></span>
+        <% end %>
+      </li>
+  <% end %>
+  </ul>
+<% end %>
+<%= will_paginate @avaliacoes, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

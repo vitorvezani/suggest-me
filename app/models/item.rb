@@ -1,9 +1,18 @@
 class Item < ActiveRecord::Base
 
+	searchable do
+    text :nome_ptbr, :nome_en, boost: 5
+    text :descricao
+  end
+
 	before_validation :strip_spaces
 
 	# Escopo para trazer registros
-	default_scope -> { order('nome_ptbr') }
+	# default_scope -> { order('nome_ptbr') }
+	scope :jogos,   -> { where(categoria_id: 1) }
+	scope :livros,  -> { where(categoria_id: 2) }
+	scope :musicas, -> { where(categoria_id: 3) }
+	scope :filmes,  -> { where(categoria_id: 4) }
 
 	validates_size_of :nome_ptbr, :nome_en, :maximum => 100, message: "máximo 100 caracteres!"
 	
@@ -21,12 +30,13 @@ class Item < ActiveRecord::Base
 
   def before_save(record)
     if nome_en.nil? and nome_ptbr.nil?
-    	record.errors.add(nome_en + "ou" + nome_ptbr, "devem estar preenchidos!")
+    	record.errors.add(nome_en + " ou " + nome_ptbr, " devem estar preenchidos!")
     end
   end
 
 	def get_name
-		self.nome_ptbr || self.nome_en
+		nome = self.nome_ptbr.nil? ? self.nome_en : self.nome_ptbr
+		return nome.nil? ? "default" : nome
 	end
 
 	private

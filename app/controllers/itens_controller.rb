@@ -16,6 +16,7 @@ class ItensController < ApplicationController
   # GET /itens/1
   # GET /itens/1.json
   def show
+    
     # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
     if signed_in?
       # Avaliacao
@@ -24,8 +25,6 @@ class ItensController < ApplicationController
       @new_comentario = current_user.comentarios.build(item_id: @item.id)
       # Generalizacao
       @new_genero = @item.generalizacoes.build(item_id: @item.id)
-      # Avaliação do usuario, caso exista
-      @new_avaliacao_usuario = Avaliacao.where("usuario_id = ? and item_id = ?", current_user.id, @item.id)
     end
 
     # Atributos do item em questão
@@ -36,7 +35,7 @@ class ItensController < ApplicationController
 
     # Imagem do Item
     suckr = ImageSuckr::GoogleSuckr.new
-    @img_url = suckr.get_image_url q: @item.nome_ptbr || @item.nome_en
+    @img_url = suckr.get_image_url q: @item.get_name
   end
 
   # GET /itens/new
@@ -46,15 +45,14 @@ class ItensController < ApplicationController
 
   # GET /itens/1/edit
   def edit
-    @disabled_options= ['Filmes', 'Jogos', 'Bandas', 'Livros']
   end
 
   # GET /itens/
   def recomendacao
-    @jogos = Item.where(categoria_id: 1).take 6 # Jogos
-    @livros = Item.where(categoria_id: 2).take 6 # Livros
-    @bandas = Item.where(categoria_id: 3).take 6 # Bandas
-    @filmes = Item.where(categoria_id: 4).take 6 # Filmes
+    @jogos = Item.jogos.take 6 # Jogos
+    @livros = Item.livros.take 6 # Livros
+    @musicas = Item.musicas.take 6 # Bandas
+    @filmes = Item.filmes.take 6 # Filmes
   end
 
   # POST /itens
@@ -100,6 +98,22 @@ class ItensController < ApplicationController
     end
   end
 
+  def search
+    @q = params[:q]
+    @search = Item.search do
+      fulltext params[:q]
+    end
+    @itens_seach = @search.results
+
+    puts "Itens: " + @itens_seach.inspect
+
+    @avaliacoes = Hash.new
+    @itens_seach.each do |item|
+      @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, false).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, true).count]
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
@@ -117,4 +131,5 @@ class ItensController < ApplicationController
         redirect_to itens_url
       end
     end
+    
 end

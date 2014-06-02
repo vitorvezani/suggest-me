@@ -70,11 +70,14 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
+    mini_portile (0.6.0)
     minitest (5.3.3)
     multi_json (1.9.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.15)
+    nokogiri (1.6.2.1)
+      mini_portile (= 0.6.0)
     oauth2 (0.9.3)
       faraday (>= 0.8, < 0.10)
       jwt (~> 0.1.8)
@@ -93,6 +96,7 @@ GEM
       omniauth (~> 1.2)
     pg (0.17.1)
     polyglot (0.3.4)
+    pr_geohash (1.0.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -117,6 +121,8 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.1)
+    rsolr (1.0.10)
+      builder (>= 2.1.2)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -132,6 +138,13 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    sunspot (2.1.1)
+      pr_geohash (~> 1.0)
+      rsolr (~> 1.0.7)
+    sunspot_rails (2.1.1)
+      nokogiri
+      rails (>= 3)
+      sunspot (= 2.1.1)
     thor (0.19.1)
     thread_safe (0.3.3)
     tilt (1.4.1)
@@ -167,6 +180,7 @@ DEPENDENCIES
   rails_12factor
   sass-rails (~> 4.0.3)
   sprockets (~> 2.11.0)
+  sunspot_rails
   uglifier
   will_paginate
   will_paginate-bootstrap

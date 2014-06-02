@@ -1,11 +1,25 @@
-<li>
-  <%= link_to item.nome_ptbr, item %>
-  <small> <%= truncate(item.descricao,{ :length => 50, omission: '... (continua)' }) %> </small>
-  <%= @avaliacoes[item.id][1].to_s %><span class="glyphicon glyphicon-thumbs-up"> </span> 
-  <%= @avaliacoes[item.id][0].to_s %><span class="glyphicon glyphicon-thumbs-down"></span> 
-  <span class="label label-info"><%= link_to item.categoria.descricao, categoria_path(item.categoria) %></span>
+<tr>
+  <td><%= link_to item.get_name, item %></td>
+  <td><small> <%= truncate(item.descricao,{ :length => 50, omission: '... (continua)' }) %> </small></td>
+  <td>
+  	<%= @avaliacoes[item.id][1].to_s %><span class="glyphicon glyphicon-thumbs-up"> </span> 
+  	<%= @avaliacoes[item.id][0].to_s %><span class="glyphicon glyphicon-thumbs-down"></span>
+  </td>
+  <div id="categorias">
+    <%if item.categoria_id == 1 %>
+      <td><span class="label label-primary"><%= link_to item.categoria.descricao, categoria_path(item.categoria), class: "categoria"%></span></td>
+    <% elsif item.categoria_id == 2 %>
+      <td><span class="label label-success"><%= link_to item.categoria.descricao, categoria_path(item.categoria), class: "categoria" %></span></td>
+    <% elsif item.categoria_id == 3 %>
+      <td><span class="label label-info"><%= link_to item.categoria.descricao, categoria_path(item.categoria), class: "categoria" %></span></td>
+    <% elsif item.categoria_id == 4 %>
+      <td><span class="label label-warning"><%= link_to item.categoria.descricao, categoria_path(item.categoria), class: "categoria" %></span></td>
+    <% end %>
+  <div>
   <% if is_admin? %>
-      | <%= link_to "Excluir", item, method: :delete %>
+    <td>
+    	| <%= link_to "Excluir", item, method: :delete %>
       | <%= link_to "Editar", edit_item_path(item) %>
+    </td>
   <% end %>
-</li>
+</tr>

@@ -8,8 +8,8 @@
 		<h5> Você pode criar um novo item <%= link_to "Aqui!", new_item_path %></h3>
 <% end %>
 
-<ul class="itens">
+<table class="table table-hover">
   <%= render @itens %>
-</ul>
+</table>
 
-<%= will_paginate @itens,:previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
+<%= will_paginate @itens, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

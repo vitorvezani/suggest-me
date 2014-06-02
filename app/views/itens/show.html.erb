@@ -15,7 +15,7 @@
       <button type="button" class="btn btn-danger btn-md" id="dislike"> <%= @avaliacoes[:negativas] %>
         <span class="glyphicon glyphicon-thumbs-down"></span>
       </button>
-      <% if signed_in? and @new_avaliacao_usuario.empty? %>
+      <% if signed_in? %>
         <%= form_for(@new_avaliacao) do |f| %>
           <%= f.hidden_field :item_id %>
           <%= f.hidden_field :avaliacao, id: 'hidden_tipo' %>
@@ -123,6 +123,6 @@
         </div>
       <% end %>
     <% end %>
-    <%= will_paginate @comentarios, renderer: BootstrapPagination::Rails %>
+    <%= will_paginate @comentarios,:previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
   </div>
 </div>
