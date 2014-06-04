@@ -1,3 +1,5 @@
+<%= render "compartilhado/breadcrumb", pag: "Todos Gêneros" %>
+
 <h1>Todos os Generos</h1>
 
 <% if signed_in? %>
@@ -7,8 +9,16 @@
 </p>
 <% end %>
 
-<ul class="itens">
+<table class="table table-hover">
+		<tr class="info">                      
+		<th><%= sortable "nome" %></th>
+		<th><%= sortable "descricao" %></th>
+		<% if is_admin? %>
+			<th>Editar</th>
+			<th>Excluir</th>
+		<% end %>
+	</tr>
   <%= render @generos %>
-</ul>
+</table>
 
 <br>

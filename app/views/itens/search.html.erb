@@ -1,5 +1,3 @@
-<% provide(:title, 'Seach') %>
-
 <%= render "compartilhado/breadcrumb", pag: "Search" %>
 
 <h1>Procura por <%= @q %>!</h1>
@@ -9,7 +7,17 @@
 <% end %>
 
 <table class="table table-hover">
-  <%= render @itens_seach %>
+	<tr class="info">                      
+		<th><%= sortable "nome_ptbr", "Nome"%></th>
+		<th><%= sortable "descricao", "Descrição" %></th>
+		<th><%= sortable "avaliacao", "Avaliação" %></th>
+		<th><%= sortable "categoria_id", "Categoria"%></th>
+		<% if is_admin? %>
+			<th>Editar</th>
+			<th>Excluir</th>
+		<% end %>
+	</tr>
+  <%= render @itens %>
 </table>
 
-<%= will_paginate @itens_seach,:previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
+<%= will_paginate @itens,:previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

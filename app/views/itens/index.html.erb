@@ -9,6 +9,16 @@
 <% end %>
 
 <table class="table table-hover">
+	<tr class="info">                      
+		<th><%= sortable "nome_ptbr", "Nome"%></th>
+		<th><%= sortable "descricao", "Descrição" %></th>
+		<th><%= sortable "avaliacao", "Avaliação" %></th>
+		<th><%= sortable "categoria_id", "Categoria"%></th>
+		<% if is_admin? %>
+			<th>Editar</th>
+			<th>Excluir</th>
+		<% end %>
+	</tr>
   <%= render @itens %>
 </table>
 

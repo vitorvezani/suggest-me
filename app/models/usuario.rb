@@ -1,7 +1,6 @@
 class Usuario < ActiveRecord::Base
 	
 	before_validation :strip_spaces
-
 	before_create :criar_remember_token
 
 	validates_presence_of :password, message: "deve estar preenchido", :on => :create

@@ -1,10 +1,11 @@
 class GenerosController < ApplicationController
+  helper_method :sort_coluna, :sort_direcao
   before_action :set_genero, only: [:show, :edit, :update, :destroy]
 
   # GET /generos
   # GET /generos.json
   def index
-    @generos = Genero.all
+    @generos = Genero.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /generos/1
@@ -77,4 +78,15 @@ class GenerosController < ApplicationController
     def genero_params
       params.require(:genero).permit(:nome, :descricao)
     end
+
+    private
+
+      def sort_coluna
+        Item.column_names.include?(params[:coluna]) ? params[:coluna] : "nome"
+      end
+
+      def sort_direcao
+        %w[asc desc].include?(params[:direcao]) ? params[:direcao] : "asc"
+      end
+      
 end

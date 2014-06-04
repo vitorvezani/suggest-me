@@ -1,4 +1,5 @@
 class ItensController < ApplicationController
+  helper_method :sort_coluna, :sort_direcao
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :usuario_admin, only: [:destroy] # Verifica se é o usuário admin.
 
@@ -6,11 +7,8 @@ class ItensController < ApplicationController
   # GET /itens.json
   def index
     #@itens = Item.joins(:avaliacoes).group("avaliacoes.item_id").order("sum(avaliacoes.avaliacao) desc").paginate(page: params[:page], :per_page => 30)
-    @itens = Item.paginate(page: params[:page], :per_page => 30)
-    @avaliacoes = Hash.new
-    Item.all.each do |item|
-      @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, false).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, true).count]
-    end
+    @itens = Item.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    @avaliacoes = get_avaliacoes
   end
 
   # GET /itens/1
@@ -35,7 +33,7 @@ class ItensController < ApplicationController
 
     # Imagem do Item
     suckr = ImageSuckr::GoogleSuckr.new
-    @img_url = suckr.get_image_url q: @item.get_name
+    @img_url = suckr.get_image_url ({"q" => @item.get_name, "safe" => "active"})
   end
 
   # GET /itens/new
@@ -101,16 +99,12 @@ class ItensController < ApplicationController
   def search
     @q = params[:q]
     @search = Item.search do
-      fulltext params[:q]
+      keywords params[:q]
+      paginate(page: params[:page], :per_page => 30)
     end
-    @itens_seach = @search.results
 
-    puts "Itens: " + @itens_seach.inspect
-
-    @avaliacoes = Hash.new
-    @itens_seach.each do |item|
-      @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, false).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, true).count]
-    end
+    @itens = @search.results
+    @avaliacoes = get_avaliacoes
 
   end
 
@@ -130,6 +124,22 @@ class ItensController < ApplicationController
         flash[:danger] = "Você não possui privilégios para esta operação!"
         redirect_to itens_url
       end
+    end
+
+    def sort_coluna
+      Item.column_names.include?(params[:coluna]) ? params[:coluna] : "nome_ptbr"
+    end
+
+    def sort_direcao
+      %w[asc desc].include?(params[:direcao]) ? params[:direcao] : "asc"
+    end
+
+    def get_avaliacoes
+      @avaliacoes = Hash.new
+      @itens.each do |item|
+        @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, false).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, true).count]
+      end
+      return @avaliacoes
     end
     
 end
