@@ -35,8 +35,7 @@ class Item < ActiveRecord::Base
   end
 
 	def get_name
-		nome = self.nome_ptbr.nil? ? self.nome_en : self.nome_ptbr
-		return nome.nil? ? "default" : nome
+		self.nome_ptbr || self.nome_en || "default"
 	end
 
 	private

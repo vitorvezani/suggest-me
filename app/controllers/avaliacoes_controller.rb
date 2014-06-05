@@ -7,8 +7,6 @@ class AvaliacoesController < ApplicationController
 
     old_avaliacao = Avaliacao.where("item_id = ? and usuario_id = ? ", params[:avaliacao][:item_id], current_user.id).first
 
-    puts @old_avaliacao.inspect
-
     if old_avaliacao.nil?
       # Nova avaliação
       @avaliacao = current_user.avaliacoes.build(avaliacao_params)
