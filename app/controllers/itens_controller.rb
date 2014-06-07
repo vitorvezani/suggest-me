@@ -27,13 +27,15 @@ class ItensController < ApplicationController
 
     # Atributos do item em questão
     @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 10).order(created_at: :desc)
-    @avaliacoes = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
+    @avaliacoes = @item.avaliacoes.paginate(page: params[:page], :per_page => 10).order(created_at: :desc)
+    @avaliacoes_count = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
     gon.usuario_logado = signed_in?
 
     # Imagem do Item
     suckr = ImageSuckr::GoogleSuckr.new
-    @img_url = suckr.get_image_url ({"q" => @item.get_name, "safe" => "active"})
+    #@img_url = suckr.get_image_url ({"q" => @item.get_name, "safe" => "active"})
+    @img_url = nil
   end
 
   # GET /itens/new

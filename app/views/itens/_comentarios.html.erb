@@ -1,0 +1,27 @@
+<% if @comentarios.any? %>
+  <h4>Comentarios (<%= @comentarios.count %>)</h4>
+  <!-- Loop para cada comentario do item -->
+  <% @comentarios.each do |comentario| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span> <%= link_to comentario.usuario.username, usuario_path(comentario.usuario) %></span>
+          <small>  
+            <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
+            <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
+            <span>
+              <% if current_user == comentario.usuario %>
+                <%= link_to "deletar", comentario, method: :delete %>
+                <% #link_to "editar", edit_comentario_path(comentario) %>
+              <% end %> 
+            </span>
+          </small>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <%= comentario.comentario %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<%= will_paginate @comentarios, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

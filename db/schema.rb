@@ -91,6 +91,10 @@ ActiveRecord::Schema.define(version: 20140605231349) do
     t.datetime "updated_at"
   end
 
+  add_index "relacoes", ["seguido_id"], name: "index_relacoes_on_seguido_id", using: :btree
+  add_index "relacoes", ["seguidor_id", "seguido_id"], name: "index_relacoes_on_seguidor_id_and_seguido_id", unique: true, using: :btree
+  add_index "relacoes", ["seguidor_id"], name: "index_relacoes_on_seguidor_id", using: :btree
+
   create_table "usuarios", force: true do |t|
     t.string   "primeiro_nome",    limit: 50
     t.string   "ultimo_nome",      limit: 50

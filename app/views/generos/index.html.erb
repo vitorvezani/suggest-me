@@ -14,11 +14,10 @@
 		<th><%= sortable "nome" %></th>
 		<th><%= sortable "descricao" %></th>
 		<% if is_admin? %>
-			<th>Editar</th>
-			<th>Excluir</th>
+			<th>Ações</th>
 		<% end %>
 	</tr>
   <%= render @generos %>
 </table>
 
-<br>
+<%= will_paginate @generos, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
