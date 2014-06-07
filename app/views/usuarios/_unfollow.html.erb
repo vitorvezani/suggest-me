@@ -1,0 +1,4 @@
+<%= form_for(current_user.relacoes.find_by(seguido_id: @usuario.id), remote: true,
+             html: { method: :delete }) do |f| %>
+  <%= f.submit "Parar de Seguir", class: "btn btn-large" %>
+<% end %>

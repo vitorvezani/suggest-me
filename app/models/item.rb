@@ -20,13 +20,19 @@ class Item < ActiveRecord::Base
 	validates_uniqueness_of :nome_ptbr, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_ptbr.nil? }
   validates_uniqueness_of :nome_en, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_en.nil? }
 
-	has_many :comentarios, :dependent => :destroy
-	has_many :avaliacoes, :dependent => :destroy
+	has_many :comentarios, dependent: :destroy
+	has_many :avaliacoes, dependent: :destroy
 
-	has_many :generalizacoes, :dependent => :destroy
+	has_many :generalizacoes, dependent: :destroy
 	has_many :generos, through: :generalizacoes
 
 	belongs_to :categoria
+
+  #-------------------------- 
+  #-                        -
+  #-    Métodos Públicos    -
+  #-                        -
+  #--------------------------
 
   def before_save(record)
     if nome_en.nil? and nome_ptbr.nil?
@@ -37,6 +43,12 @@ class Item < ActiveRecord::Base
 	def get_name
 		self.nome_ptbr || self.nome_en || "default"
 	end
+
+  #-------------------------- 
+  #-                        -
+  #-    Métodos Privados    -
+  #-                        -
+  #--------------------------
 
 	private
 		def strip_spaces

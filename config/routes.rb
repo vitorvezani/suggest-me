@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :usuarios do
+    member do
+      get :seguindo, :seguidores
+    end
+  end
+
   match '/recomendacao', to: 'itens#recomendacao', via: 'get'
   match '/search', to: 'itens#search', via: 'get'
 
@@ -7,6 +13,8 @@ Rails.application.routes.draw do
 
   match '/usuarios/edit_password/:id', to: 'usuarios#edit_password', via: 'get'
   match '/usuarios/update_password/:id', to: 'usuarios#update_password', via: 'patch'
+
+  resources :relacoes, only: [:create, :destroy]
 
   resources :generos, :categorias, :generalizacoes, :itens, :usuarios
 

@@ -22,10 +22,22 @@ class Usuario < ActiveRecord::Base
   has_secure_password
 
 	# Relação da Tabela
-	has_many :comentarios, :dependent => :destroy
-	has_many :avaliacoes, :dependent => :destroy
+	has_many :comentarios, dependent: :destroy
+	has_many :avaliacoes, dependent: :destroy
+  # Seguidores
+  has_many :relacoes, foreign_key: "seguidor_id", dependent: :destroy
+  has_many :seguindo, through: :relacoes, source: :seguido
+  has_many :reversa_relacoes, foreign_key: "seguido_id",
+                                   class_name:  "Relacao",
+                                   dependent:   :destroy
+  has_many :seguidores, through: :reversa_relacoes, source: :seguidor
 
-	# Metodos Estaticos
+  #-------------------------- 
+  #-                        -
+  #-    Métodos Estáticos   -
+  #-                        -
+  #--------------------------
+
 	def Usuario.novo_remember_token
 	    SecureRandom.urlsafe_base64
 	end
@@ -51,9 +63,15 @@ class Usuario < ActiveRecord::Base
 	  end
   end
 
-  def self.no_pic_url
+  def Usuario.no_pic_url
     "http://ieee-sb.ca/sites/default/files/default_user.jpg"
   end
+
+  #-------------------------- 
+  #-                        -
+  #-    Métodos Publicos    -
+  #-                        -
+  #--------------------------
 
   def facebook_update
 
@@ -79,6 +97,32 @@ class Usuario < ActiveRecord::Base
 
   end
 
+  def get_image
+    self.image || Usuario.no_pic_url
+  end
+
+  def get_name
+    self.username || self.primeiro_nome + " " + self.ultimo_nome
+  end
+
+  def seguindo?(usuario)
+    self.relacoes.find_by(seguidor_id: self.id, seguido: usuario.id)
+  end
+
+  def seguir!(usuario)
+    self.relacoes.create!(seguido_id: usuario.id)
+  end
+
+  def unfollow!(usuario)
+    self.relacoes.find_by(seguidor_id: self.id, seguido_id: usuario.id).destroy
+  end
+
+  #-------------------------- 
+  #-                        -
+  #-    Métodos Privados    -
+  #-                        -
+  #--------------------------
+  
 	private
 
 		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar

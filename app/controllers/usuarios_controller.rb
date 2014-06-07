@@ -2,7 +2,7 @@ class UsuariosController < ApplicationController
 
   before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook, :edit_password, :update_password]
   # Para qualquer dessas ação é necessario o login do usuário
-  before_action :usuario_logado, only: [:edit, :update, :destroy, :edit_password, :update_password]
+  before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
   before_action :usuario_correto, only: [:edit, :update, :edit_password, :update_password] 
   # Somente admin pode vizualizar a lista de todos os usuários
@@ -22,6 +22,8 @@ class UsuariosController < ApplicationController
   def show
     @avaliacoes = @usuario.avaliacoes.paginate(page: params[:page], :per_page => 15)
     @comentarios = @usuario.comentarios.paginate(page: params[:page], :per_page => 15)
+    @seguindo = @usuario.seguindo.paginate(page: params[:page], :per_page => 15)
+    @seguidores = @usuario.seguidores.paginate(page: params[:page], :per_page => 15)
   end
 
   # GET /usuarios/new

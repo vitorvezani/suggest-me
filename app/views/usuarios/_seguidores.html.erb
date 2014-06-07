@@ -1,0 +1,12 @@
+<% if @seguidores.any? %>
+  <!-- Loop para cada usuario_seguidor do usuário -->
+  <ul class="list-group">
+  <% @seguidores.each do |usuario_seguidor| %>
+      <li class="list-group-item">
+    		<img src=<%= usuario_seguidor.get_image %> alt="profile pic" height="42" width="42" class="img-rounded">
+        <%= link_to usuario_seguidor.username, usuario_path(usuario_seguidor) %>
+      </li>
+  <% end %>
+  </ul>
+<% end %>
+<%= will_paginate @seguidores, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

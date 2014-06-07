@@ -22,10 +22,6 @@ module SessionsHelper
     @current_user ||= Usuario.find_by(remember_token: remember_token)
   end
 
-  def signed_in?
-    !current_user.nil?
-  end
-
   def sign_out
     # Isto ser para quando o cookie foi roubado, então mudamos para um random na base
     current_user.update_attribute(:remember_token, Usuario.digest(Usuario.novo_remember_token))
@@ -33,20 +29,20 @@ module SessionsHelper
     self.current_user = nil
   end
 
+  def signed_in?
+    !current_user.nil?
+  end
+
   def is_admin?
     self.current_user.try(:admin?)
   end
 
   # Se o usuário não está logado, redireciona para o login
-  def usuario_logado
+  def usuario_logado?
     unless signed_in?
       flash[:warning] = "Por favor Sign in."
       redirect_to signin_url
     end
-  end
-
-  def display_nome(current_user)
-    current_user.username || current_user.primeiro_nome + " " + current_user.ultimo_nome
   end
 
 end

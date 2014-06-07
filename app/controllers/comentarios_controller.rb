@@ -1,6 +1,6 @@
 class ComentariosController < ApplicationController
   before_action :set_comentario, only: [ :destroy, :edit, :update ]
-  before_action :usuario_logado, only: [ :create, :destroy, :new ]
+  before_action :usuario_logado?, only: [ :create, :destroy, :new ]
 
   # GET /comentarios/1/edit
   def edit

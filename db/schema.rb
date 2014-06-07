@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140531140507) do
+ActiveRecord::Schema.define(version: 20140605231349) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -83,6 +83,13 @@ ActiveRecord::Schema.define(version: 20140531140507) do
   add_index "itens", ["id"], name: "index_itens_on_id", using: :btree
   add_index "itens", ["nome_en"], name: "index_itens_on_nome_en", using: :btree
   add_index "itens", ["nome_ptbr"], name: "index_itens_on_nome_ptbr", using: :btree
+
+  create_table "relacoes", force: true do |t|
+    t.integer  "seguidor_id"
+    t.integer  "seguido_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "usuarios", force: true do |t|
     t.string   "primeiro_nome",    limit: 50
