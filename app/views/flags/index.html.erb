@@ -1,0 +1,17 @@
+<%= render "compartilhado/breadcrumb", pag: "Todos Flags" %>
+
+<h1>Todos os Flags</h1>
+
+<table class="table table-hover">
+    <tr class="info">                      
+    <th><%= sortable "nome" %></th>
+    <th><%= sortable "flagavel_type", "Tipo" %></th>
+    <th><%= sortable "conteudo", "Conteúdo" %></th>
+    <th><%= sortable "usuario_id", "Usuário" %></th>
+    <th><%= sortable "created_at", "Criado em" %></th>
+    <th>Ações</th>
+  </tr>
+  <%= render @flags %>
+</table>
+
+<%= will_paginate @flags, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

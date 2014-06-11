@@ -79,14 +79,12 @@ class GenerosController < ApplicationController
       params.require(:genero).permit(:nome, :descricao)
     end
 
-    private
+    def sort_coluna
+      Genero.column_names.include?(params[:coluna]) ? params[:coluna] : "id"
+    end
 
-      def sort_coluna
-        Item.column_names.include?(params[:coluna]) ? params[:coluna] : "nome"
-      end
-
-      def sort_direcao
-        %w[asc desc].include?(params[:direcao]) ? params[:direcao] : "asc"
-      end
+    def sort_direcao
+      %w[asc desc].include?(params[:direcao]) ? params[:direcao] : "asc"
+    end
       
 end

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :flags
+
   resources :usuarios do
     member do
       get :seguindo, :seguidores

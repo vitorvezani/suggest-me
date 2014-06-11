@@ -24,6 +24,7 @@ class Usuario < ActiveRecord::Base
 	# Relação da Tabela
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
+  has_many :flags, dependent: :destroy
   # Seguidores
   has_many :relacoes, foreign_key: "seguidor_id", dependent: :destroy
   has_many :seguindo, through: :relacoes, source: :seguido
@@ -65,6 +66,53 @@ class Usuario < ActiveRecord::Base
 
   def Usuario.no_pic_url
     "http://ieee-sb.ca/sites/default/files/default_user.jpg"
+  end
+
+  def Usuario.update_descricao
+    require 'rubygems'
+    require 'nokogiri'
+    require 'open-uri'
+    require 'uri'
+
+    itens = Item.all
+    itens.each do |item| 
+
+      begin 
+
+        texto = String.new
+        product = String.new
+
+        product = item.nome_ptbr.split.map{ |x| x.capitalize }.join('_')
+
+        page = Nokogiri::HTML(open("http://pt.wikipedia.org/wiki/" + product ))
+
+        for i in (0..3)
+          if page.css('div#mw-content-text p')[i]
+
+            info = page.css('div#mw-content-text p')[i].text
+
+            texto += info
+
+          end
+        end
+
+        if !texto.include? "podem referir-se a"
+          if item.descricao.nil?
+            # Faz o update dos atributos
+            item.update_attribute("descricao", texto)
+          end
+        end
+
+      rescue OpenURI::HTTPError => e
+
+        if e.message == '404 Not Found'
+          nil
+        end
+
+      end
+
+    end
+
   end
 
   #-------------------------- 

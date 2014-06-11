@@ -34,8 +34,7 @@ class ItensController < ApplicationController
 
     # Imagem do Item
     suckr = ImageSuckr::GoogleSuckr.new
-    #@img_url = suckr.get_image_url ({"q" => @item.get_name, "safe" => "active"})
-    @img_url = nil
+    @img_url = suckr.get_image_url ({"q" => @item.get_name, "safe" => "active"})
   end
 
   # GET /itens/new
@@ -129,7 +128,7 @@ class ItensController < ApplicationController
     end
 
     def sort_coluna
-      Item.column_names.include?(params[:coluna]) ? params[:coluna] : "nome_ptbr"
+      Item.column_names.include?(params[:coluna]) ? params[:coluna] : "id"
     end
 
     def sort_direcao

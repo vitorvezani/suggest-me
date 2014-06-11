@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Conteudo:</strong>
+  <%= @flag.conteudo %>
+</p>
+
+<p>
+  <strong>Flagavel:</strong>
+  <%= @flag.flagavel_id %>
+</p>
+
+<p>
+  <strong>Flagavel type:</strong>
+  <%= @flag.flagavel_type %>
+</p>
+
+<%= link_to 'Edit', edit_flag_path(@flag) %> |
+<%= link_to 'Back', flags_path %>

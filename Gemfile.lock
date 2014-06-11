@@ -183,6 +183,7 @@ DEPENDENCIES
   jquery-rails
   koala
   mysql2
+  nokogiri
   omniauth-facebook
   pg
   rails (= 4.1.0)

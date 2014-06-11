@@ -4,4 +4,10 @@ module ApplicationHelper
 		direcao = coluna == sort_coluna && sort_direcao == "asc" ? "desc" : "asc"
 		link_to titulo, params.merge(coluna: coluna, direcao: direcao, page: nil)
 	end
+
+	def novo_flag(flagavel)
+   render partial: "flags/novo_flag",
+          locals: {flagavel: flagavel}
+  end
+
 end

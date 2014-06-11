@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  conteudo: MyText
+  flagavel_id: 1
+  flagavel_type: MyString
+
+two:
+  conteudo: MyText
+  flagavel_id: 1
+  flagavel_type: MyString

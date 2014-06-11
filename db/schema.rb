@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140605231349) do
+ActiveRecord::Schema.define(version: 20140611025111) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -48,6 +48,19 @@ ActiveRecord::Schema.define(version: 20140605231349) do
   add_index "comentarios", ["item_id"], name: "index_comentarios_on_item_id", using: :btree
   add_index "comentarios", ["usuario_id"], name: "index_comentarios_on_usuario_id", using: :btree
 
+  create_table "flags", force: true do |t|
+    t.text     "conteudo"
+    t.integer  "usuario_id"
+    t.integer  "flagavel_id"
+    t.string   "flagavel_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "flags", ["flagavel_id"], name: "index_flags_on_flagavel_id", using: :btree
+  add_index "flags", ["flagavel_type"], name: "index_flags_on_flagavel_type", using: :btree
+  add_index "flags", ["usuario_id"], name: "index_flags_on_usuario_id", using: :btree
+
   create_table "generalizacoes", force: true do |t|
     t.integer  "item_id"
     t.integer  "genero_id"
@@ -71,7 +84,7 @@ ActiveRecord::Schema.define(version: 20140605231349) do
     t.integer  "categoria_id"
     t.string   "nome_ptbr",    limit: 100
     t.string   "nome_en",      limit: 100
-    t.string   "descricao"
+    t.string   "descricao",    limit: 5000
     t.string   "wiki_link",    limit: 400
     t.datetime "created_at"
     t.datetime "updated_at"

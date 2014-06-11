@@ -28,6 +28,14 @@ class Item < ActiveRecord::Base
 
 	belongs_to :categoria
 
+	has_many :flags, as: :flagavel
+
+  #-------------------------- 
+  #-                        -
+  #-    Métodos Estáticos   -
+  #-                        -
+  #--------------------------
+
   #-------------------------- 
   #-                        -
   #-    Métodos Públicos    -

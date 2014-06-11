@@ -1,0 +1,10 @@
+<%= form_for Flag.new do |f| %>
+  <%= f.hidden_field :flagavel_id, value: flagavel.id %>
+  <%= f.hidden_field :usuario_id, value: current_user.id %>
+  <%= f.hidden_field :flagavel_type, value: flagavel.class %>
+
+  <%= f.label :conteudo %><br />
+  <%= f.text_area :conteudo %>
+
+  <%= f.submit %>
+<% end %>
