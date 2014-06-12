@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   match '/avaliacoes', to: 'avaliacoes#create_update', via: 'post'
 
-  resources :comentarios, only: [:create, :destroy, :edit, :update]
+  resources :comentarios, only: [:create, :destroy, :edit, :update, :show]
 
   resources :sessions, only: [:new, :create, :destroy]
 

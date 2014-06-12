@@ -5,7 +5,7 @@ class ColocarDescricaoItens < ActiveRecord::Migration
 	require 'open-uri'
 	require 'uri'
 
-		itens = Item.all.take 10
+		itens = Item.all.take 1
 		itens.each do |item| 
 
 			begin 

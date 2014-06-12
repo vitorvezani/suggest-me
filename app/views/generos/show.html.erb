@@ -13,6 +13,10 @@
             <label> <%= @genero.try(:descricao)%> </label>
         </div>
       </div>
+      <% if signed_in? %>
+        <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @genero, id: "flag_genero" } %>
+      </br></br>
+      <% end %>
       <% if is_admin? %>
         <%= link_to "Excluir", @genero, method: :delete %> |
       <% end %>
@@ -20,7 +24,6 @@
         <%= link_to 'Editar', edit_genero_path(@genero) %> |
       <% end %>
       <%= link_to 'Voltar', generos_path %>
-      <%= novo_flag @genero %>
     </section>
   </aside>
   <div class="col-md-4 col-md-offset-1">

@@ -1,10 +1,20 @@
-<%= form_for Flag.new do |f| %>
-  <%= f.hidden_field :flagavel_id, value: flagavel.id %>
-  <%= f.hidden_field :usuario_id, value: current_user.id %>
-  <%= f.hidden_field :flagavel_type, value: flagavel.class %>
-
-  <%= f.label :conteudo %><br />
-  <%= f.text_area :conteudo %>
-
-  <%= f.submit %>
-<% end %>
+<div class="modal-body">
+	<div class="row">
+	  <aside class="col-md-8 col-md-offset-3">
+			<%= form_for Flag.new do |f| %>
+			  <%= f.hidden_field :flagavel_id, value: flagavel.id %>
+			  <%= f.label "Tipo:" %><br />
+			  <%= f.collection_select(:tipo_flag_id, TipoFlag.order(:id), :id, :descricao, class: "form-control" ) %>
+			  <%= f.hidden_field :usuario_id, value: current_user.id %>
+			  <%= f.hidden_field :flagavel_type, value: flagavel.class %>
+				<div class="form-group">
+					<%= f.label :conteudo %><br />
+					<%= f.text_area :conteudo, rows: 4, class: "form-control" %>
+				</div>
+			  <div class="modal-footer">
+          <button type="submit" name= "commit" class="btn btn-primary">Salvar</button>
+        </div>
+			<% end %>
+		</aside>
+	</div>
+</div>

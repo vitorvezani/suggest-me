@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611025111) do
+ActiveRecord::Schema.define(version: 20140612000328) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140611025111) do
   create_table "flags", force: true do |t|
     t.text     "conteudo"
     t.integer  "usuario_id"
+    t.integer  "tipo_flag_id"
     t.integer  "flagavel_id"
     t.string   "flagavel_type"
     t.datetime "created_at"
@@ -59,6 +60,7 @@ ActiveRecord::Schema.define(version: 20140611025111) do
 
   add_index "flags", ["flagavel_id"], name: "index_flags_on_flagavel_id", using: :btree
   add_index "flags", ["flagavel_type"], name: "index_flags_on_flagavel_type", using: :btree
+  add_index "flags", ["tipo_flag_id"], name: "index_flags_on_tipo_flag_id", using: :btree
   add_index "flags", ["usuario_id"], name: "index_flags_on_usuario_id", using: :btree
 
   create_table "generalizacoes", force: true do |t|
@@ -107,6 +109,12 @@ ActiveRecord::Schema.define(version: 20140611025111) do
   add_index "relacoes", ["seguido_id"], name: "index_relacoes_on_seguido_id", using: :btree
   add_index "relacoes", ["seguidor_id", "seguido_id"], name: "index_relacoes_on_seguidor_id_and_seguido_id", unique: true, using: :btree
   add_index "relacoes", ["seguidor_id"], name: "index_relacoes_on_seguidor_id", using: :btree
+
+  create_table "tipo_flags", force: true do |t|
+    t.string   "descricao",  limit: 1000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "usuarios", force: true do |t|
     t.string   "primeiro_nome",    limit: 50

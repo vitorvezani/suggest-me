@@ -1,11 +1,13 @@
 <%= render "compartilhado/breadcrumb", pag: "Todos Flags" %>
 
-<h1>Todos os Flags</h1>
+<h1>Todos as Flags</h1>
 
 <table class="table table-hover">
-    <tr class="info">                      
-    <th><%= sortable "nome" %></th>
-    <th><%= sortable "flagavel_type", "Tipo" %></th>
+    <tr class="info">  
+    <th><%= sortable "#", "#" %></th>                    
+    <th><%= sortable "nome", "Nome Item" %></th>
+    <th><%= sortable "flagavel_type", "Tipo Item" %></th>
+    <th><%= sortable "tipo_flag_id", "Tipo Flag" %></th>
     <th><%= sortable "conteudo", "Conteúdo" %></th>
     <th><%= sortable "usuario_id", "Usuário" %></th>
     <th><%= sortable "created_at", "Criado em" %></th>

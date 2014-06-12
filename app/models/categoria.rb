@@ -7,8 +7,15 @@ class Categoria < ActiveRecord::Base
 	validates_uniqueness_of :descricao, message: "já cadastrado!"
 
 	has_many :itens
-	
+
+#-------------------------- 
+#-                        -
+#-    Métodos Privados    -
+#-                        -
+#--------------------------
+
 private
+
 	def strip_spaces
 		self.descricao = descricao.strip if attribute_present?("descricao")
 	end

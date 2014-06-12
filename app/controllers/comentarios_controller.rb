@@ -1,9 +1,14 @@
 class ComentariosController < ApplicationController
-  before_action :set_comentario, only: [ :destroy, :edit, :update ]
+  before_action :set_comentario, only: [ :destroy, :edit, :update, :show ]
   before_action :usuario_logado?, only: [ :create, :destroy, :new ]
 
   # GET /comentarios/1/edit
   def edit
+  end
+
+  # GET /comentarios/1
+  # GET /comentarios/1.json
+  def show
   end
 
   # PATCH/PUT /comentarios/1

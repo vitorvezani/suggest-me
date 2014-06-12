@@ -1,19 +1,41 @@
-<p id="notice"><%= notice %></p>
+<%= render "compartilhado/breadcrumb", pag: @flag.flagavel.try(:get_name) || "Comentário #{@flag.flagavel.id}"  %>
 
-<p>
-  <strong>Conteudo:</strong>
-  <%= @flag.conteudo %>
-</p>
-
-<p>
-  <strong>Flagavel:</strong>
-  <%= @flag.flagavel_id %>
-</p>
-
-<p>
-  <strong>Flagavel type:</strong>
-  <%= @flag.flagavel_type %>
-</p>
-
-<%= link_to 'Edit', edit_flag_path(@flag) %> |
-<%= link_to 'Back', flags_path %>
+<div class="row">
+  <aside class="col-md-3">
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+              <h4> <%= @flag.flagavel.try(:get_name) || "Comentário #{@flag.flagavel.id}"  %> </h4>
+          </h3>
+        </div>
+        <div class="panel-body">
+            <p><label>Usuário: </label> <%= link_to @flag.usuario.get_name, usuario_path(@flag.usuario) %></p>
+            <p><label>Flagavel: </label> <%= link_to @flag.flagavel.try(:get_name) || "Comentário #{@flag.flagavel.id}", @flag.flagavel %></p>
+            <p><label>Tipo Flag: </label> <%=  @flag.tipo_flag.descricao %></p>
+            <p><label>Tipo Item: </label> <%= @flag.flagavel_type %></p>
+            <p><label>Criado em: </label> <%= @flag.created_at.to_s %></p>
+            <p><label>Atualizado em: </label> <%= @flag.updated_at.to_s %></p>
+        </div>
+      </div>
+      <% if is_admin? %>
+        <%= link_to "Excluir", @flag, method: :delete %> |
+      <% end %>
+      <%= link_to 'Voltar', flags_path %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+              <h4> Conteúdo </h4>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <p><%= @flag.conteudo%></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

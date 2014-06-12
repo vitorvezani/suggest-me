@@ -5,4 +5,6 @@ class Comentario < ActiveRecord::Base
 	belongs_to :usuario
 	belongs_to :item
 
+	has_many :flags, as: :flagavel, dependent: :destroy
+
 end

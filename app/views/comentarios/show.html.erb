@@ -1,0 +1,42 @@
+<%= render "compartilhado/breadcrumb", pag: @comentario.id  %>
+
+<div class="row">
+  <aside class="col-md-3">
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+              <h4> <%= @comentario.usuario.get_name %> </h4>
+          </h3>
+        </div>
+        <div class="panel-body">
+            <p><label>Usuário: </label> <%= link_to @comentario.usuario.get_name, usuario_path(@comentario.usuario) %></p>
+            <p><label>Item: </label> <%= link_to @comentario.item.get_name, item_path(@comentario.item) %></p>
+            <p><label>Like: </label> <%=  @comentario.like.to_s %></p>
+            <p><label>Dislike: </label> <%= @comentario.like.to_s %></p>
+            <p><label>Criado em: </label> <%= @comentario.created_at.to_s %></p>
+            <p><label>Atualizado em: </label> <%= @comentario.updated_at.to_s %></p>
+        </div>
+      </div>
+      <% if is_admin? or current_user == @comentario.usuario %>
+        <%= link_to "Excluir", @comentario, method: :delete %> |
+        <%= link_to "Editar", edit_comentario_path(@comentario) %> |
+      <% end %>
+      <%= link_to 'Voltar', item_path(@comentario.item) %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+              <h4> Comentário </h4>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <p><%= @comentario.comentario%></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

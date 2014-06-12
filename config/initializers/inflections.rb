@@ -19,6 +19,7 @@
  ActiveSupport::Inflector.inflections do |inflect|
    inflect.irregular 'avaliacao', 'avaliacoes'
    inflect.irregular 'seguidor', 'seguidores'
+   inflect.irregular 'tipoflag', 'tipoflags'
    inflect.irregular 'relacao', 'relacoes'
    inflect.irregular 'erro proibiu', 'erros proibiram'
    inflect.irregular 'ocupacao', 'ocupacoes'

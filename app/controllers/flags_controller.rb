@@ -30,12 +30,12 @@ class FlagsController < ApplicationController
 
     respond_to do |format|
       if @flag.save
-        flash[:success] = 'Flag relatado com sucesso!'
-        format.html { redirect_to @flag }
+        flash[:success] = "#{@flag.tipo_flag.descricao} relatado com sucesso!"
+        format.html { redirect_to @flag.flagavel }
         format.json { render :show, status: :created, location: @flag }
       else
-        flash[:success] = 'Flag não foi relatado com sucesso'
-        format.html { render :new }
+        flash[:warning] = 'Flag não foi relatado com sucesso'
+        format.html { redirect_to @flag.flagavel }
         format.json { render json: @flag.errors, status: :unprocessable_entity }
       end
     end
@@ -74,7 +74,7 @@ class FlagsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def flag_params
-      params.require(:flag).permit(:conteudo, :usuario_id ,:flagavel_id, :flagavel_type)
+      params.require(:flag).permit(:conteudo, :tipo_flag_id, :usuario_id ,:flagavel_id, :flagavel_type)
     end
 
     # Somente admin pode vizualizar a pagina de usuários

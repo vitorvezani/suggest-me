@@ -1,5 +1,4 @@
 <% if @comentarios.any? %>
-  <h4>Comentarios (<%= @comentarios.count %>)</h4>
   <!-- Loop para cada comentario do item -->
   <% @comentarios.each do |comentario| %>
     <div class="panel panel-default">
@@ -9,6 +8,7 @@
           <small>  
             <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
             <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
+            <%= render partial: "compartilhado/nova_flag", locals: { flagavel: comentario, id: "flag_comentario" } %>
             <span>
               <% if current_user == comentario.usuario %>
                 <%= link_to "deletar", comentario, method: :delete %>

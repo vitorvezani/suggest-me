@@ -22,19 +22,11 @@ class Item < ActiveRecord::Base
 
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
-
 	has_many :generalizacoes, dependent: :destroy
+	has_many :flags, as: :flagavel, dependent: :destroy
 	has_many :generos, through: :generalizacoes
 
 	belongs_to :categoria
-
-	has_many :flags, as: :flagavel
-
-  #-------------------------- 
-  #-                        -
-  #-    Métodos Estáticos   -
-  #-                        -
-  #--------------------------
 
   #-------------------------- 
   #-                        -
@@ -59,6 +51,7 @@ class Item < ActiveRecord::Base
   #--------------------------
 
 	private
+
 		def strip_spaces
 			self.nome_ptbr = nome_ptbr.strip if attribute_present?("nome_ptbr")
 			self.nome_en = nome_en.strip if attribute_present?("nome_en")

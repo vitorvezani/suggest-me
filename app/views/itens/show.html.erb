@@ -37,11 +37,11 @@
         <% end %>
       <% if signed_in? %>
         <!-- Button trigger modal Generos-->
-        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#genero">
           Adicionar Tags
         </button>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="genero" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -65,9 +65,8 @@
             </div>
           </div>
         </div>
-
-      <%= novo_flag @item %>
-
+        </br></br>
+        <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } %>
       <% end %>
       </br></br>
       <%= link_to 'Voltar', itens_path %> |
@@ -80,7 +79,7 @@
 			<hr>
     </section>
   </aside>
-	<div class="col-md-4 col-md-offset-1">
+	<div class="col-md-5 col-md-offset-1">
     <% if signed_in? %>
       <div class="row">
         <%= form_for(@new_comentario) do |f| %>
@@ -109,12 +108,46 @@
     <!-- Tab panes -->
     <div class="tab-content">
       <div class="tab-pane active" id="comentario">
-        <%= render "comentarios", comentarios: @comentarios %>
+        <%= render "comentarios/todos_comentarios", comentarios: @comentarios %>
       </div>
       <div class="tab-pane" id="avaliacao">
         <%= render "avaliacoes", avaliacoes: @avaliacoes %>
       </div>
     </div>
   </div>
-
+  <!--
+  <div class="col-md-2 col-md-offset-1">
+    <h4>Artistas Parecidos</h4>
+      <a href="#" class="thumbnail">
+          <img src=<%= @img_url %> alt="100x100">
+          <div class="caption">
+            <h6>Hardcore Superstar</h6>
+          </div>
+      </a>
+      <a href="#" class="thumbnail">
+          <img src=<%= @img_url %> alt="100x100">
+          <div class="caption">
+            <h6>Hardcore Superstar</h6>
+          </div>
+      </a>
+      <a href="#" class="thumbnail">
+          <img src=<%= @img_url %> alt="100x100">
+          <div class="caption">
+            <h6>Hardcore Superstar</h6>
+          </div>
+      </a>
+      <a href="#" class="thumbnail">
+          <img src=<%= @img_url %> alt="100x100">
+          <div class="caption">
+            <h6>Hardcore Superstar</h6>
+          </div>
+      </a>
+      <a href="#" class="thumbnail">
+          <img src=<%= @img_url %> alt="100x100">
+          <div class="caption">
+            <h6>Hardcore Superstar</h6>
+          </div>
+      </a>
+  </div>
+  -->
 </div>

@@ -5,9 +5,4 @@ module ApplicationHelper
 		link_to titulo, params.merge(coluna: coluna, direcao: direcao, page: nil)
 	end
 
-	def novo_flag(flagavel)
-   render partial: "flags/novo_flag",
-          locals: {flagavel: flagavel}
-  end
-
 end

@@ -8,7 +8,7 @@ class Genero < ActiveRecord::Base
 	has_many :generalizacoes, dependent: :destroy
 	has_many :itens, through: :generalizacoes
 
-	has_many :flags, as: :flagavel
+	has_many :flags, as: :flagavel, dependent: :destroy
 
 	def get_name
 		self.nome

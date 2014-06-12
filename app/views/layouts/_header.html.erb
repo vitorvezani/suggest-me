@@ -42,7 +42,12 @@
             <ul class="dropdown-menu">
               <li><%= link_to " Profile", current_user, class: "glyphicon glyphicon-user" %></li>
               <li><%= link_to " Configuração", edit_usuario_path(current_user), class: "glyphicon glyphicon-globe" %></li>
-              <li><%= link_to " Senha", {controller: :usuarios, action: :edit_password, id: current_user}, class: "glyphicon glyphicon-wrench" %></li>
+              <li><%= link_to " Senha", { controller: :usuarios, action: :edit_password, id: current_user }, class: "glyphicon glyphicon-wrench" %></li>
+              <% if is_admin? %>
+              <li class="divider"></li>
+              <li><%= link_to " Flags", flags_path, class: "glyphicon glyphicon-warning-sign" %></li>
+              <li><%= link_to " Usuários", usuarios_path, class: "glyphicon glyphicon-signal" %></li>
+              <% end %>
               <li class="divider"></li>
               <li><%= link_to " Deslogar", signout_path, method: "delete", class: "glyphicon glyphicon-off" %></li>
             </ul>
