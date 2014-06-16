@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :generos, :categorias, :generalizacoes, :itens, :usuarios
 
   match '/avaliacoes', to: 'avaliacoes#create_update', via: 'post'
+  match '/generalizacoes/destroy_all', to: 'generalizacoes#destroy_all', via: 'post'
 
   resources :comentarios, only: [:create, :destroy, :edit, :update, :show]
 

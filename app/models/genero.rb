@@ -10,6 +10,12 @@ class Genero < ActiveRecord::Base
 
 	has_many :flags, as: :flagavel, dependent: :destroy
 
+	#-------------------------- 
+	#-                        -
+	#-    Métodos Publicos    -
+	#-                        -
+	#--------------------------
+
 	def get_name
 		self.nome
 	end

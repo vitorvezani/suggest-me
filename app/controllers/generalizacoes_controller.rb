@@ -20,6 +20,18 @@ class GeneralizacoesController < ApplicationController
 
   # DELETE /generalizacoes/1
   # DELETE /generalizacoes/1.json
+  def destroy_all
+    relacionamentos = Generalizacao.where("item_id = ? and genero_id = ?", params[:item_id], params[:genero_id])
+    
+    relacionamentos.each do |relacao| 
+      relacao.destroy 
+    end
+    flash[:success] = "Relacionamentos excluida com sucesso!"
+    redirect_to item_path(params[:item_id])
+  end
+
+  # DELETE /generalizacoes/1
+  # DELETE /generalizacoes/1.json
   def destroy
     if @generalizacao.destroy
       flash[:success] = "Relacionamento excluida com sucesso!"

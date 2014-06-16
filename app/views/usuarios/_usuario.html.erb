@@ -1,7 +1,17 @@
-<li>
-  <%= link_to usuario.username, usuario %>
-  | <%= link_to 'Editar', edit_usuario_path(usuario) %>
-  <% if current_user != usuario %>
-      | <%= link_to "Excluir", usuario, method: :delete %>
-	<% end %>
-</li>
+<tr>
+  <td><%= link_to usuario.username, usuario %></td>
+  <td><%= usuario.try(:primeiro_nome) %></td>
+  <td><%= usuario.try(:ultimo_nome) %></td>
+  <td><%= usuario.email %></td>
+  <td><%= usuario.try(:dt_aniversario) %></td>
+  <td><%= usuario.try(:created_at) %></td>
+  <td><%= usuario.try(:updated_at) %></td>
+  <% if is_admin? %>
+      <td>
+       <%= link_to 'Editar', edit_usuario_path(usuario) %>
+        <% if current_user != usuario %>
+      		| <%= link_to "Excluir", usuario, method: :delete %>
+				<% end %>
+      </td>
+  <% end %>
+</tr>

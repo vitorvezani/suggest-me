@@ -1,5 +1,6 @@
 class GenerosController < ApplicationController
   helper_method :sort_coluna, :sort_direcao
+  
   before_action :set_genero, only: [:show, :edit, :update, :destroy]
 
   # GET /generos

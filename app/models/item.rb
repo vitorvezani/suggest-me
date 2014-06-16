@@ -25,7 +25,6 @@ class Item < ActiveRecord::Base
 	has_many :generalizacoes, dependent: :destroy
 	has_many :flags, as: :flagavel, dependent: :destroy
 	has_many :generos, through: :generalizacoes
-
 	belongs_to :categoria
 
   #-------------------------- 

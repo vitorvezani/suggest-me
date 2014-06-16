@@ -1,4 +1,6 @@
 class UsuariosController < ApplicationController
+  
+  helper_method :sort_coluna, :sort_direcao
 
   before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook, :edit_password, :update_password]
   # Para qualquer dessas ação é necessario o login do usuário
@@ -14,7 +16,7 @@ class UsuariosController < ApplicationController
   # GET /usuarios.json
   def index
     # Usando paginate na classe Usuario para trazer registros!
-    @usuarios = Usuario.paginate(page: params[:page], :per_page => 30)
+    @usuarios = Usuario.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /usuarios/1
@@ -126,5 +128,13 @@ class UsuariosController < ApplicationController
       unless !signed_in?
         redirect_to root_url
       end
+    end
+
+        def sort_coluna
+      Usuario.column_names.include?(params[:coluna]) ? params[:coluna] : "id"
+    end
+
+    def sort_direcao
+      %w[asc desc].include?(params[:direcao]) ? params[:direcao] : "asc"
     end
 end

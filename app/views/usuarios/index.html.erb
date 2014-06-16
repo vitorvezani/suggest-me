@@ -1,9 +1,20 @@
-<% provide(:title, 'Todos usuários') %>
+<%= render "compartilhado/breadcrumb", pag: "Todos Usuários" %>
 
 <h1>Todos usuários</h1>
 
-<ul class="usuarios">
-	<%= render @usuarios %>
-</ul>
-
+<table class="table table-hover">
+		<tr class="info">                      
+		<th><%= sortable "username" %></th>
+		<th><%= sortable "primeiro_nome", "Primeiro Nome" %></th>
+		<th><%= sortable "ultimo_nome", "Ultimo Nome" %></th>
+		<th><%= sortable "email", "E-mail" %></th>
+		<th><%= sortable "dt_aniversario", "Aniversário" %></th>
+		<th><%= sortable "created_at", "Criado em:" %></th>
+		<th><%= sortable "updated_at", "Modificado em:" %></th>
+		<% if is_admin? %>
+			<th>Ações</th>
+		<% end %>
+	</tr>
+  <%= render @usuarios %>
+</table>
 <%= will_paginate @usuarios, :previous_label => "<< Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>

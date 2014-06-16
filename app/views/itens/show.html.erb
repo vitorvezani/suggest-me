@@ -74,7 +74,7 @@
         <%= link_to 'Editar', edit_item_path(@item) %> |
       <% end %>
       <% if is_admin?%>
-        <%= link_to 'Excluir', edit_item_path(@item) %> |
+        <%= link_to 'Excluir', item_path(@item), method: :delete %> |
       <% end %>
 			<hr>
     </section>
