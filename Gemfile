@@ -43,7 +43,7 @@ ruby '2.0.0'
  gem 'nokogiri'
 # Seach engine
  gem 'sunspot_rails'
- #gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
+ gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
 # Productions Gems
 group :production do
   gem 'pg'

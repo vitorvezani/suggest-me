@@ -5,7 +5,7 @@ class CreateItens < ActiveRecord::Migration
 		  t.column "categoria_id", :int
 		  t.column "nome_ptbr", 	 :string, limit: 100
 		  t.column "nome_en", 		 :string, limit: 100
-		  t.column "descricao", 	 :string, limit: 5000
+		  t.column "descricao", 	 :string, limit: 15000
 		  t.column "wiki_link",    :string, limit: 400
       t.timestamps
     end

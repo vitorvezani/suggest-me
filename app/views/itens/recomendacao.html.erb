@@ -1,104 +1,114 @@
 
-    <%= render "compartilhado/breadcrumb", pag: "Filmes" %>
+    <%= render "compartilhado/breadcrumb", pag: "Recomendações" %>
 
-    <ul class = "nav nav-tabs" >
-      <li>
-        <a href="#filmes" data-toggle = "tab"><span class="glyphicon glyphicon-film"></span> Filmes</a>
-      </li>
-      <li>
-        <a href="#musicas" data-toggle = "tab"><span class="glyphicon glyphicon-music"></span> Musicas</a>
-      </li>
-      <li>
-        <a href="#jogos" data-toggle = "tab"><span class="glyphicon glyphicon-tower"></span> Jogos</a>
-      </li>
-      <li>
-        <a href="#livros" data-toggle = "tab"><span class="glyphicon glyphicon-book"></span>Livros</a>
-      </li>
-    </ul>
-    <!-- Filmes -->
-    <div class = "tab-content">
+    <% if @num_avaliacoes <= GlobalConstants::NUM_AVALIACOES %>
+
+      <h3><span class="label label-warning">Opss</span> Não foi possível realizar as recomendações </h3>
+
+      <p>Você precisa ter mais que <%= GlobalConstants::NUM_AVALIACOES %> avaliações no total </p>
+
+    <% else %>
+    
+      <ul class = "nav nav-tabs" >
+        <li>
+          <a href="#filmes" data-toggle = "tab"><span class="glyphicon glyphicon-film"></span> Filmes </a>
+        </li>
+        <li>
+          <a href="#musicas" data-toggle = "tab"><span class="glyphicon glyphicon-music"></span> Musicas</a>
+        </li>
+        <li>
+          <a href="#jogos" data-toggle = "tab"><span class="glyphicon glyphicon-tower"></span> Jogos</a>
+        </li>
+        <li>
+          <a href="#livros" data-toggle = "tab"><span class="glyphicon glyphicon-book"></span>Livros</a>
+        </li>
+      </ul>
       <!-- Filmes -->
-      <div class = "tab-pane fade" id="filmes">
-        <div class="row">
-          <div class="panel panel-default">
-            <div class="panel-heading"><h1><span class ="glyphicon glyphicon-film"></span> Filmes</h1></div>
-            <div class="panel-body">
-              <% @filmes.each do |filme| %>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
-                  <div class= "thumbnail align-center">
-                    <div class = "caption">
-                      <h2><%= filme.nome_ptbr %></h2>
-                      <p><%= truncate(filme.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                      <p><%= link_to "Veja Mais", item_path(filme) %> &raquo;</p>
+      <div class = "tab-content">
+        <!-- Filmes -->
+        <div class = "tab-pane fade" id="filmes">
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-film"></span> Filmes</h1></div>
+              <div class="panel-body">
+                <% @filmes.each do |filme| %>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                    <div class= "thumbnail align-center">
+                      <div class = "caption">
+                        <h2><%= filme.nome_ptbr %></h2>
+                        <p><%= truncate(filme.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                        <p><%= link_to "Veja Mais", item_path(filme) %> &raquo;</p>
+                      </div>
                     </div>
                   </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Musicas -->
+        <div class = "tab-pane fade" id="musicas">
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h1><span class ="glyphicon glyphicon-music"></span> Musicas</h1></div>
+                <div class="panel-body">
+                  <% @musicas.each do |musica| %>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                      <div class= "thumbnail align-center">
+                        <div class = "caption">
+                          <h2><%= musica.nome_ptbr %></h2>
+                          <p><%= truncate(musica.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                          <p><%=link_to "Veja Mais", item_path(musica) %> &raquo;</p>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
                 </div>
-              <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <!-- Jogos -->
+        <div class = "tab-pane fade" id="jogos">
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h1><span class ="glyphicon glyphicon-tower"></span> Jogos</h1></div>
+                <div class="panel-body">
+                  <% @jogos.each do |jogo| %>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                      <div class= "thumbnail align-center">
+                        <div class = "caption">
+                          <h2><%= jogo.nome_ptbr %></h2>
+                          <p><%= truncate(jogo.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                          <p><%= link_to "Veja Mais", item_path(jogo) %>&raquo;</p>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- Livros -->
+        <div class = "tab-pane fade" id="livros">
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h1><span class ="glyphicon glyphicon-book"></span> Livros</h1></div>
+                <div class="panel-body">
+                  <% @livros.each do |livro| %>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                      <div class= "thumbnail align-center">
+                        <div class = "caption">
+                          <h2><%= livro.nome_ptbr %></h2>
+                          <p><%= truncate(livro.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                          <p><%= link_to "Veja Mais", item_path(livro) %> &raquo;</p>
+                        </div>
+                      </div>
+                    </div>
+                  <%end%>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
-      <!-- Musicas -->
-      <div class = "tab-pane fade" id="musicas">
-          <div class="row">
-            <div class="panel panel-default">
-              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-music"></span> Musicas</h1></div>
-              <div class="panel-body">
-                <% @musicas.each do |musica| %>
-                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
-                    <div class= "thumbnail align-center">
-                      <div class = "caption">
-                        <h2><%= musica.nome_ptbr %></h2>
-                        <p><%= truncate(musica.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                        <p><%=link_to "Veja Mais", item_path(musica) %> &raquo;</p>
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- Jogos -->
-      <div class = "tab-pane fade" id="jogos">
-          <div class="row">
-            <div class="panel panel-default">
-              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-tower"></span> Jogos</h1></div>
-              <div class="panel-body">
-                <% @jogos.each do |jogo| %>
-                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
-                    <div class= "thumbnail align-center">
-                      <div class = "caption">
-                        <h2><%= jogo.nome_ptbr %></h2>
-                        <p><%= truncate(jogo.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                        <p><%= link_to "Veja Mais", item_path(jogo) %>&raquo;</p>
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- Livros -->
-      <div class = "tab-pane fade" id="livros">
-          <div class="row">
-            <div class="panel panel-default">
-              <div class="panel-heading"><h1><span class ="glyphicon glyphicon-book"></span> Livros</h1></div>
-              <div class="panel-body">
-                <% @livros.each do |livro| %>
-                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
-                    <div class= "thumbnail align-center">
-                      <div class = "caption">
-                        <h2><%= livro.nome_ptbr %></h2>
-                        <p><%= truncate(livro.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                        <p><%= link_to "Veja Mais", item_path(livro) %> &raquo;</p>
-                      </div>
-                    </div>
-                  </div>
-                <%end%>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
+
+    <% end %>

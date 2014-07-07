@@ -2,7 +2,7 @@ class UsuariosController < ApplicationController
   
   helper_method :sort_coluna, :sort_direcao
 
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :facebook, :edit_password, :update_password]
+  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password]
   # Para qualquer dessas ação é necessario o login do usuário
   before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar

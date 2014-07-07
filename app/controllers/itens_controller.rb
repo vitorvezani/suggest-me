@@ -48,10 +48,33 @@ class ItensController < ApplicationController
 
   # GET /itens/
   def recomendacao
-    @jogos = Item.jogos.take 6 # Jogos
-    @livros = Item.livros.take 6 # Livros
-    @musicas = Item.musicas.take 6 # Bandas
-    @filmes = Item.filmes.take 6 # Filmes
+    # Numero de avaliações feitas pelo usuário logado
+    @num_avaliacoes = current_user.num_avaliacoes
+
+    @itens = (Item.all - current_user.itens)
+    @notas = get_notas
+
+    @notas = @notas.sort_by { |item_id, nota| nota }.reverse.take 50
+
+    @jogos = Array.new
+    @livros = Array.new 
+    @musicas = Array.new 
+    @filmes = Array.new
+
+    @itens_recomendados = Array.new
+    @notas.each do |hash|
+      item = Item.find(hash[0])
+
+      if item.is_book
+        @livros << item
+      elsif item.is_film
+        @filmes << item
+      elsif item.is_game
+        @jogos << item
+      elsif item.is_music
+        @musicas << item
+      end
+    end
   end
 
   # POST /itens
@@ -142,5 +165,12 @@ class ItensController < ApplicationController
       end
       return @avaliacoes
     end
-    
+
+    def get_notas
+      @notas = Hash.new
+      @itens.each do |item|
+        @notas[item.id] = current_user.prediction_for(item)
+      end
+      return @notas
+    end
 end

@@ -8,6 +8,9 @@ class CreateTipoFlags < ActiveRecord::Migration
     TipoFlag.create descricao: 'Duplicado'
     TipoFlag.create descricao: 'Ofensivo'
     TipoFlag.create descricao: 'Off-Topic'
+    TipoFlag.create descricao: 'Erro na Imagem'
+    TipoFlag.create descricao: 'Gênero inexistente'
+    TipoFlag.create descricao: 'Item inexistente'
     TipoFlag.create descricao: 'Outro'
   end
 end

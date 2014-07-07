@@ -24,6 +24,7 @@ class Usuario < ActiveRecord::Base
 	# Relação da Tabela
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
+  has_many :itens, through: :avaliacoes
   has_many :flags, dependent: :destroy
   # Seguidores
   has_many :relacoes, foreign_key: "seguidor_id", dependent: :destroy
@@ -123,6 +124,8 @@ class Usuario < ActiveRecord::Base
 
   def facebook_update
 
+    puts  "In second thread 2"
+
     lista_final = Array.new
     @graph = Koala::Facebook::API.new( self.oauth_token )
 
@@ -163,6 +166,49 @@ class Usuario < ActiveRecord::Base
 
   def unfollow!(usuario)
     self.relacoes.find_by(seguidor_id: self.id, seguido_id: usuario.id).destroy
+  end
+
+  def prediction_for(item)
+    hive_mind_sum = 0.0
+    rated_by = item.liked_by.size + item.disliked_by.size
+
+    item.liked_by.each { |u| hive_mind_sum += self.similaridade_com(u) }
+    item.disliked_by.each { |u| hive_mind_sum -= self.similaridade_com(u) }
+
+    puts("Hived_mind_sum: " + hive_mind_sum.to_s + "- Rated_by:" + rated_by.to_s)
+
+    return -1.0 if rated_by.zero?
+
+    return hive_mind_sum / rated_by.to_f
+
+  end
+
+  def similaridade_com(user)
+    # Array is the set intersection operator.
+    agreements = (self.likes & user.likes).size
+    agreements += (self.dislikes & user.dislikes).size
+
+    disagreements = (self.likes & user.dislikes).size
+    disagreements += (self.dislikes & user.likes).size
+
+    # Array#| is the set union operator
+    total = (self.likes + self.dislikes) | (user.likes + user.dislikes)
+
+    return (agreements - disagreements) / total.size.to_f
+  end
+
+  # Retorna o numero de Likes
+  def likes
+    self.avaliacoes.where( avaliacao: true )
+  end
+
+  # Retorna o numero de Dislikes
+  def dislikes
+    self.avaliacoes.where( avaliacao: false )
+  end
+
+  def num_avaliacoes
+    return self.avaliacoes.size
   end
 
   #-------------------------- 

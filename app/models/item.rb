@@ -1,31 +1,33 @@
 class Item < ActiveRecord::Base
 
-	searchable do
+	before_validation :strip_spaces
+	
+	has_many :comentarios, dependent: :destroy
+	has_many :avaliacoes, dependent: :destroy
+  has_many :usuarios, through: :avaliacoes
+	has_many :flags, as: :flagavel, dependent: :destroy
+	
+	has_many :generalizacoes, dependent: :destroy
+	has_many :generos, through: :generalizacoes
+	belongs_to :categoria
+
+  searchable do
     text :nome_ptbr, :nome_en, boost: 5
     text :descricao
   end
 
-	before_validation :strip_spaces
-
 	# Escopo para trazer registros
-	# default_scope -> { order('nome_ptbr') }
+	default_scope -> { order('nome_ptbr') }
 	scope :jogos,   -> { where(categoria_id: 1) }
 	scope :livros,  -> { where(categoria_id: 2) }
 	scope :musicas, -> { where(categoria_id: 3) }
 	scope :filmes,  -> { where(categoria_id: 4) }
 
 	validates_size_of :nome_ptbr, :nome_en, :maximum => 100, message: "máximo 100 caracteres!"
-	
+
 	# A validação acontece apenas de nome_ptbr/nome_en estiverem preenchidos
 	validates_uniqueness_of :nome_ptbr, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_ptbr.nil? }
   validates_uniqueness_of :nome_en, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_en.nil? }
-
-	has_many :comentarios, dependent: :destroy
-	has_many :avaliacoes, dependent: :destroy
-	has_many :generalizacoes, dependent: :destroy
-	has_many :flags, as: :flagavel, dependent: :destroy
-	has_many :generos, through: :generalizacoes
-	belongs_to :categoria
 
   #-------------------------- 
   #-                        -
@@ -41,6 +43,40 @@ class Item < ActiveRecord::Base
 
 	def get_name
 		self.nome_ptbr || self.nome_en || "default"
+	end
+
+	def liked_by
+		usuarios = Array.new
+		lista_likes = self.avaliacoes.where( avaliacao: true)
+		lista_likes.each do |like|
+			usuarios << like.usuario
+		end
+		return usuarios
+	end
+
+	def disliked_by
+		usuarios = Array.new
+		lista_likes = self.avaliacoes.where( avaliacao: false)
+		lista_likes.each do |like|
+			usuarios << like.usuario
+		end 
+		return usuarios
+	end
+
+	def is_film
+		return self.categoria_id == 4 ? true : false
+	end
+	
+	def is_game
+		return self.categoria_id == 1 ? true : false
+	end
+	
+	def is_music
+		return self.categoria_id == 3 ? true : false
+	end
+	
+	def is_book
+		return self.categoria_id == 2 ? true : false
 	end
 
   #-------------------------- 

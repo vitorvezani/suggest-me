@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140612000328) do
+ActiveRecord::Schema.define(version: 20140707004408) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20140612000328) do
     t.boolean  "avaliacao"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "score",      default: 0
   end
 
   add_index "avaliacoes", ["id"], name: "index_avaliacoes_on_id", using: :btree
@@ -86,7 +87,7 @@ ActiveRecord::Schema.define(version: 20140612000328) do
     t.integer  "categoria_id"
     t.string   "nome_ptbr",    limit: 100
     t.string   "nome_en",      limit: 100
-    t.string   "descricao",    limit: 5000
+    t.string   "descricao",    limit: 15000
     t.string   "wiki_link",    limit: 400
     t.datetime "created_at"
     t.datetime "updated_at"

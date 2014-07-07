@@ -30,7 +30,7 @@ class FlagsController < ApplicationController
 
     respond_to do |format|
       if @flag.save
-        flash[:success] = "#{@flag.tipo_flag.descricao} relatado com sucesso!"
+        flash[:success] = "Flag '#{@flag.tipo_flag.descricao}' relatado com sucesso!"
         format.html { redirect_to @flag.flagavel }
         format.json { render :show, status: :created, location: @flag }
       else
