@@ -43,14 +43,14 @@ ruby '2.0.0'
  gem 'nokogiri'
 # Seach engine
  gem 'sunspot_rails'
- gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
 # Productions Gems
 group :production do
-  gem 'pg'
-  gem 'rails_12factor'
+  # Use unicorn as the app server
+	# gem 'unicorn'
 end
 
 group :development do
+  gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
   gem 'better_errors'
   gem 'binding_of_caller'
 end

@@ -8,6 +8,10 @@
   <aside class="col-xs-3">
     <section>
       <%= render "informacoes_usuario", usuario: @usuario %>
+      <% if signed_in? %>
+        <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @usuario, id: "flag_usuario" } %>
+      </br></br>
+      <% end %>
       <%= link_to 'Editar', edit_usuario_path(@usuario) %>
 			| <%= link_to 'Mudar Senha', { action: "edit_password", id: @usuario.id } %>
 			<% if is_admin?%>

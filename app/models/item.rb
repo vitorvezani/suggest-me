@@ -17,7 +17,6 @@ class Item < ActiveRecord::Base
   end
 
 	# Escopo para trazer registros
-	default_scope -> { order('nome_ptbr') }
 	scope :jogos,   -> { where(categoria_id: 1) }
 	scope :livros,  -> { where(categoria_id: 2) }
 	scope :musicas, -> { where(categoria_id: 3) }

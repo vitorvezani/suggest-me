@@ -9,6 +9,7 @@
   <td><%= link_to flag.usuario.get_name, flag.usuario %></td>
   <td><%= flag.created_at %></td>
   <td>
-  	<%= link_to "Excluir", flag.flagavel, method: :delete %>
+    <%= link_to "Excluir Flag", flag, method: :delete %> |
+  	<%= link_to "Excluir Item", flag.flagavel, method: :delete %>
   </td>
 </tr>

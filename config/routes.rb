@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
 
+  match '/suggestions/enviar_contato', to: 'suggestions#enviar_contato', via: 'post'
+
   #default
   match ':controller(/:action(/:id(.:format)))', via: 'get'
   
