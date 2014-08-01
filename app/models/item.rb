@@ -34,6 +34,12 @@ class Item < ActiveRecord::Base
   #-                        -
   #--------------------------
 
+  def get_url
+		# Imagem do Item
+    suckr = ImageSuckr::GoogleSuckr.new
+  	suckr.get_image_url ({"q" => self.get_name, "safe" => "active"})
+  end
+
   def before_save(record)
     if nome_en.nil? and nome_ptbr.nil?
     	record.errors.add(nome_en + " ou " + nome_ptbr, " devem estar preenchidos!")
@@ -63,19 +69,39 @@ class Item < ActiveRecord::Base
 	end
 
 	def is_film
-		return self.categoria_id == 4 ? true : false
+	  self.categoria_id == 4 ? true : false
 	end
 	
 	def is_game
-		return self.categoria_id == 1 ? true : false
+	  self.categoria_id == 1 ? true : false
 	end
 	
 	def is_music
-		return self.categoria_id == 3 ? true : false
+	  self.categoria_id == 3 ? true : false
 	end
 	
 	def is_book
-		return self.categoria_id == 2 ? true : false
+	  self.categoria_id == 2 ? true : false
+	end
+
+	def itens_mesmo_genero
+		if !self.generos.empty? then
+
+		  # Pega o Hash{id_item, qtde_aparição} e faz o sort_by para o key
+		  hash = self.generos.group("generos.id").count.sort_by {|key, value| value}.reverse
+
+		  lista_itens_parecidos = Array.new 
+
+		  hash.each do |key, value|
+		    Genero.find(key).itens.where("itens.id != ?", self.id).each do |item|
+		      lista_itens_parecidos << item
+		    end
+
+		  end
+
+		 lista_itens_parecidos.uniq.take(5)
+
+		end
 	end
 
   #-------------------------- 

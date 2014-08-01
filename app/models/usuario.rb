@@ -56,7 +56,7 @@ class Usuario < ActiveRecord::Base
       usuario.username = (auth.info.first_name + "." + auth.info.last_name).downcase
       usuario.primeiro_nome = auth.info.first_name
     	usuario.ultimo_nome = auth.info.last_name
-    	usuario.image = auth.info.image
+    	usuario.image = "http://graph.facebook.com/#{auth.uid}/picture?type=large"
     	usuario.sexo = auth.extra.raw_info.gender == "male" ? 'M' : 'F'
       usuario.oauth_token = auth.credentials.token
       usuario.oauth_expires_at = Time.at(auth.credentials.expires_at)

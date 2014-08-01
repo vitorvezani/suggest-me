@@ -17,7 +17,6 @@
     <div class="navbar-collapse collapse">
       <!-- Botões do navbar -->
       <ul class="nav navbar-nav">
-        <li <%="class=active" if current_page?(root_path) %>><%= link_to "Home", root_path %></li>
         <li <%="class=active" if current_page?(itens_path) %>><%= link_to "Top Itens!", itens_path %></li>
         <li <%="class=active" if current_page?(generos_path) %>><%= link_to "Gêneros!", generos_path %></li>
           <li class="dropdown">
@@ -32,6 +31,15 @@
       </ul>
       <!-- /Botões do navbar -->
       <ul class="nav navbar-nav navbar-right">
+        <!-- Search Box -->
+        <li>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="inner-addon right-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="text" class="form-control" height="25" width="25" />
+            </div>
+          </form>
+        <li>
         <% if signed_in? %> <!-- Está Logado -->
           <li><%= link_to "Suggest Me!", "/recomendacao" %></li>
           <li class="dropdown">

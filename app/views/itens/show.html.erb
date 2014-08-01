@@ -3,151 +3,144 @@
 <%= render "compartilhado/breadcrumb", pag: @item.get_name %>
 
 <div class="row">
+  <!-- Aside -->
   <aside class="col-md-3">
-    <section>
-      <div class="row clearfix">
-        <img alt="140x140" src=<%= @img_url %> class="img-thumbnail" />
-      <div>
-      <hr>
-      <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes_count[:positivas] %>
-        <span class="glyphicon glyphicon-thumbs-up"></span>
-      </button>
-      <button type="button" class="btn btn-danger btn-md" id="dislike"> <%= @avaliacoes_count[:negativas] %>
-        <span class="glyphicon glyphicon-thumbs-down"></span>
-      </button>
-      <% if signed_in? %>
-        <%= form_for(@new_avaliacao) do |f| %>
-          <%= f.hidden_field :item_id %>
-          <%= f.hidden_field :avaliacao, id: 'hidden_tipo' %>
-          <div class="col-md-4.5 col-md-offset-8">
-            <%= f.submit "Like!", { class: "btn btn-large btn-primary", style: "display: none", id: "submit"} %>
+    <div class="row">
+      <div id="content" class="col-md-offset-1 col-md-11">
+        <section>
+          <div class="row clearfix">
+            <img size: "280x160" src=<%= @item.get_url %> class="img-thumbnail" />
+          <div>
+          <hr>
+          <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes_count[:positivas] %>
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+          </button>
+          <button type="button" class="btn btn-danger btn-md" id="dislike"> <%= @avaliacoes_count[:negativas] %>
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+          </button>
+          <% if signed_in? %>
+            <%= form_for(@new_avaliacao) do |f| %>
+              <%= f.hidden_field :item_id %>
+              <%= f.hidden_field :avaliacao, id: 'hidden_tipo' %>
+              <div class="col-md-4.5 col-md-offset-8">
+                <%= f.submit "Like!", { class: "btn btn-large btn-primary", style: "display: none", id: "submit"} %>
+              </div>
+            <% end %>
+          <% end %>
+          <hr>
+          <label>Categoria:</label> <%= link_to @item.categoria.descricao, categoria_path(@item.categoria) %> </br>
+    			<label>Nome: </label> <%= @item.try(:nome_ptbr) %> </br>
+          <small><label>Inglês: </label> <%= @item.try(:nome_en) %></small> </br>
+    			<label>Descrição: </label> <%= @item.descricao %> </br>
+          <label>Gêneros: </label> 
+            <% unless @item.generos.empty? %>
+              <% @item.generos.group("generos.id").each do |genero| %>
+                <%= link_to genero.nome, genero_path(genero) %> 
+              <% end %>
+            <% end %>
+          <% if signed_in? %>
+            <!-- Button trigger modal Generos-->
+            <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#genero">
+              Adicionar Tags
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="genero" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"> <%= @item.get_name %></h4>
+                  </div>
+                  <%= form_for(@new_genero) do |f| %>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <%= f.hidden_field :item_id %>
+                        <%= f.label :genero_id, "Genero" %>
+                        <%= f.collection_select(:genero_id, Genero.order(:nome), :id, :nome, class: "form-control" ) %>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <%= link_to "Criar novo Genero", new_genero_path%>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                      <button type="submit" name= "commit" class="btn btn-primary">Salvar</button>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            </br></br>
+            <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } %>
+          <% end %>
+          </br></br>
+          <%= link_to 'Voltar', itens_path %> |
+          <% if signed_in? %>
+            <%= link_to 'Editar', edit_item_path(@item) %> |
+          <% end %>
+          <% if is_admin?%>
+            <%= link_to 'Excluir', item_path(@item), method: :delete %> |
+          <% end %>
+    			<hr>
+        </section>
+      </div>
+    </div>
+  </aside>
+  <!-- Content -->
+    <div class="col-md-6">
+      <div class="row">
+        <div id="content" class="col-md-offset-1 col-md-11 content content">
+        <% if signed_in? %>
+            <%= form_for(@new_comentario) do |f| %>
+              <%= render 'compartilhado/mensagens_erro', object: f.object %>
+              <%= f.hidden_field :item_id %>
+              <div class="field">
+                <%= f.text_area :comentario, placeholder: "Escreva seu Comentario...", rows: "4" %>
+              </div>
+              <div class="col-md-4.5 col-md-offset-8">
+                <%= f.submit "Comentar!", class: "btn btn-large btn-primary" %>
+              </div>
+            <% end %>
+        <% else %>
+          <div class="well">
+            <small>Deixe um comentário. <%= link_to "Faça login no SuggestMe", signin_path %> ou <%= link_to "registre-se.", signup_path %>
+            </small>
           </div>
         <% end %>
-      <% end %>
-      <hr>
-      <label>Categoria:</label> <%= link_to @item.categoria.descricao, categoria_path(@item.categoria) %> </br>
-			<label>Nome: </label> <%= @item.try(:nome_ptbr) %> </br>
-      <small><label>Inglês: </label> <%= @item.try(:nome_en) %></small> </br>
-			<label>Descrição: </label> <%= @item.descricao %> </br>
-      <label>Gêneros: </label> 
-        <% unless @item.generos.empty? %>
-          <% @item.generos.group("generos.id").each do |genero| %>
-            <%= link_to genero.nome, genero_path(genero) %> 
-          <% end %>
-        <% end %>
-      <% if signed_in? %>
-        <!-- Button trigger modal Generos-->
-        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#genero">
-          Adicionar Tags
-        </button>
-        <!-- Modal -->
-        <div class="modal fade" id="genero" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel"> <%= @item.get_name %></h4>
-              </div>
-              <%= form_for(@new_genero) do |f| %>
-                <div class="modal-body">
-                  <div class="form-group">
-                    <%= f.hidden_field :item_id %>
-                    <%= f.label :genero_id, "Genero" %>
-                    <%= f.collection_select(:genero_id, Genero.order(:nome), :id, :nome, class: "form-control" ) %>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <%= link_to "Criar novo Genero", new_genero_path%>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                  <button type="submit" name= "commit" class="btn btn-primary">Salvar</button>
-                </div>
-              <% end %>
-            </div>
+        <hr>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#comentario" data-toggle="tab">Comentários <span class="badge"><%= @comentarios.count %></span></a></li>
+          <li><a href="#avaliacao" data-toggle="tab">Avaliações <span class="badge"><%= @avaliacoes.count %></span></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="comentario">
+            <%= render "comentarios/todos_comentarios", comentarios: @comentarios %>
+          </div>
+          <div class="tab-pane" id="avaliacao">
+            <%= render "avaliacoes", avaliacoes: @avaliacoes %>
           </div>
         </div>
-        </br></br>
-        <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } %>
-      <% end %>
-      </br></br>
-      <%= link_to 'Voltar', itens_path %> |
-      <% if signed_in? %>
-        <%= link_to 'Editar', edit_item_path(@item) %> |
-      <% end %>
-      <% if is_admin?%>
-        <%= link_to 'Excluir', item_path(@item), method: :delete %> |
-      <% end %>
-			<hr>
-    </section>
-  </aside>
-	<div class="col-md-5 col-md-offset-1">
-    <% if signed_in? %>
-      <div class="row">
-        <%= form_for(@new_comentario) do |f| %>
-          <%= render 'compartilhado/mensagens_erro', object: f.object %>
-          <%= f.hidden_field :item_id %>
-          <div class="field">
-            <%= f.text_area :comentario, placeholder: "Escreva seu Comentario...", rows: "4" %>
-          </div>
-          <div class="col-md-4.5 col-md-offset-8">
-            <%= f.submit "Comentar!", class: "btn btn-large btn-primary" %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="well">
-        <small>Deixe um comentário. <%= link_to "Faça login no SuggestMe", signin_path %> ou <%= link_to "registre-se.", signup_path %>
-        </small>
-      </div>
-    <% end %>
-    <hr>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#comentario" data-toggle="tab">Comentários <span class="badge"><%= @comentarios.count %></span></a></li>
-      <li><a href="#avaliacao" data-toggle="tab">Avaliações <span class="badge"><%= @avaliacoes.count %></span></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div class="tab-pane active" id="comentario">
-        <%= render "comentarios/todos_comentarios", comentarios: @comentarios %>
-      </div>
-      <div class="tab-pane" id="avaliacao">
-        <%= render "avaliacoes", avaliacoes: @avaliacoes %>
       </div>
     </div>
   </div>
-  <!--
-  <div class="col-md-2 col-md-offset-1">
-    <h4>Artistas Parecidos</h4>
-      <a href="#" class="thumbnail">
-          <img src=<%= @img_url %> alt="100x100">
-          <div class="caption">
-            <h6>Hardcore Superstar</h6>
-          </div>
-      </a>
-      <a href="#" class="thumbnail">
-          <img src=<%= @img_url %> alt="100x100">
-          <div class="caption">
-            <h6>Hardcore Superstar</h6>
-          </div>
-      </a>
-      <a href="#" class="thumbnail">
-          <img src=<%= @img_url %> alt="100x100">
-          <div class="caption">
-            <h6>Hardcore Superstar</h6>
-          </div>
-      </a>
-      <a href="#" class="thumbnail">
-          <img src=<%= @img_url %> alt="100x100">
-          <div class="caption">
-            <h6>Hardcore Superstar</h6>
-          </div>
-      </a>
-      <a href="#" class="thumbnail">
-          <img src=<%= @img_url %> alt="100x100">
-          <div class="caption">
-            <h6>Hardcore Superstar</h6>
-          </div>
-      </a>
+  <!-- Artistas Parecidos -->
+  <div class="col-md-3">
+    <div class="row">
+      <div id="content" class="col-md-offset-3 col-md-9 content content">
+        <% unless @itens_mesmo_genero.blank? %>
+          <h4>Artistas Parecidos</h4>
+          <% @itens_mesmo_genero.each do |item| %>
+            <%= link_to( image_tag( item.get_url, { class: "img-thumbnail", size: "180x100" }), item_path(item)) %>
+            <div class="caption">
+              <h6>
+                <%= link_to item.get_name, item_path(item) %>
+                </small><%= link_to " (" + item.categoria.descricao + ")", categoria_path(item.categoria) %></small>
+              </h6>
+            </div>
+          <hr />
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
-  -->
 </div>
