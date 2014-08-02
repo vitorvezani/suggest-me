@@ -2,6 +2,7 @@ class Usuario < ActiveRecord::Base
 	
 	before_validation :strip_spaces
 	before_create :criar_remember_token
+  before_create :get_gravatar_img_src
 
 	validates_presence_of :password, message: "deve estar preenchido", :on => :create
 
@@ -168,35 +169,6 @@ class Usuario < ActiveRecord::Base
     self.relacoes.find_by(seguidor_id: self.id, seguido_id: usuario.id).destroy
   end
 
-  def prediction_for(item)
-    hive_mind_sum = 0.0
-    rated_by = item.liked_by.size + item.disliked_by.size
-
-    item.liked_by.each { |u| hive_mind_sum += self.similaridade_com(u) }
-    item.disliked_by.each { |u| hive_mind_sum -= self.similaridade_com(u) }
-
-    puts("Hived_mind_sum: " + hive_mind_sum.to_s + "- Rated_by:" + rated_by.to_s)
-
-    return -1.0 if rated_by.zero?
-
-    return hive_mind_sum / rated_by.to_f
-
-  end
-
-  def similaridade_com(user)
-    # Array is the set intersection operator.
-    agreements = (self.likes & user.likes).size
-    agreements += (self.dislikes & user.dislikes).size
-
-    disagreements = (self.likes & user.dislikes).size
-    disagreements += (self.dislikes & user.likes).size
-
-    # Array#| is the set union operator
-    total = (self.likes + self.dislikes) | (user.likes + user.dislikes)
-
-    return (agreements - disagreements) / total.size.to_f
-  end
-
   # Retorna o numero de Likes
   def likes
     self.avaliacoes.where( avaliacao: true )
@@ -223,6 +195,21 @@ class Usuario < ActiveRecord::Base
 		def criar_remember_token
 	  	self.remember_token = Usuario.digest( Usuario.novo_remember_token )
 		end
+
+    # Pega URL da Imagem do Gravatar
+    def get_gravatar_img_src
+      # Não usa facebook
+      if self.uid.nil? then
+        # include MD5 gem, should be part of standard ruby install
+        require 'digest/md5'
+
+        # create the md5 hash
+        hash = Digest::MD5.hexdigest(self.email.downcase)
+         
+        # compile URL which can be used in <img src="RIGHT_HERE"...
+        self.image = "http://www.gravatar.com/avatar/#{hash}"
+      end
+    end
 
 		# Retirar Espaços
 		def strip_spaces

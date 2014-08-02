@@ -31,16 +31,25 @@
             <div class="panel panel-default">
               <div class="panel-heading"><h1><span class ="glyphicon glyphicon-film"></span> Filmes</h1></div>
               <div class="panel-body">
+                <% @count = 1 %>
                 <% @filmes.each do |filme| %>
+                  <% if @count % 3 == 0 %>
+                    <div class="row">
+                  <% end %>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class= "thumbnail align-center">
                       <div class = "caption">
-                        <h2><%= filme.nome_ptbr %></h2>
-                        <p><%= truncate(filme.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                        <h3><%= filme.nome_ptbr %></h3>
+                        <p><%= truncate(filme.descricao,{ :length => 30, omission: '...' }) %></p>
                         <p><%= link_to "Veja Mais", item_path(filme) %> &raquo;</p>
                       </div>
                     </div>
                   </div>
+                  <% if @count % 3 == 0 %>
+                    </div>
+                    <hr>
+                  <% end %>
+                  <% @count = @count + 1 %>
                 <% end %>
               </div>
             </div>
@@ -52,16 +61,25 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h1><span class ="glyphicon glyphicon-music"></span> Musicas</h1></div>
                 <div class="panel-body">
+                  <% @count = 1 %>
                   <% @musicas.each do |musica| %>
+                    <% if @count % 3 == 0 %>
+                      <div class="row">
+                    <% end %>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                       <div class= "thumbnail align-center">
                         <div class = "caption">
-                          <h2><%= musica.nome_ptbr %></h2>
-                          <p><%= truncate(musica.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                          <p><%=link_to "Veja Mais", item_path(musica) %> &raquo;</p>
+                          <h3><%= musica.nome_ptbr %></h3>
+                          <p><%= truncate(musica.descricao,{ :length => 30, omission: '...' }) %></p>
+                          <p><%= link_to "Veja Mais", item_path(musica) %> &raquo;</p>
                         </div>
                       </div>
                     </div>
+                    <% if @count % 3 == 0 %>
+                      </div>
+                      <hr>
+                    <% end %>
+                    <% @count = @count + 1 %>
                   <% end %>
                 </div>
               </div>
@@ -73,16 +91,25 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h1><span class ="glyphicon glyphicon-tower"></span> Jogos</h1></div>
                 <div class="panel-body">
+                  <% @count = 1 %>
                   <% @jogos.each do |jogo| %>
+                    <% if @count % 3 == 0 %>
+                      <div class="row">
+                    <% end %>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                       <div class= "thumbnail align-center">
                         <div class = "caption">
-                          <h2><%= jogo.nome_ptbr %></h2>
-                          <p><%= truncate(jogo.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
-                          <p><%= link_to "Veja Mais", item_path(jogo) %>&raquo;</p>
+                          <h3><%= jogo.nome_ptbr %></h3>
+                          <p><%= truncate(jogo.descricao,{ :length => 30, omission: '...' }) %></p>
+                          <p><%= link_to "Veja Mais", item_path(jogo) %> &raquo;</p>
                         </div>
                       </div>
                     </div>
+                    <% if @count % 3 == 0 %>
+                      </div>
+                      <hr>
+                    <% end %>
+                    <% @count = @count + 1 %>
                   <% end %>
                 </div>
               </div>
@@ -94,17 +121,26 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h1><span class ="glyphicon glyphicon-book"></span> Livros</h1></div>
                 <div class="panel-body">
+                  <% @count = 1 %>
                   <% @livros.each do |livro| %>
+                    <% if @count % 3 == 0 %>
+                      <div class="row">
+                    <% end %>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                       <div class= "thumbnail align-center">
                         <div class = "caption">
-                          <h2><%= livro.nome_ptbr %></h2>
-                          <p><%= truncate(livro.descricao,{ :length => 50, omission: '... (continua)' }) %></p>
+                          <h3><%= livro.nome_ptbr %></h3>
+                          <p><%= truncate(livro.descricao,{ :length => 30, omission: '...' }) %></p>
                           <p><%= link_to "Veja Mais", item_path(livro) %> &raquo;</p>
                         </div>
                       </div>
                     </div>
-                  <%end%>
+                    <% if @count % 3 == 0 %>
+                      </div>
+                      <hr>
+                    <% end %>
+                    <% @count = @count + 1 %>
+                  <% end %>
                 </div>
               </div>
             </div>

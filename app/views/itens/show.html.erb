@@ -2,6 +2,7 @@
 
 <%= render "compartilhado/breadcrumb", pag: @item.get_name %>
 
+<!-- Row Principal -->
 <div class="row">
   <!-- Aside -->
   <aside class="col-md-3">
@@ -128,13 +129,12 @@
     <div class="row">
       <div id="content" class="col-md-offset-3 col-md-9 content content">
         <% unless @itens_mesmo_genero.blank? %>
-          <h4>Artistas Parecidos</h4>
+          <h4><%= formata_str_parecidos(@item)%> Parecidos</h4>
           <% @itens_mesmo_genero.each do |item| %>
             <%= link_to( image_tag( item.get_url, { class: "img-thumbnail", size: "180x100" }), item_path(item)) %>
             <div class="caption">
               <h6>
                 <%= link_to item.get_name, item_path(item) %>
-                </small><%= link_to " (" + item.categoria.descricao + ")", categoria_path(item.categoria) %></small>
               </h6>
             </div>
           <hr />
@@ -142,5 +142,24 @@
         <% end %>
       </div>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <hr>
+    <h4>Quem gosta de <%= @item.get_name %> também gosta de:<h4>
+    <% 4.times do %>
+      <div class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+          <img data-src="holder.js/300x300" alt="...">
+          <div class="caption">
+            <h3>Thumbnail label</h3>
+            <p>...</p>
+            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <hr>
   </div>
 </div>

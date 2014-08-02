@@ -93,13 +93,14 @@ class Item < ActiveRecord::Base
 		  lista_itens_parecidos = Array.new 
 
 		  hash.each do |key, value|
-		    Genero.find(key).itens.where("itens.id != ?", self.id).each do |item|
+		  	itens_mesmo_genero_categoria = Genero.find(key).itens.where("itens.id != ? and categoria_id = ?", self.id, self.categoria_id)
+		    itens_mesmo_genero_categoria.each do |item|
 		      lista_itens_parecidos << item
+		      break if lista_itens_parecidos.uniq.length > 20
 		    end
-
 		  end
 
-		 lista_itens_parecidos.uniq.take(5)
+		 lista_itens_parecidos.uniq.shuffle.take(5)
 
 		end
 	end
