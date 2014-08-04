@@ -33,12 +33,12 @@
       <ul class="nav navbar-nav navbar-right">
         <!-- Search Box -->
         <li>
-          <form class="navbar-form navbar-right" role="search">
+          <%= form_tag("search", { method: "get", class: "navbar-form navbar-right", role: "search" }) do %>
             <div class="inner-addon right-addon">
                 <i class="glyphicon glyphicon-search"></i>
-                <input type="text" class="form-control" height="25" width="25" />
+                <%= text_field_tag :q, nil, { class: "form-control", height:"15", width:"15" } %>
             </div>
-          </form>
+          <% end %>
         <li>
         <% if signed_in? %> <!-- Está Logado -->
           <li><%= link_to "Suggest Me!", "/recomendacao" %></li>

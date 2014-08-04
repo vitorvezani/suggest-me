@@ -51,23 +51,19 @@ class Usuario < ActiveRecord::Base
 
   def Usuario.from_omniauth(auth)
 		where(auth.slice(:provider, :uid)).first_or_initialize.tap do |usuario|
-      usuario.provider = auth.provider
-      usuario.uid = auth.uid
-      usuario.email ||= auth.info.email
-      usuario.username = (auth.info.first_name + "." + auth.info.last_name).downcase
-      usuario.primeiro_nome = auth.info.first_name
-    	usuario.ultimo_nome = auth.info.last_name
-    	usuario.image = "http://graph.facebook.com/#{auth.uid}/picture?type=large"
-    	usuario.sexo = auth.extra.raw_info.gender == "male" ? 'M' : 'F'
-      usuario.oauth_token = auth.credentials.token
+      usuario.provider         = auth.provider
+      usuario.uid              = auth.uid
+      usuario.email           ||= auth.info.email
+      usuario.username         = (auth.info.first_name + "." + auth.info.last_name).downcase
+      usuario.primeiro_nome    = auth.info.first_name
+    	usuario.ultimo_nome      = auth.info.last_name
+    	usuario.image            = "http://graph.facebook.com/#{auth.uid}/picture?type=large"
+    	usuario.sexo             = auth.extra.raw_info.gender == "male" ? 'M' : 'F'
+      usuario.oauth_token      = auth.credentials.token
       usuario.oauth_expires_at = Time.at(auth.credentials.expires_at)
       usuario.save(perform_validation: false)
       return usuario
 	  end
-  end
-
-  def Usuario.no_pic_url
-    "http://ieee-sb.ca/sites/default/files/default_user.jpg"
   end
 
   def Usuario.update_descricao
@@ -123,13 +119,22 @@ class Usuario < ActiveRecord::Base
   #-                        -
   #--------------------------
 
+  def get_recommendations()
+
+    itens = (Item.all - self.itens) # Todos os itens menos os itens do usuário
+
+    recommendations = Hash.new
+    itens.each do |item|
+      recommendations[item.id] = predicao_para(item)
+    end
+    return recommendations
+  end
+
   def facebook_update
 
-    puts  "In second thread 2"
 
     lista_final = Array.new
     @graph = Koala::Facebook::API.new( self.oauth_token )
-
     start_t = Time.now
 
     #@fb_user = @graph.get_objects( self.uid )
@@ -150,7 +155,7 @@ class Usuario < ActiveRecord::Base
   end
 
   def get_image
-    self.image || Usuario.no_pic_url
+    self.image || no_pic_url()
   end
 
   def get_name
@@ -190,6 +195,39 @@ class Usuario < ActiveRecord::Base
   #--------------------------
   
 	private
+
+    def predicao_para(item)
+      hive_mind_sum = 0.0
+      rated_by = item.liked_by.size + item.disliked_by.size
+
+      item.liked_by.each { |user| hive_mind_sum += similaridade_com(user) }
+      item.disliked_by.each { |user| hive_mind_sum -= similaridade_com(user) }
+
+      puts("Hived_mind_sum: " + hive_mind_sum.to_s + "- Rated_by:" + rated_by.to_s)
+
+      return -1.0 if rated_by.zero?
+
+      return hive_mind_sum / rated_by.to_f
+
+    end
+
+    def similaridade_com(user)
+      # Array is the set intersection operator.
+      agreements = (self.likes & user.likes).size
+      agreements += (self.dislikes & user.dislikes).size
+
+      disagreements = (self.likes & user.dislikes).size
+      disagreements += (self.dislikes & user.likes).size
+
+      # Array#| is the set union operator
+      total = (self.likes + self.dislikes) | (user.likes + user.dislikes)
+
+      return (agreements - disagreements) / total.size.to_f
+    end
+
+    def no_pic_url
+      "http://ieee-sb.ca/sites/default/files/default_user.jpg"
+    end
 
 		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar
 		def criar_remember_token

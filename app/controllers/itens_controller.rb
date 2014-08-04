@@ -48,22 +48,19 @@ class ItensController < ApplicationController
   # GET /itens/
   def recomendacao
     # Numero de avaliações feitas pelo usuário logado
-    @num_avaliacoes = current_user.num_avaliacoes
+    @num_avaliacoes = current_user.num_avaliacoes()
     @count = 1
 
-    itens = (Item.all - current_user.itens)
+    recomendations = current_user.get_recommendations()
 
-    notas = get_notas(itens)
-
-    notas = notas.sort_by { |item_id, nota| nota }.reverse.take 50
+    recomendations = recomendations.sort_by { |item_id, nota| nota }.reverse.take 50
 
     @jogos = Array.new
     @livros = Array.new 
     @musicas = Array.new 
     @filmes = Array.new
 
-    @itens_recomendados = Array.new
-    notas.each do |hash|
+    recomendations.each do |hash|
       item = Item.find(hash[0])
 
       if item.is_book
@@ -77,10 +74,10 @@ class ItensController < ApplicationController
       end
     end
 
-    @livros = @livros.take(12).shuffle
-    @filmes = @filmes.take(12).shuffle
-    @jogos = @jogos.take(12).shuffle
-    @musicas = @musicas.take(12).shuffle
+    @livros = @livros.take(12)
+    @filmes = @filmes.take(12)
+    @jogos = @jogos.take(12)
+    @musicas = @musicas.take(12)
 
   end
 
@@ -178,41 +175,4 @@ class ItensController < ApplicationController
     #- Algoritmo de Recomendação   -
     #-                             -
     #-------------------------------
-
-    def get_notas(itens)
-      notas = Hash.new
-      itens.each do |item|
-        notas[item.id] = predicao_para(item)
-      end
-      return notas
-    end
-
-    def predicao_para(item)
-      hive_mind_sum = 0.0
-      rated_by = item.liked_by.size + item.disliked_by.size
-
-      item.liked_by.each { |user| hive_mind_sum += similaridade_com(user) }
-      item.disliked_by.each { |user| hive_mind_sum -= similaridade_com(user) }
-
-      puts("Hived_mind_sum: " + hive_mind_sum.to_s + "- Rated_by:" + rated_by.to_s)
-
-      return -1.0 if rated_by.zero?
-
-      return hive_mind_sum / rated_by.to_f
-
-    end
-
-    def similaridade_com(user)
-      # Array is the set intersection operator.
-      agreements = (current_user.likes & user.likes).size
-      agreements += (current_user.dislikes & user.dislikes).size
-
-      disagreements = (current_user.likes & user.dislikes).size
-      disagreements += (current_user.dislikes & user.likes).size
-
-      # Array#| is the set union operator
-      total = (current_user.likes + current_user.dislikes) | (user.likes + user.dislikes)
-
-      return (agreements - disagreements) / total.size.to_f
-    end
 end
