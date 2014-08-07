@@ -46,7 +46,7 @@ ruby '2.0.0'
 # Productions Gems
 group :production do
   # Use unicorn as the app server
-	# gem 'unicorn'
+  # gem 'unicorn'
 end
 
 group :development do

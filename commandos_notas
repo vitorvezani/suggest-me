@@ -1,0 +1,28 @@
+####################################
+# Installing Ruby On Rails & MySql #
+####################################
+
+https://gorails.com/setup/ubuntu/14.04
+
+##################
+# Mysql Commands #
+##################
+
+mysql -u root -h localhost -p // Login
+
+create database suggest_me_development // Criar a base
+
+show databases; // Mostrar as bases
+
+use suggest_me_development; // Usar as bases
+
+show tables; // Mostrar as Tabelas
+
+Ubuntu database file: /var/lib/mysql/mysql.sock
+MacOS database file: /tmp/mysql.sock
+
+#########################
+#      SUNSPOT SOLR     #
+#########################
+
+bundle exec rake sunspot:solr:start

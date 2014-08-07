@@ -33,10 +33,10 @@
       <ul class="nav navbar-nav navbar-right">
         <!-- Search Box -->
         <li>
-          <%= form_tag("search", { method: "get", class: "navbar-form navbar-right", role: "search" }) do %>
+          <%= form_tag( { controller: "itens", action: "search"}, method: "get", class: "navbar-form navbar-right") do %>
             <div class="inner-addon right-addon">
                 <i class="glyphicon glyphicon-search"></i>
-                <%= text_field_tag :q, nil, { class: "form-control", height:"15", width:"15" } %>
+                <%= text_field_tag(:q, nil, class: "form-control", height:"15", width:"15") %>
             </div>
           <% end %>
         <li>
