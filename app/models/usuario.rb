@@ -131,12 +131,20 @@ class Usuario < ActiveRecord::Base
 
   # Retorna o numero de Likes
   def likes
-    self.avaliacoes.where( avaliacao: true )
+    itens = Array.new
+    self.avaliacoes.where( avaliacao: true ).each do |avaliacao|
+      itens << Item.find(avaliacao.item_id)
+    end
+    return itens
   end
 
   # Retorna o numero de Dislikes
   def dislikes
-    self.avaliacoes.where( avaliacao: false )
+    itens = Array.new
+    self.avaliacoes.where( avaliacao: false ).each do |avaliacao|
+      itens << Item.find(avaliacao.item_id)
+    end
+    return itens
   end
   
   #----------------------------- 
@@ -146,15 +154,20 @@ class Usuario < ActiveRecord::Base
   #-----------------------------
 
   def predicao_para(item)
-    hive_mind_sum = 0.0
-    rated_by = item.liked_by.size + item.disliked_by.size
+    # Soma 
+    soma = 0.0
 
-    item.liked_by.each { |user| hive_mind_sum += similaridade_com(user) }
-    item.disliked_by.each { |user| hive_mind_sum -= similaridade_com(user) }
+    # Soma total de likes e dislikes
+    rated_count = item.liked_by.size + item.disliked_by.size
 
-    return -1.0 if rated_by.zero?
+    item.liked_by.each { |user| soma += similaridade_com(user) }
+    item.disliked_by.each { |user| soma -= similaridade_com(user) }
 
-    return hive_mind_sum / rated_by.to_f
+    return -1.0 if rated_count.zero?
+
+    puts "Predicao para #{item.get_name} soma: #{soma} rated: #{rated_count}"
+
+    return soma / rated_count.to_f
 
   end
 

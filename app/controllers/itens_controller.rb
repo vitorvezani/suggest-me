@@ -50,6 +50,14 @@ class ItensController < ApplicationController
 
   # GET /itens/
   def recomendacao
+
+    start_t = Time.now
+
+    @livros = Array.new
+    @filmes = Array.new
+    @jogos = Array.new
+    @musicas = Array.new
+
     # Numero de avaliações feitas pelo usuário logado
     @num_avaliacoes = current_user.avaliacoes.size
     @count = 1
@@ -57,6 +65,8 @@ class ItensController < ApplicationController
     recommendations = current_user.get_recommendations
 
     recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 200
+
+    puts "Recomendacoes: #{recommendations.inspect}"
 
     recommendations.each do |key, value|
       
@@ -79,6 +89,9 @@ class ItensController < ApplicationController
     @filmes = @filmes.shuffle.take(12)
     @jogos = @jogos.shuffle.take(12)
     @musicas = @musicas.shuffle.take(12)
+
+    finish_t = Time.now
+    puts "Tempo para realizar todo o processo[2]: " + (finish_t - start_t).to_s + "segundos"
 
   end
 
