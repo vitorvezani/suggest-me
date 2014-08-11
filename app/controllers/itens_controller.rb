@@ -7,14 +7,15 @@ class ItensController < ApplicationController
   # GET /itens.json
   def index
     #@itens = Item.joins(:avaliacoes).group("avaliacoes.item_id").order("sum(avaliacoes.avaliacao) desc").paginate(page: params[:page], :per_page => 30)
-    @itens = Item.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    @itens = Item.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30).includes(:categoria)
     @avaliacoes = get_avaliacoes
   end
 
   # GET /itens/1
   # GET /itens/1.json
   def show
-    
+    @itens_recomendados = Array.new
+
     # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
     if signed_in?
       # Avaliacao
@@ -26,13 +27,15 @@ class ItensController < ApplicationController
     end
 
     # Atributos do item em questão
-    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 10).order(created_at: :desc)
-    @avaliacoes = @item.avaliacoes.paginate(page: params[:page], :per_page => 10).order(created_at: :desc)
+    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 15).order(created_at: :desc).includes(:usuario)
+    @avaliacoes = @item.avaliacoes.paginate(page: params[:page], :per_page => 15).order(created_at: :desc).includes(:usuario)
     @avaliacoes_count = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
     gon.usuario_logado = signed_in?
 
     @itens_mesmo_genero = @item.itens_mesmo_genero
+
+    @itens_recomendados = @item.get_itens_recomendados
 
   end
 
@@ -48,36 +51,34 @@ class ItensController < ApplicationController
   # GET /itens/
   def recomendacao
     # Numero de avaliações feitas pelo usuário logado
-    @num_avaliacoes = current_user.num_avaliacoes()
+    @num_avaliacoes = current_user.avaliacoes.size
     @count = 1
 
-    recomendations = current_user.get_recommendations()
+    recommendations = current_user.get_recommendations
 
-    recomendations = recomendations.sort_by { |item_id, nota| nota }.reverse.take 50
+    recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 200
 
-    @jogos = Array.new
-    @livros = Array.new 
-    @musicas = Array.new 
-    @filmes = Array.new
+    recommendations.each do |key, value|
+      
+      if value != -1 then
+        item = Item.find(key)
 
-    recomendations.each do |hash|
-      item = Item.find(hash[0])
-
-      if item.is_book
-        @livros << item
-      elsif item.is_film
-        @filmes << item
-      elsif item.is_game
-        @jogos << item
-      elsif item.is_music
-        @musicas << item
-      end
+        if item.is_book
+          @livros << item
+        elsif item.is_film
+          @filmes << item
+        elsif item.is_game
+          @jogos << item
+        elsif item.is_music
+          @musicas << item
+        end
+      end 
     end
 
-    @livros = @livros.take(12)
-    @filmes = @filmes.take(12)
-    @jogos = @jogos.take(12)
-    @musicas = @musicas.take(12)
+    @livros = @livros.shuffle.take(12)
+    @filmes = @filmes.shuffle.take(12)
+    @jogos = @jogos.shuffle.take(12)
+    @musicas = @musicas.shuffle.take(12)
 
   end
 
@@ -137,6 +138,7 @@ class ItensController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_item
       @item = Item.find(params[:id])
@@ -169,10 +171,4 @@ class ItensController < ApplicationController
       end
       return @avaliacoes
     end
-
-    #------------------------------- 
-    #-                             -
-    #- Algoritmo de Recomendação   -
-    #-                             -
-    #-------------------------------
 end

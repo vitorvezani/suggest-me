@@ -149,17 +149,19 @@
   <div class="col-md-12">
     <hr>
     <h4>Quem gosta de <%= @item.get_name %> também gosta de:<h4>
-    <% 4.times do %>
-      <div class="col-sm-6 col-md-3">
-        <div class="thumbnail">
-          <img data-src="holder.js/300x300" alt="...">
-          <div class="caption">
-            <h3>Thumbnail label</h3>
-            <p>...</p>
-            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+    <% unless @itens_recomendados.blank? %>
+      <% @itens_recomendados.each do |item| %>
+        <div class="col-sm-6 col-md-3">
+          <div class="thumbnail">
+            <%= link_to( image_tag( item.get_url, { class: "img-thumbnail", size: "180x100" }), item_path(item)) %>
+            <div class="caption">
+              <h3><%= item.get_name %></h3>
+              <p><small><%= truncate(item.descricao, :length => 50) %></small></p>
+              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
     <hr>
   </div>

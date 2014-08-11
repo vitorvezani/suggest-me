@@ -13,7 +13,7 @@
 		<th><%= sortable "avaliacao", "Avaliação" %></th>
 		<th><%= sortable "categoria_id", "Categoria"%></th>
 		<% if is_admin? %>
-			<th>Ações</th>
+			<th><%= sortable "acoes", "Ações" %></th>
 		<% end %>
 	</tr>
   <%= render @itens %>

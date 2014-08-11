@@ -14,7 +14,7 @@
 		<th><%= sortable "nome" %></th>
 		<th><%= sortable "descricao" %></th>
 		<% if is_admin? %>
-			<th>Ações</th>
+			<th><%= sortable "acoes", "Ações" %></th>
 		<% end %>
 	</tr>
   <%= render @generos %>

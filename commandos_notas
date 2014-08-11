@@ -25,4 +25,6 @@ MacOS database file: /tmp/mysql.sock
 #      SUNSPOT SOLR     #
 #########################
 
-bundle exec rake sunspot:solr:start
+- Ligar MySql
+- Excluir a pasta solr
+- bundle exec rake sunspot:solr:start

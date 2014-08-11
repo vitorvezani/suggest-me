@@ -25,7 +25,6 @@ class Usuario < ActiveRecord::Base
 	# Relação da Tabela
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
-  has_many :itens, through: :avaliacoes
   has_many :flags, dependent: :destroy
   # Seguidores
   has_many :relacoes, foreign_key: "seguidor_id", dependent: :destroy
@@ -33,6 +32,7 @@ class Usuario < ActiveRecord::Base
   has_many :reversa_relacoes, foreign_key: "seguido_id",
                                    class_name:  "Relacao",
                                    dependent:   :destroy
+  has_many :itens, through: :avaliacoes
   has_many :seguidores, through: :reversa_relacoes, source: :seguidor
 
   #-------------------------- 
@@ -41,15 +41,15 @@ class Usuario < ActiveRecord::Base
   #-                        -
   #--------------------------
 
-	def Usuario.novo_remember_token
+	def self.novo_remember_token
 	    SecureRandom.urlsafe_base64
 	end
 
-	def Usuario.digest(token)
+	def self.digest(token)
 	    Digest::SHA1.hexdigest(token.to_s)
 	end
 
-  def Usuario.from_omniauth(auth)
+  def self.from_omniauth(auth)
 		where(auth.slice(:provider, :uid)).first_or_initialize.tap do |usuario|
       usuario.provider         = auth.provider
       usuario.uid              = auth.uid
@@ -62,55 +62,7 @@ class Usuario < ActiveRecord::Base
       usuario.oauth_token      = auth.credentials.token
       usuario.oauth_expires_at = Time.at(auth.credentials.expires_at)
       usuario.save(perform_validation: false)
-      return usuario
 	  end
-  end
-
-  def Usuario.update_descricao
-    require 'rubygems'
-    require 'nokogiri'
-    require 'open-uri'
-    require 'uri'
-
-    itens = Item.all
-    itens.each do |item| 
-
-      begin 
-
-        texto = String.new
-        product = String.new
-
-        product = item.nome_ptbr.split.map{ |x| x.capitalize }.join('_')
-
-        page = Nokogiri::HTML(open("http://pt.wikipedia.org/wiki/" + product ))
-
-        for i in (0..3)
-          if page.css('div#mw-content-text p')[i]
-
-            info = page.css('div#mw-content-text p')[i].text
-
-            texto += info
-
-          end
-        end
-
-        if !texto.include? "podem referir-se a"
-          if item.descricao.nil?
-            # Faz o update dos atributos
-            item.update_attribute("descricao", texto)
-          end
-        end
-
-      rescue OpenURI::HTTPError => e
-
-        if e.message == '404 Not Found'
-          nil
-        end
-
-      end
-
-    end
-
   end
 
   #-------------------------- 
@@ -119,15 +71,18 @@ class Usuario < ActiveRecord::Base
   #-                        -
   #--------------------------
 
-  def get_recommendations()
+  def get_recommendations
 
     itens = (Item.all - self.itens) # Todos os itens menos os itens do usuário
 
     recommendations = Hash.new
+
     itens.each do |item|
       recommendations[item.id] = predicao_para(item)
     end
-    return recommendations
+    
+    recommendations
+
   end
 
   def facebook_update
@@ -183,9 +138,45 @@ class Usuario < ActiveRecord::Base
   def dislikes
     self.avaliacoes.where( avaliacao: false )
   end
+  
+  #----------------------------- 
+  #-                           -
+  #- Algoritmo de Recomendação -
+  #-                           -
+  #-----------------------------
 
-  def num_avaliacoes
-    return self.avaliacoes.size
+  def predicao_para(item)
+    hive_mind_sum = 0.0
+    rated_by = item.liked_by.size + item.disliked_by.size
+
+    item.liked_by.each { |user| hive_mind_sum += similaridade_com(user) }
+    item.disliked_by.each { |user| hive_mind_sum -= similaridade_com(user) }
+
+    return -1.0 if rated_by.zero?
+
+    return hive_mind_sum / rated_by.to_f
+
+  end
+
+  def similaridade_com(user)
+    
+    # '& é o operador de intersecção.
+    agreements = (self.likes & user.likes).size
+    agreements += (self.dislikes & user.dislikes).size
+
+    puts "Agreements: " + agreements.to_s
+
+    disagreements = (self.likes & user.dislikes).size
+    disagreements += (self.dislikes & user.likes).size
+
+    puts "Disagreements: " + disagreements.to_s
+
+    # '|' é o operador de união
+    total = (self.likes + self.dislikes) | (user.likes + user.dislikes)
+
+    puts "Total: " + total.size.to_s
+
+    return (agreements - disagreements) / total.size.to_f
   end
 
   #-------------------------- 
@@ -193,37 +184,8 @@ class Usuario < ActiveRecord::Base
   #-    Métodos Privados    -
   #-                        -
   #--------------------------
-  
-	private
 
-    def predicao_para(item)
-      hive_mind_sum = 0.0
-      rated_by = item.liked_by.size + item.disliked_by.size
-
-      item.liked_by.each { |user| hive_mind_sum += similaridade_com(user) }
-      item.disliked_by.each { |user| hive_mind_sum -= similaridade_com(user) }
-
-      puts("Hived_mind_sum: " + hive_mind_sum.to_s + "- Rated_by:" + rated_by.to_s)
-
-      return -1.0 if rated_by.zero?
-
-      return hive_mind_sum / rated_by.to_f
-
-    end
-
-    def similaridade_com(user)
-      # Array is the set intersection operator.
-      agreements = (self.likes & user.likes).size
-      agreements += (self.dislikes & user.dislikes).size
-
-      disagreements = (self.likes & user.dislikes).size
-      disagreements += (self.dislikes & user.likes).size
-
-      # Array#| is the set union operator
-      total = (self.likes + self.dislikes) | (user.likes + user.dislikes)
-
-      return (agreements - disagreements) / total.size.to_f
-    end
+  private
 
     def no_pic_url
       "http://ieee-sb.ca/sites/default/files/default_user.jpg"

@@ -4,10 +4,10 @@ class Item < ActiveRecord::Base
 	
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
-  has_many :usuarios, through: :avaliacoes
 	has_many :flags, as: :flagavel, dependent: :destroy
 	
 	has_many :generalizacoes, dependent: :destroy
+	has_many :usuarios, through: :avaliacoes
 	has_many :generos, through: :generalizacoes
 	belongs_to :categoria
 
@@ -85,12 +85,12 @@ class Item < ActiveRecord::Base
 	end
 
 	def itens_mesmo_genero
+		lista_itens_parecidos = Array.new 
+
 		if !self.generos.empty? then
 
 		  # Pega o Hash{id_item, qtde_aparição} e faz o sort_by para o key
 		  hash = self.generos.group("generos.id").count.sort_by {|key, value| value}.reverse
-
-		  lista_itens_parecidos = Array.new 
 
 		  hash.each do |key, value|
 		  	itens_mesmo_genero_categoria = Genero.find(key).itens.where("itens.id != ? and categoria_id = ?", self.id, self.categoria_id)
@@ -100,10 +100,36 @@ class Item < ActiveRecord::Base
 		    end
 		  end
 
-		 lista_itens_parecidos.uniq.shuffle.take(5)
+		 return lista_itens_parecidos.uniq.shuffle.take(5)
 
-		end
+    end
+
 	end
+
+  def get_itens_recomendados
+
+  	itens_recomendados = Array.new
+
+  	# Pega o usuário
+    user_base = self.usuarios.includes(:itens).shuffle.first
+
+      if !user_base.nil?
+
+      recommendations = user_base.get_recommendations
+
+      recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 4
+
+  		puts "itens recomendados: " + recommendations.inspect
+
+      recommendations.each do |key, value|
+        itens_recomendados << Item.find(key)
+      end
+
+  	end
+
+    return itens_recomendados
+
+  end
 
   #-------------------------- 
   #-                        -

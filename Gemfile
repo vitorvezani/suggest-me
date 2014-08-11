@@ -22,6 +22,8 @@ ruby '2.0.0'
  gem 'will_paginate'
 # Bootstrap Paginator
  gem 'will_paginate-bootstrap'
+# Bullet
+ gem 'bullet'
 # Login with Facebook
  gem 'omniauth-facebook'
 # Awesome Font

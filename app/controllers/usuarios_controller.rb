@@ -22,7 +22,7 @@ class UsuariosController < ApplicationController
   # GET /usuarios/1
   # GET /usuarios/1.json
   def show
-    @avaliacoes = @usuario.avaliacoes.paginate(page: params[:page], :per_page => 15)
+    @avaliacoes = @usuario.avaliacoes.paginate(page: params[:page], :per_page => 15).includes(:item)
     @comentarios = @usuario.comentarios.paginate(page: params[:page], :per_page => 15)
     @seguindo = @usuario.seguindo.paginate(page: params[:page], :per_page => 15)
     @seguidores = @usuario.seguidores.paginate(page: params[:page], :per_page => 15)

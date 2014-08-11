@@ -12,7 +12,7 @@
 		<th><%= sortable "created_at", "Criado em:" %></th>
 		<th><%= sortable "updated_at", "Modificado em:" %></th>
 		<% if is_admin? %>
-			<th>Ações</th>
+			<th><%= sortable "acoes", "Ações" %></th>
 		<% end %>
 	</tr>
   <%= render @usuarios %>

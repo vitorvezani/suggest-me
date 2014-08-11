@@ -2,14 +2,26 @@ module ItensHelper
 
 	def formata_str_parecidos(item)
 		if item.is_film
-			return "Filmes"
+			"Filmes"
 		elsif item.is_game
-			return "Jogos"
+			"Jogos"
 		elsif item.is_music
-			return "Artistas"
+			"Artistas"
 		elsif item.is_book
-			return "Livros"
+			"Livros"
 		end
 	end
 
+	def get_label_type(item)
+
+		if item.categoria_id == 1
+      "label label-primary"
+    elsif item.categoria_id == 2
+      "label label-success"
+    elsif item.categoria_id == 3
+      "label label-info"
+    elsif item.categoria_id == 4
+      "label label-warning"
+    end
+	end
 end
