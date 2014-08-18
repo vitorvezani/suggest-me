@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707004408) do
+ActiveRecord::Schema.define(version: 20140815224528) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20140707004408) do
   end
 
   add_index "generalizacoes", ["genero_id"], name: "index_generalizacoes_on_genero_id", using: :btree
+  add_index "generalizacoes", ["item_id", "genero_id"], name: "index_generalizacoes_on_item_id_and_genero_id", using: :btree
   add_index "generalizacoes", ["item_id"], name: "index_generalizacoes_on_item_id", using: :btree
 
   create_table "generos", force: true do |t|

@@ -5,3 +5,54 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+pg = Random.new(50)
+
+2000.times do |i|
+	name = Faker::Name.first_name
+	pass = Faker::Internet.password(8)
+  Usuario.create( primeiro_nome: name,
+							    ultimo_nome: Faker::Name.last_name,
+							    username: Faker::Internet.user_name(name),
+							    dt_aniversario: pg.rand(10...50).years.ago,
+							    sexo: ['S', 'N'].shuffle.first,
+							    email: Faker::Internet.email,
+							    password_digest: nil,
+							    password: pass,
+							    password_confirmation: pass, 
+							    admin: false,
+							    remember_token: nil,
+							    provider: nil,
+							    uid: nil,
+							    oauth_token: nil,
+							    oauth_expires_at: nil,
+							    image: nil)
+end
+
+item_all = Item.all.count
+user_all = Usuario.all.count
+pg = Random.new(item_all)
+pg1 = Random.new(user_all)
+
+6000.times do |i|
+	begin
+	  Avaliacao.create( item_id: pg.rand(0...item_all),
+											usuario_id: pg1.rand(0...user_all),
+											avaliacao: [true, true, true, false].shuffle.first )
+	rescue Exception => e
+	end
+end
+
+item_all = Item.all.count
+genero_all = Genero.all.count
+pg = Random.new(item_all)
+gg = Random.new(genero_all)
+
+4000.times do |i|
+	begin
+	  Generalizacao.create( item_id: pg.rand(0...item_all),
+													genero_id: gg.rand(0...genero_all))
+	rescue Exception => e
+	end
+end
+

@@ -4,7 +4,7 @@ class CategoriasController < ApplicationController
   # GET /categorias/1
   # GET /categorias/1.json
   def show
-    @itens = @categoria.itens.paginate(page: params[:page], :per_page => 30)
+    @itens = @categoria.itens.paginate(page: params[:page], :per_page => 32)
   end
 
   private

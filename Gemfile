@@ -45,17 +45,24 @@ ruby '2.0.0'
  gem 'nokogiri'
 # Seach engine
  gem 'sunspot_rails'
-# Productions Gems
+# Faker
+gem "faker"
+# Progress Bar
+gem "progress_bar"
+# TF-IDF
+gem "tf_idf"
+# Productions Gem
 group :production do
   # Use unicorn as the app server
   # gem 'unicorn'
 end
-
+# Development Gems
 group :development do
   gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
   gem 'better_errors'
   gem 'binding_of_caller'
 end
+
 # Lastfm Gem
  #gem 'lastfm'
 # Passenger

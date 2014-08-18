@@ -1,8 +1,10 @@
 class Usuario < ActiveRecord::Base
-	
+
 	before_validation :strip_spaces
 	before_create :criar_remember_token
   before_create :get_gravatar_img_src
+
+  attr_accessor :self_likes, :self_dislikes
 
 	validates_presence_of :password, message: "deve estar preenchido", :on => :create
 
@@ -73,20 +75,41 @@ class Usuario < ActiveRecord::Base
 
   def get_recommendations
 
-    itens = (Item.all - self.itens) # Todos os itens menos os itens do usuário
+    start_t = Time.now
+
+    itens = Item.all - self.itens # Todos os itens menos os itens do usuário
 
     recommendations = Hash.new
+
+    # Conjunto de itens de likes e dislikes do usuário
+    @self_likes = self.likes
+    @self_dislikes = self.dislikes
+
+    #if $similaridade[self.id - 1].blank?
+    #  aux = Array.new
+    #  Usuario.all.each { |user| aux << similaridade_com( user ) }
+    #  $similaridade << Hash.new(self.id => aux)
+    #end
+
+    if $similaridade[self.id - 1].blank?
+      $similaridade[self.id - 1] = Array.new
+      Usuario.where("id != ?", self.id).each { |user| $similaridade[self.id - 1][user.id - 1] = similaridade_com( user ) }
+    end 
+
+    #$similaridade ||= Matrix.build( 9999, 9999){|x,y| Usuario.similaridade_com( self.find(x + 1), self.find(y + 1)) }
 
     itens.each do |item|
       recommendations[item.id] = predicao_para(item)
     end
-    
+
+    stop_t = Time.now
+    puts "Tempo para realizar a recomendacao: " + (stop_t - start_t).to_s + "segundos"
+        
     recommendations
 
   end
 
   def facebook_update
-
 
     lista_final = Array.new
     @graph = Koala::Facebook::API.new( self.oauth_token )
@@ -131,65 +154,35 @@ class Usuario < ActiveRecord::Base
 
   # Retorna o numero de Likes
   def likes
-    itens = Array.new
-    self.avaliacoes.where( avaliacao: true ).each do |avaliacao|
-      itens << Item.find(avaliacao.item_id)
-    end
-    return itens
+    #itens = Array.new
+    #self.avaliacoes.where( avaliacao: true ).includes(:item).each do |avaliacao|
+    #  itens << avaliacao.item
+    #end
+    #eturn itens
+
+    query = "SELECT itm.id
+             FROM   avaliacoes av INNER JOIN itens itm ON av.item_id = itm.id
+             WHERE  avaliacao is true and
+                    usuario_id = #{self.id}"
+    Usuario.connection.execute(query).to_set
+
+    #self.itens.joins(:avaliacoes).where("avaliacoes.avaliacao = ?", true)
+
   end
 
   # Retorna o numero de Dislikes
   def dislikes
-    itens = Array.new
-    self.avaliacoes.where( avaliacao: false ).each do |avaliacao|
-      itens << Item.find(avaliacao.item_id)
-    end
-    return itens
-  end
-  
-  #----------------------------- 
-  #-                           -
-  #- Algoritmo de Recomendação -
-  #-                           -
-  #-----------------------------
-
-  def predicao_para(item)
-    # Soma 
-    soma = 0.0
-
-    # Soma total de likes e dislikes
-    rated_count = item.liked_by.size + item.disliked_by.size
-
-    item.liked_by.each { |user| soma += similaridade_com(user) }
-    item.disliked_by.each { |user| soma -= similaridade_com(user) }
-
-    return -1.0 if rated_count.zero?
-
-    puts "Predicao para #{item.get_name} soma: #{soma} rated: #{rated_count}"
-
-    return soma / rated_count.to_f
-
-  end
-
-  def similaridade_com(user)
-    
-    # '& é o operador de intersecção.
-    agreements = (self.likes & user.likes).size
-    agreements += (self.dislikes & user.dislikes).size
-
-    puts "Agreements: " + agreements.to_s
-
-    disagreements = (self.likes & user.dislikes).size
-    disagreements += (self.dislikes & user.likes).size
-
-    puts "Disagreements: " + disagreements.to_s
-
-    # '|' é o operador de união
-    total = (self.likes + self.dislikes) | (user.likes + user.dislikes)
-
-    puts "Total: " + total.size.to_s
-
-    return (agreements - disagreements) / total.size.to_f
+    #itens = Array.new
+    #self.avaliacoes.where( avaliacao: false ).includes(:item).each do |avaliacao|
+    #  itens << avaliacao.item
+    #end
+    #return itens
+    query = "SELECT itm.id
+             FROM   avaliacoes av INNER JOIN itens itm ON av.item_id = itm.id
+             WHERE  avaliacao is not true and
+                    usuario_id = #{self.id}"
+    Usuario.connection.execute(query).to_set
+    #self.itens.joins(:avaliacoes).where("avaliacoes.avaliacao = ?", false)
   end
 
   #-------------------------- 
@@ -199,6 +192,50 @@ class Usuario < ActiveRecord::Base
   #--------------------------
 
   private
+
+    #----------------------------- 
+    #-                           -
+    #- Algoritmo de Recomendação -
+    #-                           -
+    #-----------------------------
+
+    def predicao_para(item)
+      # Soma 
+      soma = 0.0
+
+      item_liked_by = item.liked_by
+      item_disliked_by = item.disliked_by
+      # Soma total de likes e dislikes
+      rated_count = item_liked_by.size + item_disliked_by.size
+
+      item_liked_by.each { |usuario| soma += $similaridade[self.id - 1][usuario.id - 1] }
+      item_disliked_by.each { |usuario| soma -= $similaridade[self.id - 1][usuario.id - 1] }
+
+      return -1.0 if rated_count.zero?
+
+      puts "Predicao para #{item.get_name} soma: #{soma} rated: #{rated_count}"
+
+      return soma / rated_count.to_f
+
+    end
+
+    def similaridade_com(usuario)
+
+      usuario_likes = usuario.likes
+      usuario_dislikes = usuario.dislikes
+
+      # '& é o operador de intersecção.
+      agreements = (@self_likes & usuario_likes).size
+      agreements += (@self_dislikes & usuario_dislikes).size
+
+      disagreements = (@self_likes & usuario_dislikes).size
+      disagreements += (@self_dislikes & usuario_likes).size
+
+      # '|' é o operador de união
+      total = (@self_likes + @self_dislikes) | (usuario_likes + usuario_dislikes)
+
+      return (agreements - disagreements) / total.size.to_f
+    end
 
     def no_pic_url
       "http://ieee-sb.ca/sites/default/files/default_user.jpg"

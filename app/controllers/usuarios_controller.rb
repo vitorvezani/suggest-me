@@ -114,7 +114,7 @@ class UsuariosController < ApplicationController
     # Verifica se o usuário a ser editado é o mesmo usuário logado.
     def usuario_correto
       @usuario = Usuario.find(params[:id])
-      redirect_to(root_url) unless current_user == @usuario
+      redirect_to(root_url) unless current_user == @usuario or current_user.admin?
     end
 
     # Somente admin pode vizualizar a pagina de usuários
