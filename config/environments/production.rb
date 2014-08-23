@@ -82,6 +82,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Facebook auth
-  ENV['FACEBOOK_APP_ID'] = "697394870319905"
-  ENV['FACEBOOK_SECRET'] = "49da80130942e76bd5b4e4ca81a90278"
+  ENV['FACEBOOK_APP_ID'] = "275233419168541"
+  ENV['FACEBOOK_SECRET'] = "f6d9502b9c274b9895f8a7c15235c939"
 end

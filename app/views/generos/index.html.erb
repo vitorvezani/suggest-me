@@ -4,15 +4,15 @@
 
 <% if signed_in? %>
 <p>
-	<span>Não achou o genero que procurava?</span> 
-	<%= link_to 'Crie um novo genero', new_genero_path %>
+	<span>Não achou o gênero que procurava?</span> 
+	<%= link_to 'Crie um novo gênero', new_genero_path %>
 </p>
 <% end %>
 
 <table class="table table-hover">
 		<tr class="info">                      
 		<th><%= sortable "nome" %></th>
-		<th><%= sortable "descricao" %></th>
+		<th><%= sortable "descricao", "Descrição" %></th>
 		<% if is_admin? %>
 			<th><%= sortable "acoes", "Ações" %></th>
 		<% end %>

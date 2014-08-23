@@ -1,6 +1,6 @@
 class ItensController < ApplicationController
   helper_method :sort_coluna, :sort_direcao
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :get_content_recommendation]
   before_action :usuario_admin, only: [:destroy] # Verifica se é o usuário admin.
 
   # GET /itens
@@ -14,6 +14,7 @@ class ItensController < ApplicationController
   # GET /itens/1
   # GET /itens/1.json
   def show
+
     @itens_recomendados = Array.new
 
     # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
@@ -32,15 +33,7 @@ class ItensController < ApplicationController
     @avaliacoes_count = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
     gon.usuario_logado = signed_in?
-
-    start_t = Time.now
-
-    @itens_mesmo_genero = @item.get_tf_idf_recommendations
-
-    finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
-
-    @itens_recomendados #= @item.get_itens_recomendados
+    gon.item_id = @item.id
 
   end
 
@@ -51,6 +44,22 @@ class ItensController < ApplicationController
 
   # GET /itens/1/edit
   def edit
+  end
+
+  def get_content_recommendation
+    # GET /itens/1
+
+    start_t = Time.now
+
+    @itens_recomendados_conteudo = @item.get_tf_idf_recommendations
+    
+    finish_t = Time.now
+    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+
+    respond_to do |format|
+      format.js
+    end
+
   end
 
   # GET /itens/
@@ -66,34 +75,38 @@ class ItensController < ApplicationController
     # Numero de avaliações feitas pelo usuário logado
     @num_avaliacoes = current_user.avaliacoes.size
 
-    recommendations = current_user.get_recommendations
+    if @num_avaliacoes > GlobalConstants::NUM_AVALIACOES then
 
-    recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 500
+      recommendations = current_user.get_recommendations
 
-    recommendations.each do |key, value|
-      
-      if value != -1 then
-        item = Item.find(key)
+      recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 500
 
-        if item.is_book
-          @livros << item
-        elsif item.is_film
-          @filmes << item
-        elsif item.is_game
-          @jogos << item
-        elsif item.is_music
-          @musicas << item
-        end
-      end 
+      recommendations.each do |key, value|
+        
+        if value != -1 then
+          item = Item.find(key)
+
+          if item.is_book
+            @livros << item
+          elsif item.is_film
+            @filmes << item
+          elsif item.is_game
+            @jogos << item
+          elsif item.is_music
+            @musicas << item
+          end
+        end 
+      end
+
     end
 
-    @livros  = @livros.take(12)
-    @filmes  = @filmes.take(12)
-    @jogos   = @jogos.take(12)
-    @musicas = @musicas.take(12)
+      @livros  = @livros.take(12)
+      @filmes  = @filmes.take(12)
+      @jogos   = @jogos.take(12)
+      @musicas = @musicas.take(12)
 
-    finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+      finish_t = Time.now
+      puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
 
   end
 
@@ -123,6 +136,7 @@ class ItensController < ApplicationController
         format.html { redirect_to @item}
         format.json { render :show, status: :ok, location: @item }
       else
+        flash.now[:success] = "O item não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end

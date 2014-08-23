@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       sign_in usuario
       redirect_to root_url
     else
-      flash[:danger] = 'E-mail/Senha incorretos'
+      flash.now[:danger] = 'E-mail/Senha incorretos'
       render 'new'
     end
   end
@@ -17,14 +17,19 @@ class SessionsController < ApplicationController
   def create_facebook
     usuario = Usuario.from_omniauth(env["omniauth.auth"])
     flash[:success] = 'Você logou pelo Facebook com sucesso!'
-    sign_in usuario
 
     Thread.new do
       usuario.facebook_update
       ActiveRecord::Base.connection.close
     end
-
-    redirect_to root_url
+    
+    sign_in usuario
+    
+    if usuario.password_digest.nil? then
+      redirect_to controller: "usuarios", action: "edit_password", id: usuario.id
+    else
+      redirect_to root_url
+    end
   end
 
   def destroy
@@ -32,4 +37,7 @@ class SessionsController < ApplicationController
     flash[:success] = "Você deslogou com sucesso!"
     redirect_to root_url
   end
+
+  private
+
 end

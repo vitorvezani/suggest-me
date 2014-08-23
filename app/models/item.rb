@@ -34,10 +34,14 @@ class Item < ActiveRecord::Base
   #-                        -
   #--------------------------
 
-  def get_url
+  def get_img_url
 		# Imagem do Item
-    suckr = ImageSuckr::GoogleSuckr.new
-  	suckr.get_image_url ({"q" => self.get_name, "safe" => "active"})
+		if self.img_url.nil? 
+	    suckr = ImageSuckr::GoogleSuckr.new
+	  	self.img_url = suckr.get_image_url({"q" => self.get_name, "safe" => "active"})
+	  	self.save!
+		end
+		self.img_url
   end
 
   def before_save(record)
@@ -82,61 +86,39 @@ class Item < ActiveRecord::Base
 	  self.categoria_id == 2 ? true : false
 	end
 
-	#def itens_mesmo_genero
-	#	lista_itens_parecidos = Array.new 
-	#
-	#		if !self.generos.empty? then
-	#
-	#		  # Pega o Hash{id_item, qtde_aparição} e faz o sort_by para o key
-	#		  hash = self.generos.group("generos.id").count.sort_by {|key, value| value}.reverse
-	#
-	#		  hash.each do |key, value|
-	#		  	itens_mesmo_genero_categoria = Genero.find(key).itens.where("itens.id != ? and categoria_id = ?", self.id, self.categoria_id)
-	#		    itens_mesmo_genero_categoria.each do |item|
-	#		      lista_itens_parecidos << item
-	#		      break if lista_itens_parecidos.uniq.length > 20
-	#		    end
-	#		  end
-	#
-	#		 return lista_itens_parecidos.uniq.shuffle.take(5)
-	#
-	#   end
-	#end
-
   def get_tf_idf_recommendations
 
+  	data = Array.new
   	itens = Array.new
 
-  	if $data.blank? then
-			Item.all.includes(:generos).each do |item|
-				aux = Array.new 
-				item.generos.each do |gen| 
-					aux << gen.id
-				end
-				$data << aux
+		Item.all.includes(:generos).each do |item|
+			aux = Array.new 
+			item.generos.each do |gen| 
+				aux << gen.id
 			end
-		end 
+			data << aux
+		end
 
-		@tf_idf = TfIdf.new($data).tf_idf
+		tf_idf = TfIdf.new(data).tf_idf
 
 		similaridade = Hash.new
 
 		Item.where("id != ?", self.id).each do |item|
-			similaridade[item.id] = similaridade_com(item)
+			similaridade[item.id] = similaridade_com(tf_idf, item)
 		end
 
 		similaridade = similaridade.sort_by { |id, nota| nota }.reverse.take(5)
 
-		similaridade.each { |id, nota| itens << Item.find(id) }
+    similaridade.each { |id, nota| itens << Item.find(id) if nota > 0 }
 
 		return itens
 
   end
 
-  def similaridade_com(item)
+  def similaridade_com(tf_idf,item)
 
-  	my_terms = @tf_idf[self.id - 1]
-  	itens_terms = @tf_idf[item.id - 1]
+  	my_terms = tf_idf[self.id - 1]
+  	itens_terms = tf_idf[item.id - 1]
 
   	soma = 0.0
 
@@ -149,28 +131,6 @@ class Item < ActiveRecord::Base
   	sim.nan? ? 0 : sim
 
   end
-
-  #def get_itens_recomendados
- #
- # 	itens_recomendados = Array.new
- # 	# Pega o usuário
- #  user_base = self.usuarios.includes(:itens).shuffle.first
- #
- #     if !user_base.nil?
- #
- #     recommendations = user_base.get_recommendations
- #
- #     recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 4
- #
- #     recommendations.each do |key, value|
- #      itens_recomendados << Item.find(key)
- #   end
- #
- # 	end
- #
- #   return itens_recomendados
- #
- # end
 
   #-------------------------- 
   #-                        -

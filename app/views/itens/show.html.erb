@@ -10,7 +10,7 @@
       <div id="content" class="col-md-offset-1 col-md-11">
         <section>
           <div class="row clearfix">
-            <img size: "280x160" src=<%= @item.get_url %> class="img-thumbnail" />
+            <img size: "280x160" src=<%= @item.get_img_url %> class="img-thumbnail" />
           <div>
           <hr>
           <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes_count[:positivas] %>
@@ -127,41 +127,9 @@
   <!-- Artistas Parecidos -->
   <div class="col-md-3">
     <div class="row">
-      <div id="content" class="col-md-offset-3 col-md-9 content content">
-        <% unless @itens_mesmo_genero.blank? %>
-          <h4><%= formata_str_parecidos(@item)%> Parecidos</h4>
-          <hr />
-          <% @itens_mesmo_genero.each do |item| %>
-            <%= link_to( image_tag( item.get_url, { class: "img-thumbnail", size: "180x100" }), item_path(item)) %>
-            <div class="caption">
-              <h6>
-                <%= link_to item.get_name, item_path(item) %>
-              </h6>
-            </div>
-          <hr />
-          <% end %>
-        <% end %>
+      <div id="content-recommendation" class="col-md-offset-3 col-md-9 content content">
+        <!-- Aqui será inserido a recomendação por conteudo através de Ajax-->
       </div>
     </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <hr>
-    <h4>Quem gosta de <%= @item.get_name %> também gosta de:<h4>
-    <% unless @itens_recomendados.blank? %>
-      <% @itens_recomendados.each do |item| %>
-        <div class="col-sm-6 col-md-3">
-          <div class="thumbnail">
-            <%= link_to( image_tag( item.get_url, { class: "img-thumbnail", size: "180x100" }), item_path(item)) %>
-            <div class="caption">
-              <h3><%= item.get_name %></h3>
-              <p><small><%= truncate(item.descricao, :length => 50) %></small></p>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-    <hr>
   </div>
 </div>

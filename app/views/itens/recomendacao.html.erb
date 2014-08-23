@@ -5,11 +5,13 @@
 
       <h3><span class="label label-warning">Opss</span> Não foi possível realizar as recomendações </h3>
 
-      <p>Você precisa ter mais que <%= GlobalConstants::NUM_AVALIACOES %> avaliações no total </p>
+      <p>Você precisa ter mais que <%= GlobalConstants::NUM_AVALIACOES %> avaliações no total.
+         Comece por <%= link_to "aqui", itens_path %>!
+      </p>
 
     <% else %>
     
-      <ul class = "nav nav-tabs" >
+      <ul id="collaborative-recommendation" class = "nav nav-tabs" >
         <li>
           <a href="#filmes" data-toggle = "tab"><span class="glyphicon glyphicon-film"></span> Filmes </a>
         </li>

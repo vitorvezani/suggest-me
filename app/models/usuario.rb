@@ -13,7 +13,7 @@ class Usuario < ActiveRecord::Base
 
 	validates_presence_of :username, :email, message: "deve estar preenchido!", on: :create
 	
-	validates_uniqueness_of :username, :email, message: "já cadastrado!"
+	validates_uniqueness_of :username, :email, message: "já cadastrado!", on: :create
 
 	validates_size_of :primeiro_nome, :maximum => 50, message: "deve conter no máximo 50 caracteres!"
 	validates_size_of :ultimo_nome, :maximum => 50, message: "deve conter no máximo 50 caracteres!"
@@ -85,11 +85,7 @@ class Usuario < ActiveRecord::Base
     @self_likes = self.likes
     @self_dislikes = self.dislikes
 
-    #if $similaridade[self.id - 1].blank?
-    #  aux = Array.new
-    #  Usuario.all.each { |user| aux << similaridade_com( user ) }
-    #  $similaridade << Hash.new(self.id => aux)
-    #end
+    # TODO: Usar Sessão
 
     if $similaridade[self.id - 1].blank?
       $similaridade[self.id - 1] = Array.new

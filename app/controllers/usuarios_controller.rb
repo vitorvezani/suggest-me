@@ -1,12 +1,12 @@
 class UsuariosController < ApplicationController
   
   helper_method :sort_coluna, :sort_direcao
-
+  
   before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password]
   # Para qualquer dessas ação é necessario o login do usuário
   before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
-  before_action :usuario_correto, only: [:edit, :update, :edit_password, :update_password] 
+  before_action :usuario_correto, only: [:edit, :update, :destroy, :edit_password, :update_password] 
   # Somente admin pode vizualizar a lista de todos os usuários
   before_action :usuario_admin, only: [:index]
   # Se o usuario está logado ele não pode acessar a pagina de new e create
@@ -68,6 +68,7 @@ class UsuariosController < ApplicationController
         format.html { redirect_to @usuario }
         format.json { render :show, status: :ok, location: @usuario }
       else
+        flash.now[:danger] = "Perfil não foi editado!!!"
         format.html { render :edit }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
       end
@@ -91,7 +92,7 @@ class UsuariosController < ApplicationController
         flash[:success] = "Senha modificada com sucesso!"
         format.html { redirect_to @usuario} 
       else
-        flash[:danger] = "Senha não foi salva!"
+        flash.now[:danger] = "Senha não foi modificada!!!"
         format.html { render action: :edit_password, id: @usuario} 
       end
     end

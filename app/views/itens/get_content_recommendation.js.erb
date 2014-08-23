@@ -1,0 +1,2 @@
+//$("#content-recommendation").html("<%= 'Apareceu' %>")
+$("#content-recommendation").html("<%= escape_javascript(render('itens/content_recommendation', itens_recomendados_conteudo: @itens_recomendados_conteudo)) %>")

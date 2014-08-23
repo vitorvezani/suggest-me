@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
 
+  match '/get_content_recommendation/:id', to: 'itens#get_content_recommendation', via: 'get'
+
   match '/usuarios/edit_password/:id', to: 'usuarios#edit_password', via: 'get'
   match '/usuarios/update_password/:id', to: 'usuarios#update_password', via: 'patch'
 

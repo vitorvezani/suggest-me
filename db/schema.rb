@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815224528) do
+ActiveRecord::Schema.define(version: 20140820021602) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20140815224528) do
     t.string   "wiki_link",    limit: 400
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "img_url"
   end
 
   add_index "itens", ["categoria_id", "nome_en"], name: "index_itens_on_categoria_id_and_nome_en", unique: true, using: :btree

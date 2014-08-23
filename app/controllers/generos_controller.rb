@@ -35,7 +35,7 @@ class GenerosController < ApplicationController
         format.html { redirect_to @genero }
         format.json { render :show, status: :created, location: @genero }
       else
-        flash[:danger] = "Genero #{@genero.nome} não foi criado com sucesso!"
+        flash.now[:danger] = "Genero #{@genero.nome} não foi criado com sucesso!"
         format.html { render :new }
         format.json { render json: @genero.errors, status: :unprocessable_entity }
       end
@@ -51,7 +51,7 @@ class GenerosController < ApplicationController
         format.html { redirect_to @genero }
         format.json { render :show, status: :ok, location: @genero }
       else
-        flash[:success] = "Genero #{@genero.nome} não foi editado com sucesso!"
+        flash.now[:danger] = "Genero #{@genero.nome} não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @genero.errors, status: :unprocessable_entity }
       end

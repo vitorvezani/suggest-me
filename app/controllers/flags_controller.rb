@@ -34,7 +34,7 @@ class FlagsController < ApplicationController
         format.html { redirect_to @flag.flagavel }
         format.json { render :show, status: :created, location: @flag }
       else
-        flash[:warning] = 'Flag não foi relatado com sucesso'
+        flash.now[:warning] = 'Flag não foi relatado com sucesso'
         format.html { redirect_to @flag.flagavel }
         format.json { render json: @flag.errors, status: :unprocessable_entity }
       end

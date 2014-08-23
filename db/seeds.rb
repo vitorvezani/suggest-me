@@ -56,3 +56,9 @@ gg = Random.new(genero_all)
 	end
 end
 
+Avaliacao.all.each do |avaliacao|
+	if avaliacao.usuario.nil? then
+		avaliacao.destroy
+	end
+end
+

@@ -1,0 +1,12 @@
+<% unless @itens_recomendados_conteudo.blank? %>
+  <h4><%= formata_str_parecidos(@item)%> Parecidos</h4>
+  <hr />
+  <% @itens_recomendados_conteudo.each do |item| %>
+    <div class="caption">
+      <h6>
+        <%= link_to item.get_name, item_path(item) %>
+      </h6>
+    </div>
+  <hr />
+  <% end %>
+<% end %>

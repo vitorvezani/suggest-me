@@ -13,32 +13,4 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require jquery.raty.js
 //= require_tree .
-
-$(document).ready(function() {
-
-	$('#like').click(function() {
-		if (gon.usuario_logado){
-		  $('#hidden_tipo').val(true);
-		  $('#submit').click();
-		}else
-			bootbox.alert("Você deve estar logado para avaliar um item.");
-	});
-
-	$('#dislike').click(function() {
-		if (gon.usuario_logado){
-		  $('#hidden_tipo').val(false);
-		  $('#submit').click();
-		}else
-		bootbox.alert("Você deve estar logado para avaliar um item.");
-	});
-
-	$(function() {
-		$('.nav-tabs a:first').tab('show');
-	});
-
-  $(".close").click(function(){
-        $(".alert").alert();
-  });
-});
