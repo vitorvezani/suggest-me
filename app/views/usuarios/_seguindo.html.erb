@@ -9,4 +9,4 @@
   <% end %>
   </ul>
 <% end %>
-<%= will_paginate @seguindo, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
+<%= will_paginate @seguindo, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'seguindo_page' %>

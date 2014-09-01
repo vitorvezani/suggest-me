@@ -5,30 +5,22 @@ class AvaliacoesController < ApplicationController
   # POST /avaliacoes.json
   def create_update
 
-    old_avaliacao = Avaliacao.where("item_id = ? and usuario_id = ? ", params[:avaliacao][:item_id], current_user.id).first
+    @avaliacao = Avaliacao.find_or_create_by(item_id: params[:avaliacao][:item_id], usuario_id: current_user.id)
 
-    if old_avaliacao.nil?
-      # Nova avaliação
-      @avaliacao = current_user.avaliacoes.build(avaliacao_params)
+    @avaliacao.avaliacao = params[:avaliacao][:avaliacao]
+    
+    # TODO, colocar um if
+    @avaliacao.save
 
-      if @avaliacao.save
+    @positivas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: true).size
+    @negativas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: false).size
+
+    respond_to do |format|
+      format.html { 
         flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
-      else
-        flash[:danger] = "Avaliação não foi salvo!"
-      end
-      redirect_to item_path(@avaliacao.item)
-    else
-      #update da avaliacao
-      if old_avaliacao.avaliacao == params[:avaliacao][:avaliacao]# avaliacao igual
-        flash[:danger] = "Você já avaliou está opção!"
-      else
-        if old_avaliacao.update(avaliacao: params[:avaliacao][:avaliacao])
-          flash[:success] = old_avaliacao.avaliacao ? "Você curtiu #{old_avaliacao.item.nome_ptbr}!" : "Você não curtiu #{old_avaliacao.item.nome_ptbr}!"
-        else 
-          flash[:danger] = "Avaliação não foi salvo!"
-        end
-      end
-      redirect_to item_path(old_avaliacao.item)
+        redirect_to item_path(@avaliacao.item) 
+      }
+      format.js
     end
 
   end

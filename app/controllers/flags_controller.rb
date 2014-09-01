@@ -3,9 +3,9 @@ class FlagsController < ApplicationController
   # Busca Span por ID
   before_action :set_flag, only: [:show, :update, :destroy]
   # Somente usuário logado pode relatar flag
-  before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password]
+  before_action :usuario_logado?, only: [ :new, :edit, :update]
   # Somente admin pode vizualizar a lista de todos os usuários
-  before_action :usuario_admin, only: [:index]
+  before_action :usuario_admin, only: [:index, :destroy, :show]
 
   # GET /flags
   # GET /flags.json
@@ -60,7 +60,7 @@ class FlagsController < ApplicationController
   def destroy
     @flag.destroy
     respond_to do |format|
-      flash[:success] = 'Relato de Flag Excluido com sucesso!'
+      flash[:success] = 'Relato de flag excluído com sucesso!'
       format.html { redirect_to flags_url }
       format.json { head :no_content }
     end

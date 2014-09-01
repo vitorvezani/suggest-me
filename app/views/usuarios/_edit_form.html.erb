@@ -3,43 +3,50 @@
 <% end %>
 
 <div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <%= form_for(@usuario) do |f| %>
-      <div class="form-group">
-        <%= f.label :username, "Username" %>*
-        <%= f.text_field :username, class: "form-control", placeholder: "stephen.hawking" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :email, "Email" %>
-        <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com", disabled: true %>
-      </div>
-      <div class="form-group">
-        <%= f.label :primeiro_nome, "Primeiro Nome" %>
-        <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "Stephen" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :ultimo_nome, "Último Nome" %>
-        <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "Hawking" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :sexo, "Sexo" %>
-        <%= f.select :sexo, options_for_select([["Masculino", "M"], ["Feminino", "F"]]) %>
-      </div>
-      <div class="form-group">
+  <%= form_for(@usuario) do |f| %>
+  <div class="col-md-5 col-md-offset-1">
+    <div class="form-group">
+      <%= f.label :username, "Username" %>*
+      <%= f.text_field :username, class: "form-control", placeholder: "stephen.hawking" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :email, "Email" %>
+      <%= f.text_field :email, class: "form-control", placeholder: "stephen.hawking@email.com", disabled: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :primeiro_nome, "Primeiro Nome" %>
+      <%= f.text_field :primeiro_nome, class: "form-control", placeholder: "Stephen" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :ultimo_nome, "Último Nome" %>
+      <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "Hawking" %>
+    </div>
+    <hr>
+  </div>
+  <!-- Lado direito -->
+  <div class="col-md-5">
+    <div class="form-group">
+      <%= f.label :sexo, "Sexo" %>
+      <%= f.select :sexo, options_for_select([["Masculino", "M"], ["Feminino", "F"]]) %>
+    </div>
+    <div class="form-group">
       <%= f.label :dt_aniversario, "Data de Nascimento" %>
       <%= f.date_field :dt_aniversario, class: "form-control" %>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-md-6">
-          <%= link_to 'Cancelar', usuario_path(@usuario), class: "btn btn-large btn-warning" %>
-        </div>
-        <div class="col-md-6">
-          <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
-        </div>
-      </div>
-      <hr>
-      <p>* Atributos Obrigatórios </p>
-    <% end %>
+    </div>
+    <div class="form-group">
+      <%= f.label :info, "Sobre você" %>
+      <%= f.text_area :info, rows: 5,class: "form-control" %>
+    </div>
+    <hr>
   </div>
+  <div class="row">
+    <div class="col-md-5 col-md-offset-2">
+      <%= link_to 'Cancelar', usuario_path(@usuario), class: "btn btn-large btn-warning" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
+    </div>
+  </div>
+  <p>* Atributos Obrigatórios </p>
+  <% end %>
 </div>

@@ -19,3 +19,8 @@
     <hr>
   </div>
 </div>
+
+<% if current_user.avaliacoes.size >= 15 %>
+  <hr>
+  <%= link_to "Suggest Me!", "recomendacao", { class:"btn btn-primary", role:"button" } %>
+<% end %>

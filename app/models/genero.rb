@@ -10,6 +10,11 @@ class Genero < ActiveRecord::Base
 
 	has_many :flags, as: :flagavel, dependent: :destroy
 
+	searchable do
+    text :nome, boost: 5
+    text :descricao
+  end
+
 	#-------------------------- 
 	#-                        -
 	#-    Métodos Publicos    -

@@ -15,7 +15,7 @@
             <p><label>Like: </label> <%=  @comentario.like.to_s %></p>
             <p><label>Dislike: </label> <%= @comentario.like.to_s %></p>
             <p><label>Criado em: </label> <%= @comentario.created_at.to_s %></p>
-            <p><label>Atualizado em: </label> <%= @comentario.updated_at.to_s %></p>
+            <p><label>Modificado em: </label> <%= @comentario.updated_at.to_s %></p>
         </div>
       </div>
       <% if is_admin? or current_user == @comentario.usuario %>

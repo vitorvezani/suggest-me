@@ -1,12 +1,20 @@
-<%= render "compartilhado/breadcrumb", pag: "Todos Gêneros" %>
+<%= render "compartilhado/breadcrumb", pag: "Todos os Gêneros" %>
 
 <h1>Todos os Gêneros</h1>
 
+<div class="row">
+	<div class="col-md-2">
+		<%= form_tag( { controller: :generos, action: :index }, method: "get") do %>
+		  <div class="inner-addon right-addon">
+		      <i class="glyphicon glyphicon-search"></i>
+		      <%= text_field_tag(:q, nil, class: "form-control", height:"15", width:"15") %>
+		  </div>
+		<% end %>
+	</div>
+</div>
+<hr>
 <% if signed_in? %>
-<p>
-	<span>Não achou o gênero que procurava?</span> 
-	<%= link_to 'Crie um novo gênero', new_genero_path %>
-</p>
+<p><h5>Não achou o gênero que procurava? <%= link_to 'Crie um novo gênero', new_genero_path %></h5></p>
 <% end %>
 
 <table class="table table-hover">

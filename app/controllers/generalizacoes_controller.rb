@@ -1,6 +1,7 @@
 class GeneralizacoesController < ApplicationController
-  before_action :set_generalizacao, only: [ :destroy, :edit ]
+  before_action :set_generalizacao, only: [ :destroy, :edit, :update ]
   before_action :usuario_logado?, only: [ :create, :destroy, :new ]
+  before_action :is_admin?, only: [ :destroy_all ]
 
   # GET /generalizacoes/1/edit
   def edit
@@ -11,9 +12,9 @@ class GeneralizacoesController < ApplicationController
   def create
     @generalizacao = Generalizacao.new(generalizacao_params)
     if @generalizacao.save
-      flash[:success] = "Genero foi relacionado com sucesso!"
+      flash[:success] = "Gênero adicionado com sucesso!"
     else
-      flash[:danger] = "Genero não foi relacionado com sucesso!"
+      flash[:danger] = "Gênero não foi adicionado com sucesso!"
     end
     redirect_to item_path(@generalizacao.item)
   end
@@ -36,7 +37,7 @@ class GeneralizacoesController < ApplicationController
     if @generalizacao.destroy
       flash[:success] = "Relacionamento excluida com sucesso!"
     else
-      flash[:danger] = "Relacionamento não foi excluida corretamente!"
+      flash[:danger] = "Relacionamento não foi excluída corretamente!"
     end
       redirect_to item_path(@generalizacao.item)
   end

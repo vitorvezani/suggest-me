@@ -12,8 +12,9 @@
         <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @usuario, id: "flag_usuario" } %>
       </br></br>
       <% end %>
-      <%= link_to 'Editar', edit_usuario_path(@usuario) %>
-			| <%= link_to 'Mudar Senha', { action: "edit_password", id: @usuario.id } %>
+      <%= link_to 'Editar', edit_usuario_path(@usuario) if current_user?(@usuario) or is_admin?%>
+      <%= '|' if current_user?(@usuario) %>
+			<%= link_to 'Mudar Senha', { action: "edit_password", id: @usuario.id }  if current_user?(@usuario) %>
 			<% if is_admin?%>
 			  | <%= link_to 'Excluir', @usuario, method: :delete %> 
 			  | <%= link_to 'Voltar', usuarios_path %>
@@ -36,7 +37,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
       <div class="tab-pane active" id="comentario">
-        <%= render "comentarios/todos_comentarios", comentarios: @comentarios %>
+        <%= render "comentarios", comentarios: @comentarios %>
       </div>
       <div class="tab-pane" id="avaliacao">
         <%= render "avaliacoes", avaliacoes: @avaliacoes %>

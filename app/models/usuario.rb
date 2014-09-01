@@ -27,7 +27,7 @@ class Usuario < ActiveRecord::Base
 	# Relação da Tabela
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
-  has_many :flags, dependent: :destroy
+  has_many :flags, as: :flagavel, dependent: :destroy
   # Seguidores
   has_many :relacoes, foreign_key: "seguidor_id", dependent: :destroy
   has_many :seguindo, through: :relacoes, source: :seguido
@@ -36,6 +36,11 @@ class Usuario < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :itens, through: :avaliacoes
   has_many :seguidores, through: :reversa_relacoes, source: :seguidor
+
+  searchable do
+    text :primeiro_nome, :ultimo_nome, :username, :email, boost: 5
+    text :info
+  end
 
   #-------------------------- 
   #-                        -
@@ -75,33 +80,9 @@ class Usuario < ActiveRecord::Base
 
   def get_recommendations
 
-    start_t = Time.now
+    c_recommendations = ColaborativeRecommendation.new(self)
 
-    itens = Item.all - self.itens # Todos os itens menos os itens do usuário
-
-    recommendations = Hash.new
-
-    # Conjunto de itens de likes e dislikes do usuário
-    @self_likes = self.likes
-    @self_dislikes = self.dislikes
-
-    # TODO: Usar Sessão
-
-    if $similaridade[self.id - 1].blank?
-      $similaridade[self.id - 1] = Array.new
-      Usuario.where("id != ?", self.id).each { |user| $similaridade[self.id - 1][user.id - 1] = similaridade_com( user ) }
-    end 
-
-    #$similaridade ||= Matrix.build( 9999, 9999){|x,y| Usuario.similaridade_com( self.find(x + 1), self.find(y + 1)) }
-
-    itens.each do |item|
-      recommendations[item.id] = predicao_para(item)
-    end
-
-    stop_t = Time.now
-    puts "Tempo para realizar a recomendacao: " + (stop_t - start_t).to_s + "segundos"
-        
-    recommendations
+    c_recommendations.recommend
 
   end
 
@@ -148,39 +129,6 @@ class Usuario < ActiveRecord::Base
     self.relacoes.find_by(seguidor_id: self.id, seguido_id: usuario.id).destroy
   end
 
-  # Retorna o numero de Likes
-  def likes
-    #itens = Array.new
-    #self.avaliacoes.where( avaliacao: true ).includes(:item).each do |avaliacao|
-    #  itens << avaliacao.item
-    #end
-    #eturn itens
-
-    query = "SELECT itm.id
-             FROM   avaliacoes av INNER JOIN itens itm ON av.item_id = itm.id
-             WHERE  avaliacao is true and
-                    usuario_id = #{self.id}"
-    Usuario.connection.execute(query).to_set
-
-    #self.itens.joins(:avaliacoes).where("avaliacoes.avaliacao = ?", true)
-
-  end
-
-  # Retorna o numero de Dislikes
-  def dislikes
-    #itens = Array.new
-    #self.avaliacoes.where( avaliacao: false ).includes(:item).each do |avaliacao|
-    #  itens << avaliacao.item
-    #end
-    #return itens
-    query = "SELECT itm.id
-             FROM   avaliacoes av INNER JOIN itens itm ON av.item_id = itm.id
-             WHERE  avaliacao is not true and
-                    usuario_id = #{self.id}"
-    Usuario.connection.execute(query).to_set
-    #self.itens.joins(:avaliacoes).where("avaliacoes.avaliacao = ?", false)
-  end
-
   #-------------------------- 
   #-                        -
   #-    Métodos Privados    -
@@ -188,50 +136,6 @@ class Usuario < ActiveRecord::Base
   #--------------------------
 
   private
-
-    #----------------------------- 
-    #-                           -
-    #- Algoritmo de Recomendação -
-    #-                           -
-    #-----------------------------
-
-    def predicao_para(item)
-      # Soma 
-      soma = 0.0
-
-      item_liked_by = item.liked_by
-      item_disliked_by = item.disliked_by
-      # Soma total de likes e dislikes
-      rated_count = item_liked_by.size + item_disliked_by.size
-
-      item_liked_by.each { |usuario| soma += $similaridade[self.id - 1][usuario.id - 1] }
-      item_disliked_by.each { |usuario| soma -= $similaridade[self.id - 1][usuario.id - 1] }
-
-      return -1.0 if rated_count.zero?
-
-      puts "Predicao para #{item.get_name} soma: #{soma} rated: #{rated_count}"
-
-      return soma / rated_count.to_f
-
-    end
-
-    def similaridade_com(usuario)
-
-      usuario_likes = usuario.likes
-      usuario_dislikes = usuario.dislikes
-
-      # '& é o operador de intersecção.
-      agreements = (@self_likes & usuario_likes).size
-      agreements += (@self_dislikes & usuario_dislikes).size
-
-      disagreements = (@self_likes & usuario_dislikes).size
-      disagreements += (@self_dislikes & usuario_likes).size
-
-      # '|' é o operador de união
-      total = (@self_likes + @self_dislikes) | (usuario_likes + usuario_dislikes)
-
-      return (agreements - disagreements) / total.size.to_f
-    end
 
     def no_pic_url
       "http://ieee-sb.ca/sites/default/files/default_user.jpg"

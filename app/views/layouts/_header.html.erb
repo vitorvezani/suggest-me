@@ -17,29 +17,29 @@
     <div class="navbar-collapse collapse">
       <!-- Botões do navbar -->
       <ul class="nav navbar-nav">
-        <li <%="class=active" if current_page?(itens_path) %>><%= link_to "Top Itens!", itens_path %></li>
-        <li <%="class=active" if current_page?(generos_path) %>><%= link_to "Gêneros!", generos_path %></li>
-          <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mais! <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li <%="class=active" if current_page?(sobre_path) %>><%= link_to "Sobre", sobre_path %></li>
-            <li <%="class=active" if current_page?(privacidade_path) %>><%= link_to "Privacidade", privacidade_path %></li>
-            <li <%="class=active" if current_page?(termos_path) %>><%= link_to "Termos", termos_path %></li>
-            <li <%="class=active" if current_page?(contato_path) %>><%= link_to "Contato", contato_path %></li>
-          </ul>
-        </li>
-      </ul>
-      <!-- /Botões do navbar -->
-      <ul class="nav navbar-nav navbar-right">
-        <!-- Search Box -->
         <li>
-          <%= form_tag( { controller: "itens", action: "search"}, method: "get", class: "navbar-form navbar-right") do %>
+          <%= form_tag( { controller: "itens", action: "index"}, method: "get", class: "navbar-form navbar-right") do %>
             <div class="inner-addon right-addon">
                 <i class="glyphicon glyphicon-search"></i>
                 <%= text_field_tag(:q, nil, class: "form-control", height:"15", width:"15") %>
             </div>
           <% end %>
-        <li>
+        </li>
+        <li <%="class=active" if current_page?(itens_path) %>><%= link_to "Itens!", itens_path %></li>
+        <li <%="class=active" if current_page?(generos_path) %>><%= link_to "Gêneros!", generos_path %></li>
+        <li <%="class=active" if current_page?(categorias_path) %>><%= link_to "Categorias!", categorias_path %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mais! <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+          <li <%="class=active" if current_page?(sobre_path) %>><%= link_to "Sobre", sobre_path %></li>
+          <li <%="class=active" if current_page?(privacidade_path) %>><%= link_to "Privacidade", privacidade_path %></li>
+          <li <%="class=active" if current_page?(termos_path) %>><%= link_to "Termos", termos_path %></li>
+          <li <%="class=active" if current_page?(contato_path) %>><%= link_to "Contato", contato_path %></li>
+        </ul>
+        </li>
+      </ul>
+      <!-- /Botões do navbar -->
+      <ul class="nav navbar-nav navbar-right">
         <% if signed_in? %> <!-- Está Logado -->
           <li><%= link_to "Suggest Me!", "/recomendacao" %></li>
           <li class="dropdown">

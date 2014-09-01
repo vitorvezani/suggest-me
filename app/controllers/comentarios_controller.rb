@@ -16,7 +16,7 @@ class ComentariosController < ApplicationController
   def update
     respond_to do |format|
       if @comentario.update(comentario_params)
-        flash[:success] = "Comentario foi atualizado com sucesso!"
+        flash[:success] = "Comentário foi atualizado com sucesso!"
         format.html { redirect_to item_path(@comentario.item) }
         format.json { render :show, status: :ok, location: @comentario }
       else
@@ -31,9 +31,9 @@ class ComentariosController < ApplicationController
   def create
     @comentario = current_user.comentarios.build(comentario_params)
     if @comentario.save
-      flash[:success] = "Comentario salvo!"
+      flash[:success] = "Comentário salvo!"
     else
-      flash[:danger] = "Comentario não foi salvo!"
+      flash[:danger] = "Comentário não foi salvo!"
     end
     redirect_to item_path(@comentario.item)
   end
@@ -42,9 +42,9 @@ class ComentariosController < ApplicationController
   # DELETE /comentarios/1.json
   def destroy
     if @comentario.destroy
-      flash[:success] = "Comentario excluido com sucesso!"
+      flash[:success] = "Comentário excluido com sucesso!"
     else
-      flash[:danger] = "Comentario não foi excluido corretamente!"
+      flash[:danger] = "Comentário não foi excluido corretamente!"
     end
       redirect_to item_path(@comentario.item)
   end

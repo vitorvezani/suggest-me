@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820021602) do
+ActiveRecord::Schema.define(version: 20140831132525) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 20140820021602) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "img_url"
+    t.datetime "last_visited"
   end
 
   add_index "itens", ["categoria_id", "nome_en"], name: "index_itens_on_categoria_id_and_nome_en", unique: true, using: :btree
   add_index "itens", ["categoria_id", "nome_ptbr"], name: "index_itens_on_categoria_id_and_nome_ptbr", unique: true, using: :btree
   add_index "itens", ["categoria_id"], name: "index_itens_on_categoria_id", using: :btree
   add_index "itens", ["id"], name: "index_itens_on_id", using: :btree
+  add_index "itens", ["last_visited"], name: "index_itens_on_last_visited", using: :btree
   add_index "itens", ["nome_en"], name: "index_itens_on_nome_en", using: :btree
   add_index "itens", ["nome_ptbr"], name: "index_itens_on_nome_ptbr", using: :btree
 
@@ -136,8 +138,11 @@ ActiveRecord::Schema.define(version: 20140820021602) do
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.string   "image"
+    t.datetime "last_login"
+    t.string   "info"
   end
 
+  add_index "usuarios", ["last_login"], name: "index_usuarios_on_last_login", using: :btree
   add_index "usuarios", ["remember_token"], name: "index_usuarios_on_remember_token", using: :btree
 
 end

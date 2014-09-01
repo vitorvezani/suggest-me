@@ -51,6 +51,12 @@ gem "faker"
 gem "progress_bar"
 # TF-IDF
 gem "tf_idf"
+# Redis
+gem "redis"
+# Redis-Namespace
+gem "redis-namespace"
+# Mini Profiler
+gem 'rack-mini-profiler'
 # Productions Gem
 group :production do
   # Use unicorn as the app server

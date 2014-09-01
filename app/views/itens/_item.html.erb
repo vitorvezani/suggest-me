@@ -1,13 +1,22 @@
-<tr>
+<tr id=<%= item.id.to_s %>>
   <td><%= link_to item.get_name, item %></td>
   <td><small> <%= truncate(item.descricao,{ :length => 50, omission: '... (continua)' }) %> </small></td>
   <td>
-  	<%= @avaliacoes[item.id][1].to_s %><span class="glyphicon glyphicon-thumbs-up"> </span> 
-  	<%= @avaliacoes[item.id][0].to_s %><span class="glyphicon glyphicon-thumbs-down"></span>
+    <button type="button" class="btn btn-primary btn-md like"> <%= @avaliacoes[item.id][1] %>
+      <span class="glyphicon glyphicon-thumbs-up"></span>
+    </button>
+    <button type="button" class="btn btn-danger btn-md dislike"> <%= @avaliacoes[item.id][0] %>
+      <span class="glyphicon glyphicon-thumbs-down"></span>
+    </button>
+    <% if signed_in? %>
+      <%= form_for current_user.avaliacoes.build(item_id: item.id), remote: true do |f| %>
+        <%= f.hidden_field :item_id %>
+        <%= f.hidden_field :avaliacao, id: "hidden_tipo_" + item.id.to_s %>
+        <%= f.submit "Like!", { style: "display: none", id: "submit_" + item.id.to_s} %>
+      <% end %>
+    <% end %>
   </td>
-  <div id="categorias">
     <td><span class="label <%= get_label_type item %>"><%= link_to item.categoria.descricao, categoria_path(item.categoria), class: "categoria"%></span></td>
-  <div>
   <% if is_admin? %>
     <td>
     	<%= link_to "Excluir", item, method: :delete %>

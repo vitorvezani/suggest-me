@@ -1,0 +1,10 @@
+<%= render "compartilhado/breadcrumb", pag: "Todas Categorias" %>
+
+<h1>Todas as Categorias</h1>
+
+<table class="table table-hover">
+	<tr class="info">                      
+		<th><%= sortable "descricao", "Descrição" %></th>
+	</tr>
+  <%= render @categorias %>
+</table>

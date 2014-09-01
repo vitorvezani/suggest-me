@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <span> <%= link_to comentario.usuario.username, usuario_path(comentario.usuario) %></span>
+          <span> <%= link_to comentario.item.get_name, item_path(comentario.item) %></span>
           <small>  
             <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
             <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
@@ -24,4 +24,4 @@
     </div>
   <% end %>
 <% end %>
-<%= will_paginate @comentarios, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
+<%= will_paginate @comentarios, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'comentario_page' %>

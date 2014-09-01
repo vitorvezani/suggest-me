@@ -13,6 +13,10 @@ Rails.application.configure do
     user_name: "contato.suggestme@gmail.com",
     password: "130980VI"
   }
+  
+  #:debug, :info, :warn, :error, :fatal, and :unknown
+  #config.log_level = :fatal
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

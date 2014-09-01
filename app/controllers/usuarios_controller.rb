@@ -16,16 +16,28 @@ class UsuariosController < ApplicationController
   # GET /usuarios.json
   def index
     # Usando paginate na classe Usuario para trazer registros!
-    @usuarios = Usuario.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+
+    @q = params[:q]
+
+    if @q then
+      @search = Usuario.search do
+        keywords params[:q]
+        paginate(page: params[:page], :per_page => 30)
+      end
+      @usuarios = @search.results
+    else
+      @usuarios = Usuario.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    end
+    
   end
 
   # GET /usuarios/1
   # GET /usuarios/1.json
   def show
-    @avaliacoes = @usuario.avaliacoes.paginate(page: params[:page], :per_page => 15).includes(:item)
-    @comentarios = @usuario.comentarios.paginate(page: params[:page], :per_page => 15)
-    @seguindo = @usuario.seguindo.paginate(page: params[:page], :per_page => 15)
-    @seguidores = @usuario.seguidores.paginate(page: params[:page], :per_page => 15)
+    @avaliacoes = @usuario.avaliacoes.paginate(page: params[:avaliacao_page], :per_page => 15).includes(:item)
+    @comentarios = @usuario.comentarios.paginate(page: params[:comentario_page], :per_page => 15).includes(:item)
+    @seguindo = @usuario.seguindo.paginate(page: params[:seguindo_page], :per_page => 15)
+    @seguidores = @usuario.seguidores.paginate(page: params[:seguidores_page], :per_page => 15)
   end
 
   # GET /usuarios/new
@@ -107,7 +119,7 @@ class UsuariosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def usuario_params
-      params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario)
+      params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario, :info)
     end
 
     # Before-filters function
@@ -115,7 +127,7 @@ class UsuariosController < ApplicationController
     # Verifica se o usuário a ser editado é o mesmo usuário logado.
     def usuario_correto
       @usuario = Usuario.find(params[:id])
-      redirect_to(root_url) unless current_user == @usuario or current_user.admin?
+      redirect_to root_url unless current_user == @usuario or current_user.admin?
     end
 
     # Somente admin pode vizualizar a pagina de usuários

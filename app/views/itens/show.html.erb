@@ -10,8 +10,10 @@
       <div id="content" class="col-md-offset-1 col-md-11">
         <section>
           <div class="row clearfix">
-            <img size: "280x160" src=<%= @item.get_img_url %> class="img-thumbnail" />
-          <div>
+            <div id="item-img">
+              <a id="item-img" href="#"><img size: "280x160" src=<%= @item.get_image %> class="img-thumbnail" /></a>
+            </div>
+          </div>
           <hr>
           <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes_count[:positivas] %>
             <span class="glyphicon glyphicon-thumbs-up"></span>
@@ -20,12 +22,10 @@
             <span class="glyphicon glyphicon-thumbs-down"></span>
           </button>
           <% if signed_in? %>
-            <%= form_for(@new_avaliacao) do |f| %>
+            <%= form_for current_user.avaliacoes.build(item_id: @item.id) do |f| %>
               <%= f.hidden_field :item_id %>
-              <%= f.hidden_field :avaliacao, id: 'hidden_tipo' %>
-              <div class="col-md-4.5 col-md-offset-8">
-                <%= f.submit "Like!", { class: "btn btn-large btn-primary", style: "display: none", id: "submit"} %>
-              </div>
+              <%= f.hidden_field :avaliacao, id: "hidden_tipo" %>
+              <%= f.submit "Like!", { style: "display: none", id: "submit"} %>
             <% end %>
           <% end %>
           <hr>
@@ -44,38 +44,15 @@
             <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#genero">
               Adicionar Tags
             </button>
-            <!-- Modal -->
-            <div class="modal fade" id="genero" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel"> <%= @item.get_name %></h4>
-                  </div>
-                  <%= form_for(@new_genero) do |f| %>
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <%= f.hidden_field :item_id %>
-                        <%= f.label :genero_id, "Genero" %>
-                        <%= f.collection_select(:genero_id, Genero.order(:nome), :id, :nome, class: "form-control" ) %>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <%= link_to "Criar novo Genero", new_genero_path%>
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                      <button type="submit" name= "commit" class="btn btn-primary">Salvar</button>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-            </br></br>
-            <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } %>
+              <%= render partial: "new_generalizacao", locals: { item: @item } %>
           <% end %>
+          </br>
+          <label>Mais: </label> <%= link_to 'Wikipedia', @item.wiki_link %> <br>
+          <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } if signed_in? %>
           </br></br>
-          <%= link_to 'Voltar', itens_path %> |
+          <%= link_to 'Voltar', itens_path %>
           <% if signed_in? %>
-            <%= link_to 'Editar', edit_item_path(@item) %> |
+            | <%= link_to 'Editar', edit_item_path(@item) %> |
           <% end %>
           <% if is_admin?%>
             <%= link_to 'Excluir', item_path(@item), method: :delete %> |
@@ -90,7 +67,7 @@
       <div class="row">
         <div id="content" class="col-md-offset-1 col-md-11 content content">
         <% if signed_in? %>
-            <%= form_for(@new_comentario) do |f| %>
+            <%= form_for current_user.comentarios.build(item_id: @item.id) do |f| %>
               <%= render 'compartilhado/mensagens_erro', object: f.object %>
               <%= f.hidden_field :item_id %>
               <div class="field">
@@ -102,8 +79,8 @@
             <% end %>
         <% else %>
           <div class="well">
-            <small>Deixe um comentário. <%= link_to "Faça login no SuggestMe", signin_path %> ou <%= link_to "registre-se.", signup_path %>
-            </small>
+            <p>Deixe um comentário. <%= link_to "Faça login no SuggestMe", signin_path %> ou <%= link_to "registre-se.", signup_path %>
+            </p>
           </div>
         <% end %>
         <hr>
@@ -115,7 +92,7 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div class="tab-pane active" id="comentario">
-            <%= render "comentarios/todos_comentarios", comentarios: @comentarios %>
+            <%= render "comentarios", comentarios: @comentarios %>
           </div>
           <div class="tab-pane" id="avaliacao">
             <%= render "avaliacoes", avaliacoes: @avaliacoes %>
@@ -125,11 +102,9 @@
     </div>
   </div>
   <!-- Artistas Parecidos -->
-  <div class="col-md-3">
-    <div class="row">
-      <div id="content-recommendation" class="col-md-offset-3 col-md-9 content content">
-        <!-- Aqui será inserido a recomendação por conteudo através de Ajax-->
-      </div>
-    </div>
+  <div id="content-recommendation" class="col-md-3">
+    <!-- Ajax vai aqui -->
+    <h3>Carregando Recomendações</h3>
+    <%= image_tag "ajax-loader.gif" %>
   </div>
 </div>

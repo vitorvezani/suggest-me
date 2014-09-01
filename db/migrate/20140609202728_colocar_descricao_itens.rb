@@ -23,7 +23,7 @@ class ColocarDescricaoItens < ActiveRecord::Migration
 
 					url = "http://pt.wikipedia.org/wiki/" + product
 
-					for i in (0..3)
+					for i in (0..1)
 						if page.css('div#mw-content-text p')[i]
 
 							info = page.css('div#mw-content-text p')[i].text

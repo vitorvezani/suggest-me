@@ -4,16 +4,22 @@ module SessionsHelper
 	# 2 - coloca o token no cookie (browser do usuário) 
 	# 3 - Salva o hash do token na base;
 	# 4 - Seta o current_user, variavel da instancia com o usuário
-  def sign_in(user)
+  def sign_in(usuario)
     remember_token = Usuario.novo_remember_token
     cookies[:remember_token] = { value: remember_token, expires: 20.years.from_now.localtime }
-    user.update_attribute(:remember_token, Usuario.digest(remember_token))
-    self.current_user = user
+    usuario.update_attribute(:remember_token, Usuario.digest(remember_token))
+    usuario.update(last_login: Time.now);
+    self.current_user = usuario
   end
 
   # Seta o current_user
-  def current_user=(user)
-    @current_user = user
+  def current_user=(usuario)
+    @current_user = usuario
+  end
+
+  # Retorna se o current_user é o usuário
+  def current_user?(usuario)
+    @current_user == usuario
   end
 
   # Retorna o current_user, mas primeiro da hash no cookie e procura o usuario
@@ -35,14 +41,6 @@ module SessionsHelper
 
   def is_admin?
     self.current_user.try(:admin?)
-  end
-
-  # Se o usuário não está logado, redireciona para o login
-  def usuario_logado?
-    unless signed_in?
-      flash[:warning] = "Por favor Sign in."
-      redirect_to signin_url
-    end
   end
 
 end

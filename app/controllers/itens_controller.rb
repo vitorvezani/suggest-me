@@ -1,14 +1,29 @@
 class ItensController < ApplicationController
   helper_method :sort_coluna, :sort_direcao
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :get_content_recommendation]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :get_recommendations]
   before_action :usuario_admin, only: [:destroy] # Verifica se é o usuário admin.
 
   # GET /itens
   # GET /itens.json
   def index
-    #@itens = Item.joins(:avaliacoes).group("avaliacoes.item_id").order("sum(avaliacoes.avaliacao) desc").paginate(page: params[:page], :per_page => 30)
-    @itens = Item.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30).includes(:categoria)
-    @avaliacoes = get_avaliacoes
+
+    @q = params[:q]
+
+    if @q then
+      @search = Item.search do
+        keywords params[:q]
+        paginate(page: params[:page], :per_page => 30)
+      end
+      @itens = @search.results
+      @avaliacoes = get_avaliacoes
+    else
+      #@itens = Item.joins(:avaliacoes).group("avaliacoes.item_id").order("sum(avaliacoes.avaliacao) desc").paginate(page: params[:page], :per_page => 30)
+      @itens = Item.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30).includes(:categoria)
+      @avaliacoes = get_avaliacoes
+    end
+
+    gon.usuario_logado = signed_in?
+    
   end
 
   # GET /itens/1
@@ -17,23 +32,15 @@ class ItensController < ApplicationController
 
     @itens_recomendados = Array.new
 
-    # Cria uma instancia do comentario e avaliacao para enviar para o create do comentario/avaliacao
-    if signed_in?
-      # Avaliacao
-      @new_avaliacao = current_user.avaliacoes.build(item_id: @item.id)
-      # Comentario
-      @new_comentario = current_user.comentarios.build(item_id: @item.id)
-      # Generalizacao
-      @new_genero = @item.generalizacoes.build(item_id: @item.id)
-    end
-
     # Atributos do item em questão
-    @comentarios = @item.comentarios.paginate(page: params[:page], :per_page => 15).order(created_at: :desc).includes(:usuario)
-    @avaliacoes = @item.avaliacoes.paginate(page: params[:page], :per_page => 15).order(created_at: :desc).includes(:usuario)
+    @comentarios = @item.comentarios.paginate(page: params[:comentario_page], :per_page => 15).order(created_at: :desc).includes(:usuario)
+    @avaliacoes = @item.avaliacoes.paginate(page: params[:avaliacao_page], :per_page => 15).order(created_at: :desc).includes(:usuario)
     @avaliacoes_count = { positivas: @item.avaliacoes.where("avaliacao = ?", true).count, negativas: @item.avaliacoes.where("avaliacao = ?", false).count }
 
     gon.usuario_logado = signed_in?
     gon.item_id = @item.id
+
+    @item.update(last_visited: Time.now);
 
   end
 
@@ -46,20 +53,29 @@ class ItensController < ApplicationController
   def edit
   end
 
-  def get_content_recommendation
-    # GET /itens/1
-
+  def get_recommendations
+  # GET /itens/1
+  
     start_t = Time.now
+  
+    c_recommendations = ContentRecommendation.new(@item)
 
-    @itens_recomendados_conteudo = @item.get_tf_idf_recommendations
-    
+    @itens_recomendados = c_recommendations.recommend
+
     finish_t = Time.now
     puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+  
+    respond_to do |format|
+       format.js
+    end
+  
+  end
 
+  def get_image
+    @url = self.get_image
     respond_to do |format|
       format.js
     end
-
   end
 
   # GET /itens/
@@ -67,10 +83,10 @@ class ItensController < ApplicationController
 
     start_t = Time.now
 
-    @livros = Array.new
-    @filmes = Array.new
-    @jogos = Array.new
-    @musicas = Array.new
+    @livros = Hash.new
+    @filmes = Hash.new
+    @jogos = Hash.new
+    @musicas = Hash.new
 
     # Numero de avaliações feitas pelo usuário logado
     @num_avaliacoes = current_user.avaliacoes.size
@@ -79,21 +95,21 @@ class ItensController < ApplicationController
 
       recommendations = current_user.get_recommendations
 
-      recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 500
+      recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 200
 
-      recommendations.each do |key, value|
+      recommendations.each do |item_id, nota|
         
-        if value != -1 then
-          item = Item.find(key)
+        if nota != -1 then
+          item = Item.find(item_id)
 
           if item.is_book
-            @livros << item
+            @livros[nota] = item
           elsif item.is_film
-            @filmes << item
+            @filmes[nota] = item
           elsif item.is_game
-            @jogos << item
+            @jogos[nota] = item
           elsif item.is_music
-            @musicas << item
+            @musicas[nota] = item
           end
         end 
       end

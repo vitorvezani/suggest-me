@@ -3,6 +3,10 @@
 	<hr>
 	<%= render "status", usuario: @usuario %>
 </div>
+	<% unless @usuario.info.blank? %>
+		<hr>
+		<%= @usuario.info %> </br>
+	<% end %>
 <hr>
 <label>Username:</label> <%= @usuario.username %> </br>
 <label>E-mail: </label> <%= @usuario.email %> </br>

@@ -6,7 +6,18 @@ class GenerosController < ApplicationController
   # GET /generos
   # GET /generos.json
   def index
-    @generos = Genero.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+
+    @q = params[:q]
+
+    if @q then
+      @search = Genero.search do
+        keywords params[:q]
+        paginate(page: params[:page], :per_page => 30)
+      end
+      @generos = @search.results
+    else
+      @generos = Genero.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    end
   end
 
   # GET /generos/1
@@ -31,11 +42,11 @@ class GenerosController < ApplicationController
 
     respond_to do |format|
       if @genero.save
-        flash[:success] = "Genero #{@genero.nome} foi criado com sucesso!"
+        flash[:success] = "Gênero #{@genero.nome} foi criado com sucesso!"
         format.html { redirect_to @genero }
         format.json { render :show, status: :created, location: @genero }
       else
-        flash.now[:danger] = "Genero #{@genero.nome} não foi criado com sucesso!"
+        flash.now[:danger] = "Gênero #{@genero.nome} não foi criado com sucesso!"
         format.html { render :new }
         format.json { render json: @genero.errors, status: :unprocessable_entity }
       end
@@ -47,11 +58,11 @@ class GenerosController < ApplicationController
   def update
     respond_to do |format|
       if @genero.update(genero_params)
-        flash[:success] = "Genero #{@genero.nome} foi editado com sucesso!"
+        flash[:success] = "Gênero #{@genero.nome} foi editado com sucesso!"
         format.html { redirect_to @genero }
         format.json { render :show, status: :ok, location: @genero }
       else
-        flash.now[:danger] = "Genero #{@genero.nome} não foi editado com sucesso!"
+        flash.now[:danger] = "Gênero #{@genero.nome} não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @genero.errors, status: :unprocessable_entity }
       end

@@ -28,3 +28,23 @@ MacOS database file: /tmp/mysql.sock
 - Ligar MySql
 - Excluir a pasta solr
 - bundle exec rake sunspot:solr:start
+
+
+#########
+# REDIS #
+#########
+
+http://redis.io/download
+
+Versão utilizada 2.8.13
+
+- Installation
+	Download, extract and compile Redis with:
+	$ wget http://download.redis.io/releases/redis-2.8.13.tar.gz
+	$ tar xzf redis-2.8.13.tar.gz
+	$ cd redis-2.8.13
+	$ make
+- The binaries that are now compiled are available in the src directory. Run Redis with:
+  $ cd /Users/macbookpro/Documents/redis-2.8.13
+  $ make 
+	$ src/redis-server
