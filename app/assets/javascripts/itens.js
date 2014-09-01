@@ -58,7 +58,7 @@ $(document).ready(function() {
 	});
 
 	$(function() {
-		$('.nav-tabs a:first').tab('show');
+		$('.nav-tabs a:eq('+ gon.position +')').tab('show').addClass('active');
 	});
 
   $(".close").click(function(){

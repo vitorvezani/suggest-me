@@ -34,10 +34,22 @@ class UsuariosController < ApplicationController
   # GET /usuarios/1
   # GET /usuarios/1.json
   def show
-    @avaliacoes = @usuario.avaliacoes.paginate(page: params[:avaliacao_page], :per_page => 15).includes(:item)
     @comentarios = @usuario.comentarios.paginate(page: params[:comentario_page], :per_page => 15).includes(:item)
+    @avaliacoes = @usuario.avaliacoes.paginate(page: params[:avaliacao_page], :per_page => 15).includes(:item)
     @seguindo = @usuario.seguindo.paginate(page: params[:seguindo_page], :per_page => 15)
     @seguidores = @usuario.seguidores.paginate(page: params[:seguidores_page], :per_page => 15)
+
+    if params.has_key?(:comentario_page) then 
+      gon.position = 0
+    elsif params.has_key?(:avaliacao_page) then 
+      gon.position = 1
+    elsif params.has_key?(:seguindo_page) then 
+      gon.position = 2
+    elsif params.has_key?(:seguidores_page) then 
+      gon.position = 3
+    else 
+      gon.position = 0
+    end
   end
 
   # GET /usuarios/new
