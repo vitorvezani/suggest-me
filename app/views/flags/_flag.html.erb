@@ -7,7 +7,7 @@
   <td><%= flag.tipo_flag.descricao %></td>
   <td><%= truncate(flag.conteudo,{ :length => 50, omission: '... (continua)' }) %></td>
   <td><%= link_to flag.usuario.get_name, flag.usuario %></td>
-  <td><%= flag.created_at %></td>
+  <td><%= flag.created_at.to_s(:db) %></td>
   <td>
     <%= link_to "Excluir Flag", flag, method: :delete %> |
   	<%= link_to "Excluir Item", flag.flagavel, method: :delete %>

@@ -61,6 +61,10 @@ $(document).ready(function() {
 		$('.nav-tabs a:eq('+ gon.position +')').tab('show').addClass('active');
 	});
 
+	if ($('#collaborative-recommendation').length) {
+		$('.nav-tabs a:eq(0)').tab('show').addClass('active');
+	}
+
   $(".close").click(function(){
     $(".alert").alert();
   });

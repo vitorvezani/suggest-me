@@ -72,10 +72,13 @@ class UsuariosController < ApplicationController
 
     respond_to do |format|
       if @usuario.save
-        sign_in @usuario
-        flash[:success] = "Olá #{@usuario.username}. Bem Vindo ao Suggest Me!"
-        format.html { redirect_to @usuario }
-        format.json { render :show, status: :created, location: @usuario }
+        Thread.new do
+          UserMailer.registration_confirmation(@usuario).deliver
+          ActiveRecord::Base.connection.close
+        end
+        flash[:success] = "Resgistro concluído com sucesso! Por favor verifique seu e-mail para ativar sua conta!"
+        format.html { redirect_to root_path }
+        format.json { render :show, status: :created, location: root_path }
       else
         format.html { render :new }
         format.json { render json: @usuario.errors, status: :unprocessable_entity }
@@ -122,6 +125,37 @@ class UsuariosController < ApplicationController
     end
   end
 
+  def confirm_account
+    usuario = Usuario.find_by(confimartion_code: params[:id])
+    if usuario then
+      usuario.confirmed = true
+      sign_in usuario
+      flash[:success] = "Conta corfirmada! Olá #{usuario.username}. Bem Vindo ao Suggest Me!"
+      redirect_to root_url
+    else
+      flash[:success] = "Usuário não encontrado, por favor entre em contato com os administradores!"
+      redirect_to contato_path
+    end
+  end
+
+  def reset_password
+    # Renderiza a troca da senha
+  end
+
+  def send_reset_password
+    usuario = Usuario.find_by(email: params[:email])
+    if !usuario.nil? then
+      nova_senha = rand(36**8).to_s(36) #SecureRandom.urlsafe_base64
+      usuario.update(password: nova_senha, password_confirmation: nova_senha)
+      Thread.new do
+        UserMailer.reset_password(usuario, nova_senha).deliver
+        ActiveRecord::Base.connection.close
+      end
+    end
+    flash[:success] = "Senha redefinida. Por favor, verifique seu e-mail!"
+    redirect_to root_path
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -155,7 +189,7 @@ class UsuariosController < ApplicationController
       end
     end
 
-        def sort_coluna
+    def sort_coluna
       Usuario.column_names.include?(params[:coluna]) ? params[:coluna] : "id"
     end
 

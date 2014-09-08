@@ -11,7 +11,10 @@ class SuggestionsController < ApplicationController
   def enviar_contato  
     email = params[:email]
     msg =  params[:msg]
-    ContatoMailer.contato(email, msg).deliver  
+    Thread.new do
+      ContatoMailer.contato(email, msg).deliver 
+      ActiveRecord::Base.connection.close
+    end 
     flash[:success] = 'Contato enviado com sucesso!'
     redirect_to root_url
   end 

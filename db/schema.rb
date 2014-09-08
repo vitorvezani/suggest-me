@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831132525) do
+ActiveRecord::Schema.define(version: 20140907124329) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -122,14 +122,14 @@ ActiveRecord::Schema.define(version: 20140831132525) do
   end
 
   create_table "usuarios", force: true do |t|
-    t.string   "primeiro_nome",    limit: 50
-    t.string   "ultimo_nome",      limit: 50
+    t.string   "primeiro_nome",     limit: 50
+    t.string   "ultimo_nome",       limit: 50
     t.string   "username"
     t.date     "dt_aniversario"
-    t.string   "sexo",             limit: 1
+    t.string   "sexo",              limit: 1
     t.string   "email"
     t.string   "password_digest"
-    t.boolean  "admin",                       default: false
+    t.boolean  "admin",                        default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
@@ -140,6 +140,8 @@ ActiveRecord::Schema.define(version: 20140831132525) do
     t.string   "image"
     t.datetime "last_login"
     t.string   "info"
+    t.string   "confimartion_code"
+    t.string   "confirmed",                    default: "0"
   end
 
   add_index "usuarios", ["last_login"], name: "index_usuarios_on_last_login", using: :btree

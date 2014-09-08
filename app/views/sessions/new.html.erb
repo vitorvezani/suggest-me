@@ -5,10 +5,14 @@
 
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
+    <h4><%= "Email '#{@email}' já cadastrado! Por favor, efetue o login para vincular a conta!" if @uid %></h4>
     <%= form_for(:session, url: sessions_path) do |f| %>
+      <% if !@uid.nil? then %>
+        <%= f.hidden_field :uid, value: @uid %>
+      <% end %>
       <div class="form-group">
         <label> Email</label>
-        <%= f.text_field :email, class: "form-control" %>
+        <%= f.text_field :email, value: @email, class: "form-control" %>
       </div>
       <div class="form-group">
         <%= f.label :password %>
@@ -17,7 +21,9 @@
       <hr>
       <%= f.submit "Entrar", class: "btn btn-large btn-primary" %>
     <% end %>
-    <p></p>
+    <hr>
     <p>Novo usuário? <%= link_to "Registre-se agora!", signup_path %></p>
+    <p>Esqueceu sua senha? <%= link_to "Clique aqui!", reset_password_path %></p>
+    <hr>
   </div>
 </div>

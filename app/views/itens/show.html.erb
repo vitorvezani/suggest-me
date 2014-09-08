@@ -47,7 +47,7 @@
               <%= render partial: "new_generalizacao", locals: { item: @item } %>
           <% end %>
           </br>
-          <label>Mais: </label> <%= link_to 'Wikipedia', @item.wiki_link %> <br>
+          <label>Mais: </label> <%= link_to 'Wikipedia', @item.wiki_link %> <br><br>
           <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } if signed_in? %>
           </br></br>
           <%= link_to 'Voltar', itens_path %>

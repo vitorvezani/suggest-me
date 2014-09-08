@@ -1,8 +1,8 @@
 <h3>Itens parecidos:</h3>
 <ul class="list-group">
-	<% itens.each do |nota, item| %>
+	<% itens.each do |id, nota| %>
 		<li class="list-group-item">
-			<%= link_to item.get_name, item_path(item) %> <%= nota %>
+			<%= link_to Item.find(id).get_name, item_path(id) %> <%= nota %>
 		</li>
 	<% end %>
 </ul>

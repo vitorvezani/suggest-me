@@ -4,8 +4,8 @@
   <td><%= usuario.try(:ultimo_nome) %></td>
   <td><%= usuario.email %></td>
   <td><%= usuario.try(:dt_aniversario) %></td>
-  <td><%= usuario.try(:created_at) %></td>
-  <td><%= usuario.try(:updated_at) %></td>
+  <td><%= usuario.try(:created_at).to_s(:db) %></td>
+  <td><%= usuario.try(:updated_at).to_s(:db) %></td>
   <% if is_admin? %>
       <td>
        <%= link_to 'Editar', edit_usuario_path(usuario) %>

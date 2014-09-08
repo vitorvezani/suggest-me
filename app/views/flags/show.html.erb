@@ -14,8 +14,8 @@
             <p><label>Flagavel: </label> <%= link_to @flag.flagavel.try(:get_name) || "Comentário #{@flag.flagavel.id}", @flag.flagavel %></p>
             <p><label>Tipo Flag: </label> <%=  @flag.tipo_flag.descricao %></p>
             <p><label>Tipo Item: </label> <%= @flag.flagavel_type %></p>
-            <p><label>Criado em: </label> <%= @flag.created_at.to_s %></p>
-            <p><label>Modificado em: </label> <%= @flag.updated_at.to_s %></p>
+            <p><label>Criado em: </label> <%= @flag.created_at.to_s(:db) %></p>
+            <p><label>Modificado em: </label> <%= @flag.updated_at.to_s(:db) %></p>
         </div>
       </div>
       <% if is_admin? %>

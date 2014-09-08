@@ -15,15 +15,27 @@ class ContentRecommendation
 
   	data = get_data
 
+		#puts "----------------- DATA -----------------"
+  	#puts data.inspect
+
 		tf_idf = TfIdf.new(data).tf_idf
 
-		@itens.select{|m| m.id != @item.id }.each do |item|
-			similaridade[item.id] = similaridade_com(tf_idf, item)
+		#puts "---------------- TF IDF -----------------"
+		#puts tf_idf.inspect
+
+		@itens.each do |item|
+			similaridade[item.id] = similaridade_com(item, tf_idf)
 		end
 
 		similaridade = similaridade.sort_by { |id, nota| nota }.reverse.take(10)
 
-    similaridade.each { |id, nota| itens_recomendados[nota] = Item.find(id) if nota > 0 }
+		#puts "---------------- Similaridade -----------------"
+		#puts similaridade.inspect
+
+    similaridade.each { |id, nota| itens_recomendados[id] = nota }
+
+    #puts "---------------- Itens Recomendados -----------------"
+		#puts itens_recomendados.inspect
 
 		return itens_recomendados
 
@@ -43,7 +55,7 @@ class ContentRecommendation
 		return data
 	end
 
-  def similaridade_com(tf_idf, item)
+  def similaridade_com(item, tf_idf)
 
   	my_terms = tf_idf[@item.id - 1]
   	itens_terms = tf_idf[item.id - 1]
@@ -54,7 +66,7 @@ class ContentRecommendation
   		soma += v.to_f * itens_terms[k].to_f
   	end
 
-  	sim = soma / itens_terms.size
+  	sim = soma / my_terms.size
 
   	sim.nan? ? 0 : sim
 

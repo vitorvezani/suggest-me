@@ -1,0 +1,10 @@
+<p>Olá, <%= @usuario.username %>,<p>
+
+<p>Obrigado por se resgistrar!<p>
+
+<p>Clique no link a seguir para ativar sua conta:<p>
+
+<p><%= link_to "Confirmar Conta", { controller: "usuarios", action: "confirm_account", id: @usuario.confimartion_code, host: "localhost:3000" } %><p>
+
+<p>Contato SuggestMe!<p>
+<p>Pedreira, SP<p>

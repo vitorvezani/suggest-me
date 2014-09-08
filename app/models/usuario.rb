@@ -2,8 +2,9 @@ class Usuario < ActiveRecord::Base
 
 	before_validation :strip_spaces
 	before_create :criar_remember_token
+  before_create { generate_token(:confimartion_code) } 
   before_create :get_gravatar_img_src
-
+  
   attr_accessor :self_likes, :self_dislikes
 
 	validates_presence_of :password, message: "deve estar preenchido", :on => :create
@@ -80,7 +81,7 @@ class Usuario < ActiveRecord::Base
 
   def get_recommendations
 
-    c_recommendations = ColaborativeRecommendation.new(self)
+    c_recommendations = CollaborativeRecommendation.new(self)
 
     c_recommendations.recommend
 
@@ -152,10 +153,8 @@ class Usuario < ActiveRecord::Base
       if self.uid.nil? then
         # include MD5 gem, should be part of standard ruby install
         require 'digest/md5'
-
         # create the md5 hash
         hash = Digest::MD5.hexdigest(self.email.downcase)
-         
         # compile URL which can be used in <img src="RIGHT_HERE"...
         self.image = "http://www.gravatar.com/avatar/#{hash}"
       end
@@ -205,5 +204,11 @@ class Usuario < ActiveRecord::Base
       	end
     	end
   	end
+
+    def generate_token(coluna)
+      begin
+        self[coluna] = SecureRandom.urlsafe_base64
+      end while Usuario.exists?(coluna => self[coluna])
+    end
 
 end

@@ -6,9 +6,9 @@ class ContatoMailer < ActionMailer::Base
   #
   #   en.contato_mailer.contato.subject
   #
-  def contato(email, msg)
+  def contato(email, mensagem)
   	@email = email
-  	@msg = msg
-    mail to: "contato.suggestme@gmail.com", subject: "Contato do usuario " + @email
+  	@mensagem = mensagem
+    mail(to: @email, subject: "Contato do Usuário " + @email)
   end
 end

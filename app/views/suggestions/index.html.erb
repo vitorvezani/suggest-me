@@ -22,22 +22,20 @@
 		<% end %>
 	</div>
 	<div class="col-xs-4">
-		<h3>Ultimos usuários logados:</h3>
+		<h3>Últimos usuários logados:</h3>
 		<ul class="list-group">
 			<% @ultimos_usuarios.each do |usuario| %>
 	      <li class="list-group-item">
-	    		<img src=<%= usuario.get_image %> alt="profile pic" height="42" width="42" class="img-rounded">
 	        <%= link_to usuario.username, usuario_path(usuario) %>
 	      </li>
 			<% end %>
 		</ul>
 	</div>
 	<div class="col-xs-4">
-		<h3>Ultimos itens visitados:</h3>
+		<h3>Últimos itens visitados:</h3>
 		<ul class="list-group">
 			<% @ultimos_itens.each do |item| %>
 				<li class="list-group-item">
-					<img src=<%= item.get_image %> alt="profile pic" height="42" width="42" class="img-rounded">
 					<%= link_to item.get_name, item_path(item) %>
 				</li>
 			<% end %>
