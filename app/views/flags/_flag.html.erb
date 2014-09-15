@@ -2,14 +2,14 @@
   <td>
   <%= link_to '<span class="glyphicon, glyphicon-plus"></span>'.html_safe, flag, class: 'btn btn-primary btn-xs' %>
   </td>
-  <td><%= link_to flag.flagavel.try(:get_name) || "Comentário #{flag.flagavel.id}", flag.flagavel %></td>
+  <td><%= link_to flag.flagavel.get_name , flag.flagavel %></td>
   <td><%= flag.flagavel.class %></td>
   <td><%= flag.tipo_flag.descricao %></td>
   <td><%= truncate(flag.conteudo,{ :length => 50, omission: '... (continua)' }) %></td>
-  <td><%= link_to flag.usuario.get_name, flag.usuario %></td>
+  <td><%= link_to flag.usuario.try(:get_name) || "Ex-usuário", flag.usuario %></td>
   <td><%= flag.created_at.to_s(:db) %></td>
   <td>
-    <%= link_to "Excluir Flag", flag, method: :delete %> |
-  	<%= link_to "Excluir Item", flag.flagavel, method: :delete %>
+    <%= link_to "Excluir Flag", flag, method: :delete, data: { confirm: 'Você tem certeza?' } %> |
+  	<%= link_to "Excluir Item", flag.flagavel, method: :delete, data: { confirm: 'Você tem certeza?' } if admin? %>
   </td>
 </tr>

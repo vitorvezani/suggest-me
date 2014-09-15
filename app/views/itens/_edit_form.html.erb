@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="col-md-4 col-md-offset-4">
+  <div class="col-md-6 col-md-offset-3">
     <%= form_for(@item) do |f| %>
       <%= render 'compartilhado/mensagens_erro', object: f.object %>
       <div class="form-group">
       <%= f.label :categoria_id, "Categoria" %>
-      <%= f.collection_select(:categoria_id, Categoria.order(:descricao), :id, :descricao, {}, { class: "form-control", disabled: !is_admin?}) %>
+      <%= f.collection_select(:categoria_id, Categoria.order(:descricao), :id, :descricao, {}, { class: "form-control", disabled: !admin? }) %>
       </div>
       <div class="form-group">  
       <%= f.label :nome_ptbr, "Nome em Português" %>
-      <%= f.text_field :nome_ptbr, class: "form-control", disabled: !is_admin?  %>
+      <%= f.text_field :nome_ptbr, class: "form-control", disabled: !admin? %>
       </div>
       <div class="form-group">
       <%= f.label :nome_en, "Nome em Inglês" %>
-      <%= f.text_field :nome_en, class: "form-control", disabled: !is_admin?   %>
+      <%= f.text_field :nome_en, class: "form-control", disabled: !admin? %>
       </div>
       <div class="form-group">
       <%= f.label :descricao %>
-      <%= f.text_area :descricao, rows: 3, class: "form-control" %>
+      <%= f.text_area :descricao, rows: 6, class: "form-control" %>
       </div>
       <hr>
       <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
@@ -25,3 +25,4 @@
     <% end %>
   </div>
 </div>
+<%= link_to "Voltar", item_path(@item) %>

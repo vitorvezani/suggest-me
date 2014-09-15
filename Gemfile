@@ -25,7 +25,7 @@ ruby '2.0.0'
 # New Relic
 gem 'newrelic_rpm'
 # Bullet
- gem 'bullet'
+ #gem 'bullet'
 # Login with Facebook
  gem 'omniauth-facebook'
 # Awesome Font
@@ -54,9 +54,9 @@ gem "progress_bar"
 # TF-IDF
 gem "tf_idf"
 # Redis
-gem "redis"
+#gem "redis"
 # Redis-Namespace
-gem "redis-namespace"
+#gem "redis-namespace"
 # Mini Profiler
 gem 'rack-mini-profiler'
 # Productions Gem

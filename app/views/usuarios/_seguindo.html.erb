@@ -3,7 +3,7 @@
   <ul class="list-group">
   <% @seguindo.each do |usuario_seguido| %>
       <li class="list-group-item">
-      	<img src=<%= usuario_seguido.get_image %> alt="profile pic" height="42" width="42" class="img-rounded">
+      	<img src=<%= usuario_seguido.image %> alt="profile pic" height="42" width="42" class="img-rounded">
         <%= link_to usuario_seguido.username, usuario_path(usuario_seguido) %>
       </li>
   <% end %>

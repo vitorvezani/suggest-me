@@ -29,17 +29,17 @@ pg = Random.new(50)
 							    image: nil)
 end
 
-item_all = Item.all.count
-user_all = Usuario.all.count
+item_all = Item.all.size
 pg = Random.new(item_all)
-pg1 = Random.new(user_all)
 
-6000.times do |i|
-	begin
-	  Avaliacao.create( item_id: pg.rand(0...item_all),
-											usuario_id: pg1.rand(0...user_all),
-											avaliacao: [true, true, true, false].shuffle.first )
-	rescue Exception => e
+3.times do |i|
+	Usuario.all.each do |i|
+		begin
+		  Avaliacao.create( item_id: pg.rand(0...item_all),
+												usuario_id: i.id,
+												avaliacao: [true, true, true, false].shuffle.first )
+		rescue Exception => e
+		end
 	end
 end
 
@@ -56,9 +56,6 @@ gg = Random.new(genero_all)
 	end
 end
 
-Avaliacao.all.each do |avaliacao|
-	if avaliacao.usuario.nil? then
-		avaliacao.destroy
-	end
-end
+Avaliacao.all.each { |a| a.destroy if a.usuario.nil? or a.item.nil?}
+Generalizacao.all.each { |g| g.destroy if g.item.nil? or a.genero.nil? }
 

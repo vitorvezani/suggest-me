@@ -1,7 +1,7 @@
 class GeneralizacoesController < ApplicationController
   before_action :set_generalizacao, only: [ :destroy, :edit, :update ]
   before_action :usuario_logado?, only: [ :create, :destroy, :new ]
-  before_action :is_admin?, only: [ :destroy_all ]
+  before_action :admin?, only: [ :destroy_all ]
 
   # GET /generalizacoes/1/edit
   def edit

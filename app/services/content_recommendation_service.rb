@@ -1,4 +1,4 @@
-class ContentRecommendation
+class ContentRecommendationService
 
 	def initialize(item)
 
@@ -13,15 +13,9 @@ class ContentRecommendation
   	similaridade = Hash.new
   	itens_recomendados = Hash.new
 
-  	data = get_data
-
-		#puts "----------------- DATA -----------------"
-  	#puts data.inspect
+  	data = format_data
 
 		tf_idf = TfIdf.new(data).tf_idf
-
-		#puts "---------------- TF IDF -----------------"
-		#puts tf_idf.inspect
 
 		@itens.each do |item|
 			similaridade[item.id] = similaridade_com(item, tf_idf)
@@ -29,13 +23,7 @@ class ContentRecommendation
 
 		similaridade = similaridade.sort_by { |id, nota| nota }.reverse.take(10)
 
-		#puts "---------------- Similaridade -----------------"
-		#puts similaridade.inspect
-
-    similaridade.each { |id, nota| itens_recomendados[id] = nota }
-
-    #puts "---------------- Itens Recomendados -----------------"
-		#puts itens_recomendados.inspect
+    similaridade.each { |id, nota| itens_recomendados[id] = nota if nota > 0}
 
 		return itens_recomendados
 
@@ -43,7 +31,7 @@ class ContentRecommendation
 
   private
 
-	def get_data
+	def format_data
 		data = Array.new
 			@itens.each do |item|
 			aux = Array.new 
@@ -52,7 +40,7 @@ class ContentRecommendation
 			end
 			data[item.id - 1] = aux
 		end
-		return data
+		data.map {|d| d.nil? ? Array.new : d}
 	end
 
   def similaridade_com(item, tf_idf)

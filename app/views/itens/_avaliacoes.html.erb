@@ -3,7 +3,7 @@
   <ul class="list-group">
   <% @avaliacoes.each do |avaliacao| %>
       <li class="list-group-item">
-        <img src=<%= avaliacao.usuario.get_image %> alt="profile pic" height="42" width="42" class="img-rounded">
+        <img src=<%= avaliacao.usuario.image %> alt="profile pic" height="42" width="42" class="img-rounded">
         <%= link_to avaliacao.usuario.username, usuario_path(avaliacao.usuario) %>
         <% if avaliacao.avaliacao %>
           <span class="glyphicon glyphicon-thumbs-up"></span>

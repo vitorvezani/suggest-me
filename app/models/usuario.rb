@@ -3,7 +3,7 @@ class Usuario < ActiveRecord::Base
 	before_validation :strip_spaces
 	before_create :criar_remember_token
   before_create { generate_token(:confimartion_code) } 
-  before_create :get_gravatar_img_src
+  before_create :gravatar_img_src
   
   attr_accessor :self_likes, :self_dislikes
 
@@ -21,7 +21,7 @@ class Usuario < ActiveRecord::Base
 	validates_size_of :username, :minimum => 4, :maximum => 50, message: "deve conter no mínimo 4 caracteres e máximo 50 caracteres!"
 	validates_size_of :email, :maximum => 50, message: "deve conter no máximo 50 caracteres!"
 
-	validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "formato invalido!" 
+	validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "com formato inválido!" 
 
   has_secure_password
 
@@ -58,18 +58,20 @@ class Usuario < ActiveRecord::Base
 	end
 
   def self.from_omniauth(auth)
-		where(auth.slice(:provider, :uid)).first_or_initialize.tap do |usuario|
-      usuario.provider         = auth.provider
-      usuario.uid              = auth.uid
-      usuario.email           ||= auth.info.email
-      usuario.username         = (auth.info.first_name + "." + auth.info.last_name).downcase
-      usuario.primeiro_nome    = auth.info.first_name
-    	usuario.ultimo_nome      = auth.info.last_name
-    	usuario.image            = "http://graph.facebook.com/#{auth.uid}/picture?type=large"
-    	usuario.sexo             = auth.extra.raw_info.gender == "male" ? 'M' : 'F'
-      usuario.oauth_token      = auth.credentials.token
-      usuario.oauth_expires_at = Time.at(auth.credentials.expires_at)
+		self.where(auth.slice('provider', 'info.email')).first_or_initialize.tap do |usuario|
+      usuario.provider         ||= auth.provider
+      usuario.uid              ||= auth.uid
+      usuario.email            ||= auth.info.email
+      usuario.username         ||= auth.info.email
+      usuario.primeiro_nome    ||= auth.info.first_name
+    	usuario.ultimo_nome      ||= auth.info.last_name
+    	usuario.image            ||= "http://graph.facebook.com/#{auth.uid}/picture?type=large"
+    	usuario.sexo             ||= auth.extra.raw_info.gender == "male" ? 'M' : 'F'
+      usuario.oauth_token      ||= auth.credentials.token
+      usuario.confirmed        ||= true
+      usuario.oauth_expires_at ||= Time.at(auth.credentials.expires_at)
       usuario.save(perform_validation: false)
+      return usuario
 	  end
   end
 
@@ -79,9 +81,9 @@ class Usuario < ActiveRecord::Base
   #-                        -
   #--------------------------
 
-  def get_recommendations
+  def recommendations
 
-    c_recommendations = CollaborativeRecommendation.new(self)
+    c_recommendations = CollaborativeRecommendationService.new(self)
 
     c_recommendations.recommend
 
@@ -93,15 +95,15 @@ class Usuario < ActiveRecord::Base
     @graph = Koala::Facebook::API.new( self.oauth_token )
     start_t = Time.now
 
-    #@fb_user = @graph.get_objects( self.uid )
-    lista_facebook =  get_lista( "me", "music" ).dup
-    lista_facebook += get_lista( "me", "books" ).dup
-    lista_facebook += get_lista( "me", "movies" ).dup
-    lista_facebook += get_lista( "me", "games" ).dup
+    #@fb_user = @graph.objects( self.uid )
+    lista_facebook =  list_of( "me", "music" ).dup
+    lista_facebook += list_of( "me", "books" ).dup
+    lista_facebook += list_of( "me", "movies" ).dup
+    lista_facebook += list_of( "me", "games" ).dup
 
     lista_interna = Item.all
 
-    lista_final = get_matched_list( lista_interna, lista_facebook ).dup
+    lista_final = matched_list( lista_interna, lista_facebook ).dup
 
     adiciona_avaliacoes( lista_final, self)
 
@@ -110,12 +112,8 @@ class Usuario < ActiveRecord::Base
 
   end
 
-  def get_image
-    self.image || no_pic_url()
-  end
-
   def get_name
-    self.username || self.primeiro_nome + " " + self.ultimo_nome
+    self.username || self.primeiro_nome + " " + self.ultimo_nome || self.email
   end
 
   def seguindo?(usuario)
@@ -138,17 +136,13 @@ class Usuario < ActiveRecord::Base
 
   private
 
-    def no_pic_url
-      "http://ieee-sb.ca/sites/default/files/default_user.jpg"
-    end
-
 		# Como parte do Login, foi criado uma função que cria um token assim que o usuário se logar
 		def criar_remember_token
 	  	self.remember_token = Usuario.digest( Usuario.novo_remember_token )
 		end
 
     # Pega URL da Imagem do Gravatar
-    def get_gravatar_img_src
+    def gravatar_img_src
       # Não usa facebook
       if self.uid.nil? then
         # include MD5 gem, should be part of standard ruby install
@@ -166,7 +160,7 @@ class Usuario < ActiveRecord::Base
 			self.username = username.strip if attribute_present?("username")
 		end
 
-		def get_lista(who, what)
+		def list_of(who, what)
       array = Array.new
       n = 0
       array.insert(n, @graph.get_connections(who, what))
@@ -177,7 +171,7 @@ class Usuario < ActiveRecord::Base
       return array
     end
 
-    def get_matched_list lista_interna, lista_facebook
+    def matched_list lista_interna, lista_facebook
       list = Array.new
 
       lista_interna.each do |item_interno|

@@ -14,11 +14,11 @@ Rails.application.routes.draw do
 
   match '/recomendacao', to: 'itens#recomendacao', via: 'get'
 
-  match '/get_image', to: 'itens#get_image', via: 'get'
+  match '/refresh_item_img/:id', to: 'itens#refresh_item_img', via: 'get'
 
   match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
 
-  match '/get_recommendations/:id', to: 'itens#get_recommendations', via: 'get'
+  match '/recommendations/:id', to: 'itens#recommendations', via: 'get'
 
   match '/usuarios/edit_password/:id', to: 'usuarios#edit_password', via: 'get'
   match '/usuarios/update_password/:id', to: 'usuarios#update_password', via: 'patch'

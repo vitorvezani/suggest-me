@@ -14,12 +14,14 @@
 <hr>
 <div class="row">
 	<div class="col-xs-4">
-		<%= form_tag({ controller: :itens, action: :index }, method: "get") do %>
-		  <%= label_tag(:q, "Procura por:") %>
-		  <%= text_field_tag(:q) %>
-		  <p></p>
-		  <%= submit_tag("Procurar!", class: "btn btn-primary") %>
-		<% end %>
+		<h3>Últimos gêneros criados:</h3>
+		<ul class="list-group">
+			<% @ultimos_generos.each do |genero| %>
+	      <li class="list-group-item">
+	        <%= link_to genero.nome, genero_path(genero) %>
+	      </li>
+			<% end %>
+		</ul>
 	</div>
 	<div class="col-xs-4">
 		<h3>Últimos usuários logados:</h3>

@@ -34,7 +34,7 @@ class Item < ActiveRecord::Base
   #-                        -
   #--------------------------
 
-  def get_image
+  def get_image_url
 		# Imagem do Item
 		#if self.img_url.nil? 
 	    suckr = ImageSuckr::GoogleSuckr.new
@@ -51,22 +51,22 @@ class Item < ActiveRecord::Base
   end
 
 	def get_name
-		self.nome_ptbr || self.nome_en || "default"
+		self.nome_ptbr || self.nome_en 	
 	end
 
-	def is_film
+	def film?
 	  self.categoria_id == 4 ? true : false
 	end
 	
-	def is_game
+	def game?
 	  self.categoria_id == 1 ? true : false
 	end
 	
-	def is_music
+	def music?
 	  self.categoria_id == 3 ? true : false
 	end
 	
-	def is_book
+	def book?
 	  self.categoria_id == 2 ? true : false
 	end
 

@@ -4,12 +4,13 @@ module SessionsHelper
 	# 2 - coloca o token no cookie (browser do usuário) 
 	# 3 - Salva o hash do token na base;
 	# 4 - Seta o current_user, variavel da instancia com o usuário
+  
   def sign_in(usuario)
     remember_token = Usuario.novo_remember_token
     cookies[:remember_token] = { value: remember_token, expires: 20.years.from_now.localtime }
     usuario.update_attribute(:remember_token, Usuario.digest(remember_token))
     usuario.update(last_login: Time.now);
-    self.current_user = usuario
+    current_user = usuario
   end
 
   # Seta o current_user
@@ -32,15 +33,15 @@ module SessionsHelper
     # Isto ser para quando o cookie foi roubado, então mudamos para um random na base
     current_user.update_attribute(:remember_token, Usuario.digest(Usuario.novo_remember_token))
     cookies.delete(:remember_token)
-    self.current_user = nil
+    current_user = nil
   end
 
   def signed_in?
     !current_user.nil?
   end
 
-  def is_admin?
-    self.current_user.try(:admin?)
+  def admin?
+    current_user.try(:admin?)
   end
 
 end

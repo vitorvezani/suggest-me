@@ -1,4 +1,4 @@
-class CollaborativeRecommendation
+class CollaborativeRecommendationService
 
 	def initialize(usuario)
 		

@@ -12,13 +12,11 @@
         <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @usuario, id: "flag_usuario" } %>
       </br></br>
       <% end %>
-      <%= link_to 'Editar', edit_usuario_path(@usuario) if current_user?(@usuario) or is_admin?%>
-      <%= '|' if current_user?(@usuario) %>
-			<%= link_to 'Mudar Senha', { action: "edit_password", id: @usuario.id }  if current_user?(@usuario) %>
-			<% if is_admin?%>
-			  | <%= link_to 'Excluir', @usuario, method: :delete %> 
-			  | <%= link_to 'Voltar', usuarios_path %>
-			<% end %>
+      <% if current_user?(@usuario) or admin? %>
+        <%= link_to 'Editar |', edit_usuario_path(@usuario) %>
+			  <%= link_to 'Mudar Senha |', { action: "edit_password", id: @usuario.id } %>
+        <%= link_to 'Excluir Conta', @usuario, method: :delete, data: { confirm: 'Esta ação é permanente e irreversível. Você tem certeza?' } %>
+      <% end %>
     </section>
   </aside>
 	<div class="col-md-8">

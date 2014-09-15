@@ -33,7 +33,7 @@ class ColocarDescricaoItens < ActiveRecord::Migration
 						end
 					end
 
-					if !texto.include? "podem referir-se a" and !texto.include? "pode se referir a:" and !texto.include? "pode referir-se a" ##
+					unless texto.include? "podem referir-se a" and !texto.include? "pode se referir a:" and !texto.include? "pode referir-se a" ##
 						if item.descricao.nil?
 							#Truncar em 4k caracteres
 							texto = texto[0..4900] 

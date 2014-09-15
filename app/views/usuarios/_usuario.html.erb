@@ -6,11 +6,11 @@
   <td><%= usuario.try(:dt_aniversario) %></td>
   <td><%= usuario.try(:created_at).to_s(:db) %></td>
   <td><%= usuario.try(:updated_at).to_s(:db) %></td>
-  <% if is_admin? %>
+  <% if admin? %>
       <td>
-       <%= link_to 'Editar', edit_usuario_path(usuario) %>
+       <%= link_to 'Editar', edit_usuario_path(usuario) %> |
         <% if current_user != usuario %>
-      		| <%= link_to "Excluir", usuario, method: :delete %>
+      		<%= link_to "Excluir", usuario, method: :delete, data: { confirm: 'Você tem certeza?' } %>
 				<% end %>
       </td>
   <% end %>

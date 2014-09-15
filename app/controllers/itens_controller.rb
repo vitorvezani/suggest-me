@@ -1,6 +1,6 @@
 class ItensController < ApplicationController
   helper_method :sort_coluna, :sort_direcao
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :get_recommendations]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :recommendations, :refresh_item_img]
   before_action :usuario_admin, only: [:destroy] # Verifica se é o usuário admin.
 
   # GET /itens
@@ -15,11 +15,11 @@ class ItensController < ApplicationController
         paginate(page: params[:page], :per_page => 30)
       end
       @itens = @search.results
-      @avaliacoes = get_avaliacoes
+      @avaliacoes = avaliacoes
     else
       #@itens = Item.joins(:avaliacoes).group("avaliacoes.item_id").order("sum(avaliacoes.avaliacao) desc").paginate(page: params[:page], :per_page => 30)
       @itens = Item.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30).includes(:categoria)
-      @avaliacoes = get_avaliacoes
+      @avaliacoes = avaliacoes
     end
 
     gon.usuario_logado = signed_in?
@@ -53,12 +53,12 @@ class ItensController < ApplicationController
   def edit
   end
 
-  def get_recommendations
+  def recommendations
   # GET /itens/1
   
     start_t = Time.now
   
-    c_recommendations = ContentRecommendation.new(@item)
+    c_recommendations = ContentRecommendationService.new(@item)
 
     @itens_recomendados = c_recommendations.recommend
 
@@ -71,8 +71,9 @@ class ItensController < ApplicationController
   
   end
 
-  def get_image
-    @url = self.get_image
+  def refresh_item_img
+    @url = @item.get_image_url
+    puts "url: #{@url}"
     respond_to do |format|
       format.js
     end
@@ -93,7 +94,7 @@ class ItensController < ApplicationController
 
     if @num_avaliacoes > GlobalConstants::NUM_AVALIACOES then
 
-      recommendations = current_user.get_recommendations
+      recommendations = current_user.recommendations
 
       recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 200
 
@@ -102,13 +103,13 @@ class ItensController < ApplicationController
         if nota != -1 then
           item = Item.find(item_id)
 
-          if item.is_book
+          if item.book?
             @livros[nota] = item
-          elsif item.is_film
+          elsif item.film?
             @filmes[nota] = item
-          elsif item.is_game
+          elsif item.game?
             @jogos[nota] = item
-          elsif item.is_music
+          elsif item.music?
             @musicas[nota] = item
           end
         end 
@@ -178,7 +179,7 @@ class ItensController < ApplicationController
     end
 
     @itens = @search.results
-    @avaliacoes = get_avaliacoes
+    @avaliacoes = avaliacoes
 
   end
 
@@ -195,7 +196,7 @@ class ItensController < ApplicationController
     end
 
     def usuario_admin
-      unless is_admin?
+      unless admin?
         flash[:danger] = "Você não possui privilégios para esta operação!"
         redirect_to itens_url
       end
@@ -209,7 +210,7 @@ class ItensController < ApplicationController
       %w[asc desc].include?(params[:direcao]) ? params[:direcao] : "asc"
     end
 
-    def get_avaliacoes
+    def avaliacoes
       @avaliacoes = Hash.new
       @itens.each do |item|
         @avaliacoes[item.id] = [Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, false).count, Avaliacao.where('item_id = ? AND avaliacao = ?', item.id, true).count]

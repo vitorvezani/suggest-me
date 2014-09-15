@@ -1,4 +1,4 @@
-<h3>Itens parecidos:</h3>
+<h3><%= "Itens parecidos:" unless itens.blank? %></h3>
 <ul class="list-group">
 	<% itens.each do |id, nota| %>
 		<li class="list-group-item">

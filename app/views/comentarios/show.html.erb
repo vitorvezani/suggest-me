@@ -18,11 +18,10 @@
             <p><label>Modificado em: </label> <%= @comentario.updated_at.to_s(:db) %></p>
         </div>
       </div>
-      <% if is_admin? or current_user == @comentario.usuario %>
+      <% if admin? or current_user == @comentario.usuario %>
         <%= link_to "Excluir", @comentario, method: :delete %> |
         <%= link_to "Editar", edit_comentario_path(@comentario) %> |
       <% end %>
-      <%= link_to 'Voltar', item_path(@comentario.item) %>
     </section>
   </aside>
   <div class="col-md-8">

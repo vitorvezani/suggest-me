@@ -7,4 +7,8 @@ class Comentario < ActiveRecord::Base
 
 	has_many :flags, as: :flagavel, dependent: :destroy
 
+	def get_name 
+  	"Comentário #{self.id}"
+  end
+
 end

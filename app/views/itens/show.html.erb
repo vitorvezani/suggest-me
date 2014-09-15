@@ -1,4 +1,4 @@
-<% provide(:title, @item.get_name) %>
+<% provide(:title, @item) %>
 
 <%= render "compartilhado/breadcrumb", pag: @item.get_name %>
 
@@ -9,10 +9,8 @@
     <div class="row">
       <div id="content" class="col-md-offset-1 col-md-11">
         <section>
-          <div class="row clearfix">
-            <div id="item-img">
-              <a id="item-img" href="#"><img size: "280x160" src=<%= @item.get_image %> class="img-thumbnail" /></a>
-            </div>
+          <div id="item-img">
+            <a href="#"><img size: "280x160" src=<%= @item.get_image_url %> class="img-thumbnail" /></a>
           </div>
           <hr>
           <button type="button" class="btn btn-primary btn-md" id="like"> <%= @avaliacoes_count[:positivas] %>
@@ -36,11 +34,19 @@
           <label>Gêneros: </label> 
             <% unless @item.generos.empty? %>
               <% @item.generos.group("generos.id").each do |genero| %>
-                <%= link_to genero.nome, genero_path(genero) %> 
+                <%= link_to genero.nome + ',', genero_path(genero) %> 
+                <% if admin? %>
+                  <%= form_tag('/generalizacoes/destroy_all', method: :post) do %>
+                    <%= hidden_field_tag :item_id, @item.id %>
+                    <%= hidden_field_tag :genero_id, genero.id %>
+                    <%= submit_tag 'x', class: "btn btn-danger btn-xs"%>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
           <% if signed_in? %>
             <!-- Button trigger modal Generos-->
+            <br>
             <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#genero">
               Adicionar Tags
             </button>
@@ -50,12 +56,11 @@
           <label>Mais: </label> <%= link_to 'Wikipedia', @item.wiki_link %> <br><br>
           <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @item, id: "flag_item" } if signed_in? %>
           </br></br>
-          <%= link_to 'Voltar', itens_path %>
           <% if signed_in? %>
-            | <%= link_to 'Editar', edit_item_path(@item) %> |
+            <%= link_to 'Editar', edit_item_path(@item) %> |
           <% end %>
-          <% if is_admin?%>
-            <%= link_to 'Excluir', item_path(@item), method: :delete %> |
+          <% if admin?%>
+            <%= link_to 'Excluir', item_path(@item), method: :delete, data: { confirm: 'Você tem certeza?' } %>
           <% end %>
     			<hr>
         </section>
@@ -79,7 +84,7 @@
             <% end %>
         <% else %>
           <div class="well">
-            <p>Deixe um comentário. <%= link_to "Faça login no SuggestMe", signin_path %> ou <%= link_to "registre-se.", signup_path %>
+            <p>Deixe um comentário. <%= link_to "Faça login no Suggest Me!", signin_path %> ou <%= link_to "registre-se.", signup_path %>
             </p>
           </div>
         <% end %>

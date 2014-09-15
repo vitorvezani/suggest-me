@@ -45,14 +45,14 @@ $(document).ready(function() {
 	
 	if ($('#content-recommendation').length) {
 		xhr = $.ajax({
-	    url:'/get_recommendations/' + gon.item_id + '.js',
+	    url:'/recommendations/' + gon.item_id + '.js',
 	    type:"get"
 	  });
 	}
 
 	$('#item-img').click(function() {
 		$.ajax({
-	    url:'/get_image.js',
+	    url:'/refresh_item_img/' + gon.item_id + '.js',
 	    type:"get"
 	  });
 	});

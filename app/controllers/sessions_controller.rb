@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  
+  before_action :usuario_nao_logado?, only: [:new ,:create]
+
   def new
     @uid = params[:uid]
     @email = params[:email]
@@ -24,7 +27,7 @@ class SessionsController < ApplicationController
         end
       end
     else
-      flash.now[:danger] = 'E-mail/Senha incorretos'
+      flash.now[:danger] = 'E-mail ou Senha incorretos'
       render 'new'
     end
   end
@@ -40,18 +43,18 @@ class SessionsController < ApplicationController
       usuario = Usuario.from_omniauth(auth)
       flash[:success] = 'Você logou pelo Facebook com sucesso!'
 
-      Thread.new do
-        usuario.facebook_update
-        ActiveRecord::Base.connection.close
-      end
-      
       sign_in usuario
+
+      #Thread.new do
+      #  usuario.facebook_update
+      #  ActiveRecord::Base.connection.close
+      #end
       
-      if usuario.password_digest.nil? then
-        redirect_to controller: "usuarios", action: "edit_password", id: usuario.id
-      else
+      #if usuario.password_digest.nil? then
+      #  redirect_to controller: "usuarios", action: "edit_password", id: usuario.id
+      #else
         redirect_to root_url
-      end
+      #end
     end
   end
 

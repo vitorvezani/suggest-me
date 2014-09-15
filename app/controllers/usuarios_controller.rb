@@ -144,7 +144,7 @@ class UsuariosController < ApplicationController
 
   def send_reset_password
     usuario = Usuario.find_by(email: params[:email])
-    if !usuario.nil? then
+    unless usuario.nil? then
       nova_senha = rand(36**8).to_s(36) #SecureRandom.urlsafe_base64
       usuario.update(password: nova_senha, password_confirmation: nova_senha)
       Thread.new do
@@ -178,15 +178,11 @@ class UsuariosController < ApplicationController
 
     # Somente admin pode vizualizar a pagina de usuários
     def usuario_admin
-      unless is_admin?
-        redirect_to root_url
-      end
+        redirect_to root_url unless admin?
     end
 
     def redireciona_usuario_logado
-      unless !signed_in?
-        redirect_to root_url
-      end
+        redirect_to root_url if signed_in?
     end
 
     def sort_coluna

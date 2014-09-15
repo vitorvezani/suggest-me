@@ -15,15 +15,15 @@ class Genero < ActiveRecord::Base
     text :descricao
   end
 
+  def get_name 
+  	self.nome
+  end
+
 	#-------------------------- 
 	#-                        -
 	#-    Métodos Publicos    -
 	#-                        -
 	#--------------------------
-
-	def get_name
-		self.nome
-	end
 
   #-------------------------- 
   #-                        -

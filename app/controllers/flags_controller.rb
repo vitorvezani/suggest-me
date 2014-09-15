@@ -3,14 +3,19 @@ class FlagsController < ApplicationController
   # Busca Span por ID
   before_action :set_flag, only: [:show, :update, :destroy]
   # Somente usuário logado pode relatar flag
-  before_action :usuario_logado?, only: [ :new, :edit, :update]
+  before_action :usuario_logado?, only: [:new, :edit, :update]
   # Somente admin pode vizualizar a lista de todos os usuários
-  before_action :usuario_admin, only: [:index, :destroy, :show]
+  # Somente ve a flag que ele fez
+  before_action :minha_flag?, only: [:show, :destroy]
 
   # GET /flags
   # GET /flags.json
   def index
-    @flags = Flag.all.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    if admin?
+      @flags = Flag.all.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    else
+      @flags = Flag.where(usuario_id: current_user.id).order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
+    end
   end
 
   # GET /flags/1
@@ -61,7 +66,7 @@ class FlagsController < ApplicationController
     @flag.destroy
     respond_to do |format|
       flash[:success] = 'Relato de flag excluído com sucesso!'
-      format.html { redirect_to flags_url }
+      format.html { redirect_to flags_path }
       format.json { head :no_content }
     end
   end
@@ -77,9 +82,13 @@ class FlagsController < ApplicationController
       params.require(:flag).permit(:conteudo, :tipo_flag_id, :usuario_id ,:flagavel_id, :flagavel_type)
     end
 
+    def minha_flag?
+      @flag.usuario_id == current_user.id
+    end
+
     # Somente admin pode vizualizar a pagina de usuários
     def usuario_admin
-      unless is_admin?
+      unless admin?
         redirect_to root_url
       end
     end

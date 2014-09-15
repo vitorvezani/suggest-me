@@ -1,10 +1,10 @@
 <tr>
   <td><%= link_to genero.nome, genero %></td>
   <td><small> <%= truncate(genero.descricao,{ :length => 50, omission: '... (continua)' }) %> </small></td>
-  <% if is_admin? %>
+  <% if admin? %>
       <td>
-       <%= link_to "Excluir", genero, method: :delete %>
-       | <%= link_to "Editar", edit_genero_path(genero) %>
+       <%= link_to "Excluir", genero, method: :delete, data: { confirm: 'Você tem certeza?' } %> |
+       <%= link_to "Editar", edit_genero_path(genero) %>
       </td>
   <% end %>
 </tr>

@@ -10,9 +10,8 @@
             <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
             <%= render partial: "compartilhado/nova_flag", locals: { flagavel: comentario, id: "flag_comentario" } unless !signed_in? %>
             <span>
-              <% if is_admin? or current_user == comentario.usuario %>
-                <%= link_to "deletar", comentario, method: :delete %>
-                <% #link_to "editar", edit_comentario_path(comentario) %>
+              <% if admin? or current_user == comentario.usuario %>
+                <%= link_to "deletar", comentario, method: :delete, data: { confirm: 'Você tem certeza?' } %>
               <% end %> 
             </span>
           </small>

@@ -7,8 +7,17 @@ class ApplicationController < ActionController::Base
   # Se o usuário não está logado, redireciona para o login
   def usuario_logado?
     unless signed_in?
-      flash[:warning] = "Por favor Sign in."
+      flash[:warning] = "Por favor, sign in."
       redirect_to signin_url
     end
   end
+
+    # Se o usuário não está logado, redireciona para o login
+  def usuario_nao_logado?
+    if signed_in?
+      flash[:warning] = "Você já está logado!"
+      redirect_to usuario_path(current_user)
+    end
+  end
+
 end

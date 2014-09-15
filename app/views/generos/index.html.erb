@@ -21,7 +21,7 @@
 		<tr class="info">                      
 		<th><%= sortable "nome" %></th>
 		<th><%= sortable "descricao", "Descrição" %></th>
-		<% if is_admin? %>
+		<% if admin? %>
 			<th><%= sortable "acoes", "Ações" %></th>
 		<% end %>
 	</tr>
