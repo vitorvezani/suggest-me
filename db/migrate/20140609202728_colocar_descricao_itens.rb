@@ -47,13 +47,7 @@ class ColocarDescricaoItens < ActiveRecord::Migration
 			  i += 1
 
 			rescue OpenURI::HTTPError => e
-
-				if e.message == '404 Not Found'
-					nil
-				else
-					nil
-				end
-
+				nil
 			end
 		end
 	end

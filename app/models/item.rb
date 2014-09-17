@@ -1,7 +1,9 @@
 class Item < ActiveRecord::Base
 
 	before_validation :strip_spaces
-	
+	before_validation :format_name 
+  before_save :gerar_link_wikipedia
+
 	has_many :comentarios, dependent: :destroy
 	has_many :avaliacoes, dependent: :destroy
 	has_many :flags, as: :flagavel, dependent: :destroy
@@ -38,7 +40,7 @@ class Item < ActiveRecord::Base
 		# Imagem do Item
 		#if self.img_url.nil? 
 	    suckr = ImageSuckr::GoogleSuckr.new
-	  	suckr.get_image_url({"q" => self.get_name, "safe" => "active"})
+	  	suckr.get_image_url({"q" => get_name, "safe" => "active"})
 	  	#self.save!
 		#end
 		#self.img_url
@@ -79,8 +81,19 @@ class Item < ActiveRecord::Base
 	private
 
 		def strip_spaces
-			self.nome_ptbr = nome_ptbr.strip if attribute_present?("nome_ptbr")
-			self.nome_en = nome_en.strip if attribute_present?("nome_en")
+			self.nome_ptbr = nome_ptbr.squeeze.strip if attribute_present?("nome_ptbr")
+			self.nome_en = nome_en.squeeze.strip if attribute_present?("nome_en")
 		end
+
+    def gerar_link_wikipedia
+      nome_formatado = get_name.split.map{ |x| x.capitalize }.join('_')
+      nome_formatado = Utils::remover_acentos(nome_formatado)
+      self.wiki_link = "http://pt.wikipedia.org/wiki/" + nome_formatado
+    end
+
+    def format_name
+    	self.nome_ptbr = self.nome_ptbr.downcase if attribute_present?("nome_ptbr")
+    	self.nome_en = self.nome_en.downcase if attribute_present?("nome_en")
+    end
 
 end

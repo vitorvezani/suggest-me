@@ -1,5 +1,5 @@
 <tr id=<%= item.id.to_s %>>
-  <td><%= link_to item.get_name, item %></td>
+  <td><%= link_to item.get_name.titleize, item %></td>
   <td><small> <%= truncate(item.descricao,{ :length => 50, omission: '... (continua)' }) %> </small></td>
   <td>
     <button type="button" class="btn btn-primary btn-sm like"> <%= @avaliacoes[item.id][1] %>

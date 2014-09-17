@@ -2,7 +2,7 @@
   <td>
   <%= link_to '<span class="glyphicon, glyphicon-plus"></span>'.html_safe, flag, class: 'btn btn-primary btn-xs' %>
   </td>
-  <td><%= link_to flag.flagavel.get_name , flag.flagavel %></td>
+  <td><%= link_to flag.flagavel.get_name.titleize , flag.flagavel %></td>
   <td><%= flag.flagavel.class %></td>
   <td><%= flag.tipo_flag.descricao %></td>
   <td><%= truncate(flag.conteudo,{ :length => 50, omission: '... (continua)' }) %></td>

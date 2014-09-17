@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <span> <%= link_to comentario.item.get_name, item_path(comentario.item) %></span>
+          <span> <%= link_to comentario.item.get_name.titleize, item_path(comentario.item) %></span>
           <small>  
             <span class="glyphicon glyphicon-thumbs-up"><%= comentario.like %></span>
             <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>

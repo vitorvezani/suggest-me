@@ -33,7 +33,7 @@ class Genero < ActiveRecord::Base
 
 	private
 		def strip_spaces
-			self.nome = nome.strip if attribute_present?("nome")
+			self.nome = nome.squeeze.strip if attribute_present?("nome")
 		end
 
 end

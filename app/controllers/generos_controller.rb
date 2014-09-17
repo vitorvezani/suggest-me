@@ -40,6 +40,15 @@ class GenerosController < ApplicationController
   def create
     @genero = Genero.new(genero_params)
 
+    if params.has_key?(:usa_wiki) then
+      @genero.descricao = Utils::descricao_wiki(@genero.nome)
+      if @genero.descricao.nil? then
+        flash.now[:danger] = "Não foi possível buscar a descrição do Wikipédia"
+        render :new
+        return
+      end
+    end
+
     respond_to do |format|
       if @genero.save
         flash[:success] = "Gênero #{@genero.nome} foi criado com sucesso!"

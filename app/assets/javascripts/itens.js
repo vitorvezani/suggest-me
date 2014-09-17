@@ -9,6 +9,11 @@ $(document).ready(function() {
 	//	}
 	//});
 
+	$('#usa-wiki').click(function() {
+		var cbUsaWiki = $('#usa-wiki').is(':checked');
+		$('#descricao').prop('disabled', cbUsaWiki);
+	});
+
 	$('#like').click(function() {
 		if (gon.usuario_logado){
 		  $('#hidden_tipo').val(true);
@@ -45,7 +50,7 @@ $(document).ready(function() {
 	
 	if ($('#content-recommendation').length) {
 		xhr = $.ajax({
-	    url:'/recommendations/' + gon.item_id + '.js',
+	    url:'/content_recommendation/' + gon.item_id + '.js',
 	    type:"get"
 	  });
 	}

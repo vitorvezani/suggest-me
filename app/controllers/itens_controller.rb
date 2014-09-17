@@ -1,6 +1,6 @@
 class ItensController < ApplicationController
   helper_method :sort_coluna, :sort_direcao
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :recommendations, :refresh_item_img]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :content_recommendation, :refresh_item_img]
   before_action :usuario_admin, only: [:destroy] # Verifica se é o usuário admin.
 
   # GET /itens
@@ -53,7 +53,7 @@ class ItensController < ApplicationController
   def edit
   end
 
-  def recommendations
+  def content_recommendation
   # GET /itens/1
   
     start_t = Time.now
@@ -80,7 +80,7 @@ class ItensController < ApplicationController
   end
 
   # GET /itens/
-  def recomendacao
+  def collaborative_recommendation
 
     start_t = Time.now
 
@@ -92,9 +92,11 @@ class ItensController < ApplicationController
     # Numero de avaliações feitas pelo usuário logado
     @num_avaliacoes = current_user.avaliacoes.size
 
-    if @num_avaliacoes > GlobalConstants::NUM_AVALIACOES then
+    if @num_avaliacoes >= GlobalConstants::NUM_AVALIACOES then
 
-      recommendations = current_user.recommendations
+      c_recommendations = CollaborativeRecommendationService.new(current_user)
+
+      recommendations = c_recommendations.recommend
 
       recommendations = recommendations.sort_by { |item_id, nota| nota }.reverse.take 200
 
@@ -117,13 +119,13 @@ class ItensController < ApplicationController
 
     end
 
-      @livros  = @livros.take(12)
-      @filmes  = @filmes.take(12)
-      @jogos   = @jogos.take(12)
-      @musicas = @musicas.take(12)
+    @livros  = @livros.take(12)
+    @filmes  = @filmes.take(12)
+    @jogos   = @jogos.take(12)
+    @musicas = @musicas.take(12)
 
-      finish_t = Time.now
-      puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    finish_t = Time.now
+    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
 
   end
 
@@ -131,6 +133,15 @@ class ItensController < ApplicationController
   # POST /itens.json
   def create
     @item = Item.new(item_params)
+
+    if params.has_key?(:usa_wiki) then
+      @item.descricao = Utils::descricao_wiki(@item.get_name)
+      if @item.descricao.nil? then
+        flash.now[:danger] = "Não foi possível buscar a descrição do Wikipédia"
+        render :new
+        return
+      end
+    end
 
     respond_to do |format|
       if @item.save

@@ -12,13 +12,13 @@ Rails.application.routes.draw do
   match '/send_reset_password', to: 'usuarios#send_reset_password', via: 'post'
   match '/confirm_account/:id', to: 'usuarios#confirm_account', via: 'get'
 
-  match '/recomendacao', to: 'itens#recomendacao', via: 'get'
+  match '/collaborative_recommendation', to: 'itens#collaborative_recommendation', via: 'get'
 
   match '/refresh_item_img/:id', to: 'itens#refresh_item_img', via: 'get'
 
   match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
 
-  match '/recommendations/:id', to: 'itens#recommendations', via: 'get'
+  match '/content_recommendation/:id', to: 'itens#content_recommendation', via: 'get'
 
   match '/usuarios/edit_password/:id', to: 'usuarios#edit_password', via: 'get'
   match '/usuarios/update_password/:id', to: 'usuarios#update_password', via: 'patch'

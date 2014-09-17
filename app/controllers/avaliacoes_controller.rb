@@ -10,17 +10,19 @@ class AvaliacoesController < ApplicationController
     @avaliacao.avaliacao = params[:avaliacao][:avaliacao]
     
     # TODO, colocar um if
-    @avaliacao.save
+    if @avaliacao.save
 
-    @positivas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: true).size
-    @negativas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: false).size
+      @positivas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: true).size
+      @negativas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: false).size
 
-    respond_to do |format|
-      format.html { 
-        flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
-        redirect_to item_path(@avaliacao.item) 
-      }
-      format.js
+      respond_to do |format|
+        format.html { 
+          flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
+          redirect_to item_path(@avaliacao.item) }
+        format.js
+      end
+    else
+      raise
     end
 
   end

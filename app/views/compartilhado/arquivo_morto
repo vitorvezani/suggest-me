@@ -3,13 +3,13 @@
   <div class="col-md-12">
     <% unless @itens_recomendados.blank? %>
     <hr>
-    <h4>Quem gosta de <%= @item.get_name %> também gosta de:<h4>
+    <h4>Quem gosta de <%= @item.get_name.titleize %> também gosta de:<h4>
       <% @itens_recomendados.each do |item| %>
         <div class="col-sm-6 col-md-3">
           <div class="thumbnail">
             <%= link_to( image_tag( item.url, { class: "img-thumbnail", size: "180x100" }), item_path(item)) %>
             <div class="caption">
-              <h3><%= item.get_name %></h3>
+              <h3><%= item.get_name.titleize %></h3>
               <p><small><%= truncate(item.descricao, :length => 50) %></small></p>
             </div>
           </div>
@@ -22,5 +22,5 @@
 
 <% if current_user.avaliacoes.size >= 15 %>
   <hr>
-  <%= link_to "Suggest Me!", "recomendacao", { class:"btn btn-primary", role:"button" } %>
+  <%= link_to "Suggest Me!", "collaborative_recommendation", { class:"btn btn-primary", role:"button" } %>
 <% end %>

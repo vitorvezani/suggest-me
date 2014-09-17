@@ -69,7 +69,7 @@ class CollaborativeRecommendationService
 	    # '|' é o operador de união
 	    total = (@self_likes + @self_dislikes) | (usuario_likes + usuario_dislikes)
 
-	    #puts "Similaridade com usaurio: #{usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
+	    puts "Similaridade com usaurio: #{usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
 
 	    return (agreements - disagreements) / total.size.to_f
 	  end
@@ -77,19 +77,11 @@ class CollaborativeRecommendationService
 		  # Retorna o numero de Likes
 	  def likes(usuario)
 
-	    #itens = Array.new
-	    #self.avaliacoes.where( avaliacao: true ).includes(:item).each do |avaliacao|
-	    #  itens << avaliacao.item
-	    #end
-	    #return itens
-
 	    query = "SELECT av.item_id
 	             FROM   avaliacoes av
 	             WHERE  avaliacao = 1 and
 	                    usuario_id = #{usuario.id}"
 	    ActiveRecord::Base.connection.execute(query).to_a.map{|a| a.first}
-
-	    #self.itens.joins(:avaliacoes).where("avaliacoes.avaliacao = ?", true)
 
 	    #@avaliacoes.select{|m| m.avaliacao == true and m.usuario_id == usuario.id }
 
@@ -98,31 +90,17 @@ class CollaborativeRecommendationService
 	  # Retorna o numero de Dislikes
 	  def dislikes(usuario)
 
-	    #itens = Array.new
-	    #self.avaliacoes.where( avaliacao: false ).includes(:item).each do |avaliacao|
-	    #  itens << avaliacao.item
-	    #end
-	    #return itens
-
 	    query = "SELECT av.item_id
 	             FROM   avaliacoes av
 	             WHERE  avaliacao = 0 and
 	                    usuario_id = #{usuario.id}"
 	    ActiveRecord::Base.connection.execute(query).to_a.map{|a| a.first}
-	    
-	    #self.itens.joins(:avaliacoes).where("avaliacoes.avaliacao = ?", false)
 
 	    #@avaliacoes.select{|m| m.avaliacao == false and m.usuario_id == usuario.id }
 
 	  end
 
 		def liked_by(item)
-
-			#usuarios = Array.new
-			#self.avaliacoes.where(avaliacao: true).includes(:usuario).each do |like|
-		  #	usuarios << like.usuario unless like.usuario.blank?
-		  #end
-			#return usuarios
 
 			query = "SELECT av.usuario_id
 	             FROM   avaliacoes av
@@ -135,12 +113,6 @@ class CollaborativeRecommendationService
 		end
 
 		def disliked_by(item)
-
-			#usuarios = Array.new
-			#self.avaliacoes.where(avaliacao: false).includes(:usuario).each do |dislike|
-		  #  usuarios << dislike.usuario unless dislike.usuario.blank?
-			#end 
-			#return usuarios
 
 			query = "SELECT av.usuario_id
 	             FROM   avaliacoes av

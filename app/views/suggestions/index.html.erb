@@ -18,7 +18,7 @@
 		<ul class="list-group">
 			<% @ultimos_generos.each do |genero| %>
 	      <li class="list-group-item">
-	        <%= link_to genero.nome, genero_path(genero) %>
+	        <%= link_to genero.nome.titleize, genero_path(genero) %>
 	      </li>
 			<% end %>
 		</ul>
@@ -28,7 +28,7 @@
 		<ul class="list-group">
 			<% @ultimos_usuarios.each do |usuario| %>
 	      <li class="list-group-item">
-	        <%= link_to usuario.username, usuario_path(usuario) %>
+	        <%= link_to usuario.username.titleize, usuario_path(usuario) %>
 	      </li>
 			<% end %>
 		</ul>
@@ -38,7 +38,7 @@
 		<ul class="list-group">
 			<% @ultimos_itens.each do |item| %>
 				<li class="list-group-item">
-					<%= link_to item.get_name, item_path(item) %>
+					<%= link_to item.get_name.titleize, item_path(item) %>
 				</li>
 			<% end %>
 		</ul>

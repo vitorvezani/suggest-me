@@ -17,7 +17,7 @@ class Categoria < ActiveRecord::Base
 private
 
 	def strip_spaces
-		self.descricao = descricao.strip if attribute_present?("descricao")
+		self.descricao = descricao.squeeze.strip if attribute_present?("descricao")
 	end
 
 end

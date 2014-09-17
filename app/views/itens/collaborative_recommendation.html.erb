@@ -41,7 +41,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class= "thumbnail align-center">
                       <div class = "caption">
-                        <h3><%= filme.nome_ptbr %></h3><%= key %>
+                        <h3><%= filme.get_name.titleize %></h3><%= key %>
                         <p><%= truncate(filme.descricao,{ :length => 30, omission: '...' }) %></p>
                         <p><%= link_to "Veja Mais", item_path(filme) %> &raquo;</p>
                       </div>
@@ -71,7 +71,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                       <div class= "thumbnail align-center">
                         <div class = "caption">
-                          <h3><%= musica.nome_ptbr %></h3><%= key %>
+                          <h3><%= musica.get_name.titleize %></h3><%= key %>
                           <p><%= truncate(musica.descricao,{ :length => 30, omission: '...' }) %></p>
                           <p><%= link_to "Veja Mais", item_path(musica) %> &raquo;</p>
                         </div>
@@ -101,7 +101,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                       <div class= "thumbnail align-center">
                         <div class = "caption">
-                          <h3><%= jogo.nome_ptbr %></h3><%= key %>
+                          <h3><%= jogo.get_name.titleize %></h3><%= key %>
                           <p><%= truncate(jogo.descricao,{ :length => 30, omission: '...' }) %></p>
                           <p><%= link_to "Veja Mais", item_path(jogo) %> &raquo;</p>
                         </div>
@@ -131,7 +131,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                       <div class= "thumbnail align-center">
                         <div class = "caption">
-                          <h3><%= livro.nome_ptbr %></h3><%= key %>
+                          <h3><%= livro.get_name.titleize %></h3><%= key %>
                           <p><%= truncate(livro.descricao,{ :length => 30, omission: '...' }) %></p>
                           <p><%= link_to "Veja Mais", item_path(livro) %> &raquo;</p>
                         </div>

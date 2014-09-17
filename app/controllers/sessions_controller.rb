@@ -45,16 +45,16 @@ class SessionsController < ApplicationController
 
       sign_in usuario
 
-      #Thread.new do
-      #  usuario.facebook_update
-      #  ActiveRecord::Base.connection.close
-      #end
+      Thread.new do
+        usuario.facebook_update
+        ActiveRecord::Base.connection.close
+      end
       
-      #if usuario.password_digest.nil? then
-      #  redirect_to controller: "usuarios", action: "edit_password", id: usuario.id
-      #else
+      if usuario.password_digest.nil? then
+        redirect_to controller: "usuarios", action: "edit_password", id: usuario.id
+      else
         redirect_to root_url
-      #end
+      end
     end
   end
 

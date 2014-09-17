@@ -3,7 +3,7 @@
   <ul class="list-group">
   <% @avaliacoes.each do |avaliacao| %>
       <li class="list-group-item">
-        <%= link_to avaliacao.item.nome_ptbr, item_path(avaliacao.item) %>
+        <%= link_to avaliacao.item.get_name.titleize, item_path(avaliacao.item) %>
         <% if avaliacao.avaliacao %>
           <span class="glyphicon glyphicon-thumbs-up"></span>
         <% else %>

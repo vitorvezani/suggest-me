@@ -62,14 +62,14 @@ class Usuario < ActiveRecord::Base
       usuario.provider         ||= auth.provider
       usuario.uid              ||= auth.uid
       usuario.email            ||= auth.info.email
-      usuario.username         ||= auth.info.email
-      usuario.primeiro_nome    ||= auth.info.first_name
-    	usuario.ultimo_nome      ||= auth.info.last_name
-    	usuario.image            ||= "http://graph.facebook.com/#{auth.uid}/picture?type=large"
-    	usuario.sexo             ||= auth.extra.raw_info.gender == "male" ? 'M' : 'F'
-      usuario.oauth_token      ||= auth.credentials.token
-      usuario.confirmed        ||= true
-      usuario.oauth_expires_at ||= Time.at(auth.credentials.expires_at)
+      usuario.username         = "#{auth.info.first_name}.#{auth.info.last_name}"
+      usuario.primeiro_nome    = auth.info.first_name
+    	usuario.ultimo_nome      = auth.info.last_name
+    	usuario.image            = "http://graph.facebook.com/#{auth.uid}/picture?type=large"
+    	usuario.sexo             = auth.extra.raw_info.gender == "male" ? 'M' : 'F'
+      usuario.oauth_token      = auth.credentials.token
+      usuario.confirmed        = true
+      usuario.oauth_expires_at = Time.at(auth.credentials.expires_at)
       usuario.save(perform_validation: false)
       return usuario
 	  end
@@ -80,14 +80,6 @@ class Usuario < ActiveRecord::Base
   #-    Métodos Publicos    -
   #-                        -
   #--------------------------
-
-  def recommendations
-
-    c_recommendations = CollaborativeRecommendationService.new(self)
-
-    c_recommendations.recommend
-
-  end
 
   def facebook_update
 
@@ -157,7 +149,7 @@ class Usuario < ActiveRecord::Base
 		# Retirar Espaços
 		def strip_spaces
 			self.email = email.strip if attribute_present?("email")
-			self.username = username.strip if attribute_present?("username")
+			self.username = username.squeeze.strip if attribute_present?("username")
 		end
 
 		def list_of(who, what)
@@ -204,5 +196,4 @@ class Usuario < ActiveRecord::Base
         self[coluna] = SecureRandom.urlsafe_base64
       end while Usuario.exists?(coluna => self[coluna])
     end
-
 end

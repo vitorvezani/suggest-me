@@ -1,6 +1,6 @@
 <% provide(:title, @item) %>
 
-<%= render "compartilhado/breadcrumb", pag: @item.get_name %>
+<%= render "compartilhado/breadcrumb", pag: @item.get_name.titleize %>
 
 <!-- Row Principal -->
 <div class="row">
@@ -28,8 +28,8 @@
           <% end %>
           <hr>
           <label>Categoria:</label> <%= link_to @item.categoria.descricao, categoria_path(@item.categoria) %> </br>
-    			<label>Nome: </label> <%= @item.try(:nome_ptbr) %> </br>
-          <small><label>Inglês: </label> <%= @item.try(:nome_en) %></small> </br>
+    			<label>Nome: </label> <%= @item.try(:nome_ptbr).try(:titleize) %> </br>
+          <small><label>Inglês: </label> <%= @item.try(:nome_en).try(:titleize) %></small> </br>
     			<label>Descrição: </label> <%= @item.descricao %> </br>
           <label>Gêneros: </label> 
             <% unless @item.generos.empty? %>

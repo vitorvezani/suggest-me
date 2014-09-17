@@ -2,7 +2,7 @@
 <ul class="list-group">
 	<% itens.each do |id, nota| %>
 		<li class="list-group-item">
-			<%= link_to Item.find(id).get_name, item_path(id) %> <%= nota %>
+			<%= link_to Item.find(id).get_name.titleize, item_path(id) %> <%= nota %>
 		</li>
 	<% end %>
 </ul>
