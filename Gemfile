@@ -22,8 +22,6 @@ ruby '2.0.0'
  gem 'will_paginate'
 # Bootstrap Paginator
  gem 'will_paginate-bootstrap'
-# New Relic
-gem 'newrelic_rpm'
 # Bullet
  #gem 'bullet'
 # Login with Facebook
@@ -63,12 +61,15 @@ gem 'rack-mini-profiler'
 group :production do
   # Use unicorn as the app server
   # gem 'unicorn'
+  # Use Capistrano for deployment
 end
 # Development Gems
 group :development do
   gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
   gem 'better_errors'
   gem 'binding_of_caller'
+  # New Relic
+  gem 'newrelic_rpm'
 end
 
 # Lastfm Gem
@@ -87,8 +88,6 @@ end
  #gem 'spring',        group: :development
 # Use unicorn as the app server
 # gem 'unicorn'
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
