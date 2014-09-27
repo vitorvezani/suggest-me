@@ -83,7 +83,6 @@ class Usuario < ActiveRecord::Base
 
   def facebook_update
 
-    lista_final = Array.new
     @graph = Koala::Facebook::API.new( self.oauth_token )
     start_t = Time.now
 
@@ -136,7 +135,7 @@ class Usuario < ActiveRecord::Base
     # Pega URL da Imagem do Gravatar
     def gravatar_img_src
       # Não usa facebook
-      if self.uid.nil? then
+      if self.uid.nil?
         # include MD5 gem, should be part of standard ruby install
         require 'digest/md5'
         # create the md5 hash
@@ -163,7 +162,7 @@ class Usuario < ActiveRecord::Base
       return array
     end
 
-    def matched_list lista_interna, lista_facebook
+    def matched_list(lista_interna, lista_facebook)
       list = Array.new
 
       lista_interna.each do |item_interno|
@@ -178,7 +177,7 @@ class Usuario < ActiveRecord::Base
       return list
     end
 
-    def adiciona_avaliacoes lista_itens, usuario
+    def adiciona_avaliacoes(lista_itens, usuario)
       lista_itens.each do |item|
       	avaliacao = usuario.avaliacoes.build({item_id: item.id, avaliacao: true})
       	begin

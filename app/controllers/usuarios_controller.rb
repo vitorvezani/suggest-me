@@ -19,7 +19,7 @@ class UsuariosController < ApplicationController
 
     @q = params[:q]
 
-    if @q then
+    if @q
       @search = Usuario.search do
         keywords params[:q]
         paginate(page: params[:page], :per_page => 30)
@@ -39,13 +39,13 @@ class UsuariosController < ApplicationController
     @seguindo = @usuario.seguindo.paginate(page: params[:seguindo_page], :per_page => 15)
     @seguidores = @usuario.seguidores.paginate(page: params[:seguidores_page], :per_page => 15)
 
-    if params.has_key?(:comentario_page) then 
+    if params.has_key?(:comentario_page)
       gon.position = 0
-    elsif params.has_key?(:avaliacao_page) then 
+    elsif params.has_key?(:avaliacao_page)
       gon.position = 1
-    elsif params.has_key?(:seguindo_page) then 
+    elsif params.has_key?(:seguindo_page)
       gon.position = 2
-    elsif params.has_key?(:seguidores_page) then 
+    elsif params.has_key?(:seguidores_page)
       gon.position = 3
     else 
       gon.position = 0
@@ -127,7 +127,7 @@ class UsuariosController < ApplicationController
 
   def confirm_account
     usuario = Usuario.find_by(confimartion_code: params[:id])
-    if usuario then
+    if usuario
       usuario.confirmed = true
       sign_in usuario
       flash[:success] = "Conta corfirmada! Olá #{usuario.username}. Bem Vindo ao Suggest Me!"
@@ -144,7 +144,7 @@ class UsuariosController < ApplicationController
 
   def send_reset_password
     usuario = Usuario.find_by(email: params[:email])
-    unless usuario.nil? then
+    unless usuario.nil?
       nova_senha = rand(36**8).to_s(36) #SecureRandom.urlsafe_base64
       usuario.update(password: nova_senha, password_confirmation: nova_senha)
       Thread.new do

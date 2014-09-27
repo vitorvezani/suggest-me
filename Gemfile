@@ -22,8 +22,6 @@ ruby '2.0.0'
  gem 'will_paginate'
 # Bootstrap Paginator
  gem 'will_paginate-bootstrap'
-# Bullet
- #gem 'bullet'
 # Login with Facebook
  gem 'omniauth-facebook'
 # Awesome Font
@@ -51,12 +49,6 @@ gem "faker"
 gem "progress_bar"
 # TF-IDF
 gem "tf_idf"
-# Redis
-#gem "redis"
-# Redis-Namespace
-#gem "redis-namespace"
-# Mini Profiler
-gem 'rack-mini-profiler'
 # Productions Gem
 group :production do
   # Use unicorn as the app server
@@ -70,6 +62,10 @@ group :development do
   gem 'binding_of_caller'
   # New Relic
   gem 'newrelic_rpm'
+  # Bullet
+ 	gem 'bullet' 	
+	# Mini Profiler
+	gem 'rack-mini-profiler'
 end
 
 # Lastfm Gem

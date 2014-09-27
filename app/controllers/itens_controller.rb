@@ -9,7 +9,7 @@ class ItensController < ApplicationController
 
     @q = params[:q]
 
-    if @q then
+    if @q
       @search = Item.search do
         keywords params[:q]
         paginate(page: params[:page], :per_page => 30)
@@ -40,7 +40,7 @@ class ItensController < ApplicationController
     gon.usuario_logado = signed_in?
     gon.item_id = @item.id
 
-    @item.update(last_visited: Time.now);
+    @item.update(last_visited: Time.now)
 
   end
 
@@ -92,7 +92,7 @@ class ItensController < ApplicationController
     # Numero de avaliações feitas pelo usuário logado
     @num_avaliacoes = current_user.avaliacoes.size
 
-    if @num_avaliacoes >= GlobalConstants::NUM_AVALIACOES then
+    if @num_avaliacoes >= GlobalConstants::NUM_AVALIACOES
 
       c_recommendations = CollaborativeRecommendationService.new(current_user)
 
@@ -102,7 +102,7 @@ class ItensController < ApplicationController
 
       recommendations.each do |item_id, nota|
         
-        if nota != -1 then
+        if nota != -1
           item = Item.find(item_id)
 
           if item.book?
@@ -134,9 +134,9 @@ class ItensController < ApplicationController
   def create
     @item = Item.new(item_params)
 
-    if params.has_key?(:usa_wiki) then
+    if params.has_key?(:usa_wiki)
       @item.descricao = Utils::descricao_wiki(@item.get_name)
-      if @item.descricao.nil? then
+      if @item.descricao.nil?
         flash.now[:danger] = "Não foi possível buscar a descrição do Wikipédia"
         render :new
         return

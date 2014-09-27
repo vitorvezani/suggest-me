@@ -1,4 +1,4 @@
-$("#seguidores").html("<%= j (render('usuarios/seguidores', seguidores: @seguidores)) %>")
-$("#seguidores_count").html('Seguidores <span class="badge"><%= @seguidores.count %></span>')
-$("#followers").html('Seguidores: <%= @usuario.seguidores.count %>')
-$("#follow_form").html("<%= j (render('usuarios/follow')) %>")
+$("#seguidores").html("<%= j (render('usuarios/seguidores', seguidores: @seguidores)) %>");
+$("#seguidores_count").html('Seguidores <span class="badge"><%= @seguidores.count %></span>');
+$("#followers").html('Seguidores: <%= @usuario.seguidores.count %>');
+$("#follow_form").html("<%= j (render('usuarios/follow')) %>");

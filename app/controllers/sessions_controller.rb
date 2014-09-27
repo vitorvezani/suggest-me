@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
         usuario.save!
         redirect_to "/auth/facebook"
       else
-        if usuario.confirmed then
+        if usuario.confirmed
           flash[:success] = 'Você logou com sucesso!'
           sign_in usuario
           redirect_to root_url
@@ -36,7 +36,7 @@ class SessionsController < ApplicationController
 
     auth = env["omniauth.auth"]
 
-    if Usuario.where(email: auth.info.email, uid: nil).size > 0 then
+    if Usuario.where(email: auth.info.email, uid: nil).size > 0
       # Neste caso o usuário possuí conta no sistema mas ainda não está linkada
       redirect_to action: "new", uid: auth.uid, email: auth.info.email
     else
@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
         ActiveRecord::Base.connection.close
       end
       
-      if usuario.password_digest.nil? then
+      if usuario.password_digest.nil?
         redirect_to controller: "usuarios", action: "edit_password", id: usuario.id
       else
         redirect_to root_url

@@ -14,11 +14,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/solr
 
 # Ignore other unneeded files.
 database.yml
 doc/
-solr/
 *.swp
 *~
 .project

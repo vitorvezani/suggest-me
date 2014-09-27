@@ -9,7 +9,6 @@ class ContentRecommendationService
 
 	def recommend
 
-  	data = Array.new
   	similaridade = Hash.new
   	itens_recomendados = Hash.new
 

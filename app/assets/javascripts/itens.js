@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-	var xhr;
-
 	//$('a').click(function(){
 	//	if(xhr && xhr.readystate != 4){
 	//		console.log("clicked!");
@@ -49,7 +47,7 @@ $(document).ready(function() {
 	});
 	
 	if ($('#content-recommendation').length) {
-		xhr = $.ajax({
+		$.ajax({
 	    url:'/content_recommendation/' + gon.item_id + '.js',
 	    type:"get"
 	  });

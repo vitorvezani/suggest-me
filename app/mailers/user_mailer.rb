@@ -1,5 +1,4 @@
 class UserMailer < ActionMailer::Base
-  # TODO tirar e-mail quando colocar em produção
   default from: "contato.suggestme@gmail.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml

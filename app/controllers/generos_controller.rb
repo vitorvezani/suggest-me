@@ -9,7 +9,7 @@ class GenerosController < ApplicationController
 
     @q = params[:q]
 
-    if @q then
+    if @q
       @search = Genero.search do
         keywords params[:q]
         paginate(page: params[:page], :per_page => 30)
@@ -40,9 +40,9 @@ class GenerosController < ApplicationController
   def create
     @genero = Genero.new(genero_params)
 
-    if params.has_key?(:usa_wiki) then
+    if params.has_key?(:usa_wiki)
       @genero.descricao = Utils::descricao_wiki(@genero.nome)
-      if @genero.descricao.nil? then
+      if @genero.descricao.nil?
         flash.now[:danger] = "Não foi possível buscar a descrição do Wikipédia"
         render :new
         return
