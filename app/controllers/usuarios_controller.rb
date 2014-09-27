@@ -2,7 +2,7 @@ class UsuariosController < ApplicationController
   
   helper_method :sort_coluna, :sort_direcao
   
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password]
+  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences]
   # Para qualquer dessas ação é necessario o login do usuário
   before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
@@ -156,6 +156,20 @@ class UsuariosController < ApplicationController
     redirect_to root_path
   end
 
+  def edit_preferences
+    # Renderiza editar preferencias
+  end
+
+  def update_preferences
+    if @usuario.update(usuario_params)
+      flash[:success] = "Preferências alteradas com sucesso!"
+      redirect_to @usuario
+    else
+      flash.now[:danger] = "Preferências não foram alteradas!!!"
+      render action: :edit_preferences, id: @usuario
+    end
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -165,7 +179,7 @@ class UsuariosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def usuario_params
-      params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario, :info)
+      params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario, :info, :max_rec_colaborativa, :max_rec_conteudo)
     end
 
     # Before-filters function

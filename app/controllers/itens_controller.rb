@@ -58,7 +58,7 @@ class ItensController < ApplicationController
   
     start_t = Time.now
   
-    c_recommendations = ContentRecommendationService.new(@item)
+    c_recommendations = ContentRecommendationService.new(current_user, @item)
 
     @itens_recomendados = c_recommendations.recommend
 
@@ -119,10 +119,12 @@ class ItensController < ApplicationController
 
     end
 
-    @livros  = @livros.take(12)
-    @filmes  = @filmes.take(12)
-    @jogos   = @jogos.take(12)
-    @musicas = @musicas.take(12)
+    qtde_recomendacao = current_user.max_rec_colaborativa
+
+    @livros  = @livros.take(qtde_recomendacao)
+    @filmes  = @filmes.take(qtde_recomendacao)
+    @jogos   = @jogos.take(qtde_recomendacao)
+    @musicas = @musicas.take(qtde_recomendacao)
 
     finish_t = Time.now
     puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"

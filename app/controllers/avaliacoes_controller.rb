@@ -8,8 +8,7 @@ class AvaliacoesController < ApplicationController
     @avaliacao = Avaliacao.find_or_create_by(item_id: params[:avaliacao][:item_id], usuario_id: current_user.id)
 
     @avaliacao.avaliacao = params[:avaliacao][:avaliacao]
-    
-    # TODO, colocar um if
+
     if @avaliacao.save
 
       @positivas = Avaliacao.where(item_id: @avaliacao.item.id, avaliacao: true).size

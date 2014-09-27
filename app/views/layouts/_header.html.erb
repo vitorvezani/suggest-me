@@ -50,6 +50,7 @@
             <ul class="dropdown-menu">
               <li><%= link_to " Profile", current_user, class: "glyphicon glyphicon-user" %></li>
               <li><%= link_to " Configuração", edit_usuario_path(current_user), class: "glyphicon glyphicon-globe" %></li>
+              <li><%= link_to " Preferências", edit_preferences_path(current_user), class: "glyphicon glyphicon-edit" %></li>
               <li><%= link_to " Senha", { controller: :usuarios, action: :edit_password, id: current_user }, class: "glyphicon glyphicon-wrench" %></li>
                 <li class="divider"></li>
                 <li><%= link_to " Flags", flags_path, class: "glyphicon glyphicon-warning-sign" %></li>

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
 
   match '/collaborative_recommendation', to: 'itens#collaborative_recommendation', via: 'get'
 
+  match '/edit_preferences/:id', to: 'usuarios#edit_preferences', via: 'get', as: 'edit_preferences'
+  match '/update_preferences/:id', to: 'usuarios#update_preferences', via: 'patch'
+
   match '/refresh_item_img/:id', to: 'itens#refresh_item_img', via: 'get'
 
   match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
