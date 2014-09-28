@@ -36,14 +36,9 @@ class Item < ActiveRecord::Base
   #-                        -
   #--------------------------
 
-  def get_image_url
-		# Imagem do Item
-		#if self.img_url.nil? 
-	    suckr = ImageSuckr::GoogleSuckr.new
-	  	suckr.get_image_url({"q" => get_name, "safe" => "active"})
-	  	#self.save!
-		#end
-		#self.img_url
+	def get_image_url
+		suckr = ImageSuckr::GoogleSuckr.new
+		suckr.get_image_url({"q" => get_name, "safe" => "active"})
   end
 
   def before_save(record)

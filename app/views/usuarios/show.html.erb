@@ -1,8 +1,8 @@
+<%= render "compartilhado/breadcrumb", pag: @usuario.get_name.titleize %>
+
 <%= form_for(@usuario) do |f| %>
 	<%= render 'compartilhado/mensagens_erro', object: f.object %>
 <% end %>
-
-<%= render "compartilhado/breadcrumb", pag: @usuario.get_name.titleize %>
 
 <div class="row">
   <aside class="col-xs-3">
