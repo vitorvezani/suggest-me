@@ -9,6 +9,14 @@ class SuggestionsController < ApplicationController
     @ultimos_generos = Genero.all.order(created_at: :desc).limit(5) 
   end
 
+  def contato
+    if signed_in?
+      @usuario = current_user
+    else
+      @usuario = nil
+    end
+  end
+
   def enviar_contato  
     email = params[:email]
     msg =  params[:msg]

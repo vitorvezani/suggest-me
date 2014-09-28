@@ -1,64 +1,69 @@
 Rails.application.routes.draw do
 
-  resources :flags
-
-  resources :usuarios do
-    member do
-      get :seguindo, :seguidores
-    end
-  end
-
-  match '/reset_password', to: 'usuarios#reset_password', via: 'get'
-  match '/send_reset_password', to: 'usuarios#send_reset_password', via: 'post'
-  match '/confirm_account/:id', to: 'usuarios#confirm_account', via: 'get'
-
-  match '/collaborative_recommendation', to: 'itens#collaborative_recommendation', via: 'get'
-
-  match '/usuarios/:id/edit_preferences', to: 'usuarios#edit_preferences', via: 'get', as: 'edit_preferences'
-  match '/usuarios/:id/update_preferences:id', to: 'usuarios#update_preferences', via: 'patch'
-
-  match '/refresh_item_img/:id', to: 'itens#refresh_item_img', via: 'get'
-
-  match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
-
-  match '/content_recommendation/:id', to: 'itens#content_recommendation', via: 'get'
-
-  match '/usuarios/:id/edit_password', to: 'usuarios#edit_password', via: 'get'
-  match '/usuarios/:id/update_password', to: 'usuarios#update_password', via: 'patch'
-
-  resources :relacoes, only: [:create, :destroy]
-
-  resources :generos, :categorias, :generalizacoes, :itens, :usuarios
-
-  # Mudar
-  match '/avaliacoes', to: 'avaliacoes#create_update', via: 'post'
-  resources :avaliacoes, only: :update
-
-  match '/generalizacoes/destroy_all', to: 'generalizacoes#destroy_all', via: 'post'
-
-  resources :comentarios, only: [:create, :destroy, :edit, :update, :show]
-
-  resources :sessions, only: [:new, :create, :destroy]
-
   #root route
   root 'suggestions#index'
 
-  #route para o Facebook Auth
-  match 'auth/:provider/callback', to: 'sessions#create_facebook', via: 'get'
-  match 'auth/failure', to: redirect('/'), via: 'get'
+  # Custom Routes
 
-  match '/sobre', to: 'suggestions#sobre', via: 'get'
-  match '/privacidade', to: 'suggestions#privacidade', via: 'get'
-  match '/termos', to: 'suggestions#termos', via: 'get'
-  match '/contato', to: 'suggestions#contato', via: 'get'
+    # Usuarios 
+    match '/reset_password', to: 'usuarios#reset_password', via: 'get'
+    match '/send_reset_password', to: 'usuarios#send_reset_password', via: 'post'
+    match '/confirm_account/:id', to: 'usuarios#confirm_account', via: 'get'
+    match '/usuarios/:id/edit_preferences', to: 'usuarios#edit_preferences', via: 'get', as: 'edit_preferences'
+    match '/usuarios/:id/update_preferences:id', to: 'usuarios#update_preferences', via: 'patch'
+    match '/usuarios/facebook', to: 'usuarios#facebook', via: 'get'
+    match '/usuarios/:id/edit_password', to: 'usuarios#edit_password', via: 'get'
+    match '/usuarios/:id/update_password', to: 'usuarios#update_password', via: 'patch'
+    match '/signup',  to: 'usuarios#new', via: 'get'
 
-  match '/signup',  to: 'usuarios#new',         via: 'get'
-  match '/signin',  to: 'sessions#new',         via: 'get'
-  match '/signout', to: 'sessions#destroy',     via: 'delete'
+    # Sessions
+    match '/signin',  to: 'sessions#new', via: 'get'
+    match '/signout', to: 'sessions#destroy', via: 'delete'
 
-  match '/suggestions/enviar_contato', to: 'suggestions#enviar_contato', via: 'post'
+    # Itens
+    match '/collaborative_recommendation', to: 'itens#collaborative_recommendation', via: 'get'
+    match '/refresh_item_img/:id', to: 'itens#refresh_item_img', via: 'get'
+    match '/content_recommendation/:id', to: 'itens#content_recommendation', via: 'get'
+
+    # Avaliacoes
+    match '/avaliacoes', to: 'avaliacoes#create_update', via: 'post'
+
+    # Generalizacoes
+    match '/generalizacoes/destroy_all', to: 'generalizacoes#destroy_all', via: 'post'
+
+    # Facebook Auth
+    match 'auth/:provider/callback', to: 'sessions#create_facebook', via: 'get'
+    match 'auth/failure', to: redirect('/'), via: 'get'
+
+    # Paginas Estáticas
+    match '/sobre', to: 'suggestions#sobre', via: 'get'
+    match '/privacidade', to: 'suggestions#privacidade', via: 'get'
+    match '/termos', to: 'suggestions#termos', via: 'get'
+    match '/contato', to: 'suggestions#contato', via: 'get'
+    match '/suggestions/enviar_contato', to: 'suggestions#enviar_contato', via: 'post'
+
+  # RESTful Resources
+
+    resources :relacoes, only: [:create, :destroy]
+
+    resources :generos, :categorias, :generalizacoes, :itens, :usuarios, :flags
+
+    resources :avaliacoes, only: :update
+
+    resources :comentarios, only: [:create, :destroy, :edit, :update, :show]
+
+    resources :sessions, only: [:new, :create, :destroy]
+
+    resources :usuarios do
+      # usuarios/1/seguindo
+      # usuarios/1/seguindo
+      member do # poderia ser collection
+        get :seguindo, :seguidores
+      end
+    end
 
   #default
+
   match ':controller(/:action(/:id(.:format)))', via: 'get'
   
   #get 'suggestions/index'

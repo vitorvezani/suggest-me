@@ -1,12 +1,11 @@
 class FlagsController < ApplicationController
   helper_method :sort_coluna, :sort_direcao
   # Busca Span por ID
-  before_action :set_flag, only: [:show, :update, :destroy]
+  before_action :set_flag, only: [:show, :edit, :update, :destroy]
   # Somente usuário logado pode relatar flag
   before_action :usuario_logado?, only: [:new, :edit, :update]
-  # Somente admin pode vizualizar a lista de todos os usuários
   # Somente ve a flag que ele fez
-  before_action :minha_flag?, only: [:show, :destroy]
+  before_action :usuario_correto_flag?, only: [:show, :edit, :update, :destroy]
 
   # GET /flags
   # GET /flags.json
@@ -46,6 +45,11 @@ class FlagsController < ApplicationController
     end
   end
 
+  # GET /flags/1/edit
+  def edit
+    
+  end
+
   # PATCH/PUT /flags/1
   # PATCH/PUT /flags/1.json
   def update
@@ -80,10 +84,6 @@ class FlagsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def flag_params
       params.require(:flag).permit(:conteudo, :tipo_flag_id, :usuario_id ,:flagavel_id, :flagavel_type)
-    end
-
-    def minha_flag?
-      @flag.usuario_id == current_user.id
     end
 
     def sort_coluna

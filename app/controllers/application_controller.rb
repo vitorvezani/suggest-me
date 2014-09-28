@@ -35,4 +35,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def usuario_correto_flag?
+    unless @flag.usuario == current_user or current_user.admin?
+      flash[:danger] = "Você não possui privilégios para esta operação!"
+      redirect_to root_url
+    end
+  end
 end

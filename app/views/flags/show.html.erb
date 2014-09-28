@@ -17,12 +17,10 @@
             <p><label>Criado em: </label> <%= @flag.created_at.to_s(:db) %></p>
             <p><label>Modificado em: </label> <%= @flag.updated_at.to_s(:db) %></p>
             <hr>
+            <%= link_to "Editar Flag", edit_flag_path(@flag) %> |
             <%= link_to "Excluir Flag", @flag, method: :delete, data: { confirm: 'Você tem certeza?' } %>
         </div>
       </div>
-      <% if admin? %>
-        <%= link_to "Excluir", @flag, method: :delete, data: { confirm: 'Você tem certeza?' }%>
-      <% end %>
     </section>
   </aside>
   <div class="col-md-8">

@@ -1,15 +1,16 @@
 <%= render "compartilhado/breadcrumb", pag: "Contato" %>
 
-<h1>Contate Suggest Me! Inc.</h1>
+<h1>Contate Suggest Me!</h1>
 
 <div class="row clearfix">
 	<div class="col-md-12 column">
 		<div class="row clearfix">
 			<div class="col-md-6 column">
-				<%= form_tag( action: 'enviar_contato' ) do %>
+				<%= form_tag(action: 'enviar_contato' ) do %>
 						<div class="form-group">
 							<%= label_tag(:email, "E-mail") %>
-				    	<%= text_field_tag :email, "" , {class: "form-control"} %>
+				    	<%= text_field_tag :email, @usuario.try(:email) , { class: "form-control", disabled: signed_in? } %>
+				    	<br/>
 				    	<%= label_tag(:msg, "Mensagem") %>
 				    	<%= text_area_tag :msg, "", {rows: 6, class: "form-control"} %>
 				  	</div>
@@ -18,7 +19,7 @@
 			</div>
 			<div class="col-md-6 column">
 				<address>
-					<strong>Suggest Me!, Inc.</strong><br> 
+					<strong>Suggest Me!</strong><br> 
 					Av. Antonio Serafin Petean<br> Pedreira, SP 590<br> 
 					<abbr title="Telefone">Tel:</abbr> 
 					(19) 99206-1233
