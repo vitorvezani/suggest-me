@@ -10,7 +10,7 @@
             <span class="glyphicon glyphicon-thumbs-down"><%= comentario.dislike %></span>
             <%= render partial: "compartilhado/nova_flag", locals: { flagavel: comentario, id: "flag_comentario" } unless !signed_in? %>
             <span>
-              <% if admin? or current_user == comentario.usuario %>
+              <% if admin? or current_user?(comentario.usuario) %>
                 <%= link_to "deletar", comentario, method: :delete, data: { confirm: 'Você tem certeza?' } %>
               <% end %> 
             </span>
@@ -22,5 +22,7 @@
       </div>
     </div>
   <% end %>
+<% else %>
+  <p> <strong><%= @item.get_name.titleize %></strong> ainda não possui comentários </p>
 <% end %>
 <%= will_paginate @comentarios, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'comentario_page' %>

@@ -13,5 +13,7 @@
       </li>
   <% end %>
   </ul>
+<% else %>
+  <p> <strong><%= @item.get_name.titleize %></strong> ainda não possui avaliações </p>
 <% end %>
 <%= will_paginate @avaliacoes, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'avaliacao_page'  %>

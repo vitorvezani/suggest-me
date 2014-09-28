@@ -13,6 +13,9 @@
   <% end %>
   </ul>
 <% else %>
-  <p> Você ainda não tem avaliações! Comece por <%= link_to "aqui!", itens_path %></p>
+  <p> <%= current_user?(@usuario)%> ainda não tem avaliações! </p>
+  <% if current_user?(@usuario) %>
+    <p> Comece por <%= link_to 'aqui!', itens_path %> </p>
+  <% end %>
 <% end %>
 <%= will_paginate @avaliacoes, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'avaliacao_page' %>

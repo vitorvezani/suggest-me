@@ -9,6 +9,6 @@
   <% end %>
   </ul>
 <% else %>
-  <p> Você não está sendo seguido por ninguém! </p>
+  <p> <%= current_user?(@usuario) ? "Você" : @usuario.username %> não está sendo seguido por ninguém! </p>
 <% end %>
 <%= will_paginate @seguidores, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'seguidores_page' %>
