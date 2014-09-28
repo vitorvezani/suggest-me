@@ -83,7 +83,7 @@ class GenerosController < ApplicationController
   def destroy
     @genero.destroy
     respond_to do |format|
-      flash[:success] = "Genero #{@genero.nome} foi excluido com sucesso!"
+      flash[:success] = "Gênero #{@genero.nome} foi excluido com sucesso!"
       format.html { redirect_to generos_url }
       format.json { head :no_content }
     end
