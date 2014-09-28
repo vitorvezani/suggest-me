@@ -1,6 +1,5 @@
-<h1>Editing flag</h1>
+<%= render "compartilhado/breadcrumb", pag: "Flag" %>
 
-<%= render 'form' %>
+<h1>Editando flag</h1>
 
-<%= link_to 'Show', @flag %> |
-<%= link_to 'Back', flags_path %>
+<%= render 'edit_form', flag: @flag %>

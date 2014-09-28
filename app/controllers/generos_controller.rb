@@ -9,7 +9,7 @@ class GenerosController < ApplicationController
 
     @q = params[:q]
 
-    if @q
+    if @q and !@q.blank?
       @search = Genero.search do
         keywords params[:q]
         paginate(page: params[:page], :per_page => 30)

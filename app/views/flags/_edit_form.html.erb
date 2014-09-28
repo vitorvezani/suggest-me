@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <%= form_for(flag) do |f| %>
+      <%= render 'compartilhado/mensagens_erro', object: f.object %>
+      <div class="form-group">
+        <%= f.label :conteudo, "Conteúdo" %>
+        <%= f.text_area :conteudo, rows: 7, class: "form-control" %>
+      </div>
+      <hr>
+      <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
+      <p></p>
+    <% end %>
+  </div>
+</div>
