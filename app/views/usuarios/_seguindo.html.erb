@@ -8,5 +8,7 @@
       </li>
   <% end %>
   </ul>
+<% else %>
+  <p> Você não segue nenhum usuário! </p>
 <% end %>
 <%= will_paginate @seguindo, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'seguindo_page' %>

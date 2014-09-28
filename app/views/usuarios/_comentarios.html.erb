@@ -12,7 +12,6 @@
             <span>
               <% if admin? or current_user == comentario.usuario %>
                 <%= link_to "deletar", comentario, method: :delete, data: { confirm: 'Você tem certeza?' } %>
-                <% #link_to "editar", edit_comentario_path(comentario) %>
               <% end %> 
             </span>
           </small>
@@ -23,5 +22,7 @@
       </div>
     </div>
   <% end %>
+<% else %>
+  <p> Você ainda não tem comentários! Comece por <%= link_to "aqui!", itens_path %></p>
 <% end %>
 <%= will_paginate @comentarios, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails, param_name: 'comentario_page' %>
