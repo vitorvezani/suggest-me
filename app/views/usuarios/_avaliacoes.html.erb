@@ -13,7 +13,7 @@
   <% end %>
   </ul>
 <% else %>
-  <p> <%= current_user?(@usuario)%> ainda não tem avaliações! </p>
+  <p> <%= current_user?(@usuario) ? @usuario.username : "Você" %> ainda não tem avaliações! </p>
   <% if current_user?(@usuario) %>
     <p> Comece por <%= link_to 'aqui!', itens_path %> </p>
   <% end %>

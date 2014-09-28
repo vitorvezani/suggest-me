@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928134648) do
+ActiveRecord::Schema.define(version: 20140928195831) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20140928134648) do
     t.datetime "last_login"
     t.string   "info"
     t.string   "confimartion_code"
-    t.string   "confirmed",                       default: "0"
+    t.boolean  "confirmed",                       default: false
     t.integer  "max_rec_colaborativa",            default: 12
     t.integer  "max_rec_conteudo",                default: 10
   end

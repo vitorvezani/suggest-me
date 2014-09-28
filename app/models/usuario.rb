@@ -62,7 +62,7 @@ class Usuario < ActiveRecord::Base
       usuario.provider         ||= auth.provider
       usuario.uid              ||= auth.uid
       usuario.email            ||= auth.info.email
-      usuario.username         = "#{auth.info.first_name}.#{auth.info.last_name}"
+      usuario.username         = "#{auth.info.first_name.downcase}.#{auth.info.last_name.downcase}"
       usuario.primeiro_nome    = auth.info.first_name
     	usuario.ultimo_nome      = auth.info.last_name
     	usuario.image            = "http://graph.facebook.com/#{auth.uid}/picture?type=large"

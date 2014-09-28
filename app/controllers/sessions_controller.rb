@@ -14,10 +14,20 @@ class SessionsController < ApplicationController
       # Verifica se está linkando a conta com o facebook
       if (params[:session][:uid] rescue nil) then
         usuario.uid = params[:session][:uid]
+        # TODO - Deixar dinamico
+        flash[:success] = 'Você logou com sucesso!'
+        usuario.provider = "facebook" 
         usuario.save!
-        redirect_to "/auth/facebook"
-      else
-        if usuario.confirmed
+        sign_in usuario
+
+        Thread.new do
+          usuario.facebook_update
+          ActiveRecord::Base.connection.close
+        end
+
+        redirect_to root_url
+      else 
+        if usuario.confirmed?
           flash[:success] = 'Você logou com sucesso!'
           sign_in usuario
           redirect_to root_url
@@ -36,7 +46,7 @@ class SessionsController < ApplicationController
 
     auth = env["omniauth.auth"]
 
-    if Usuario.where(email: auth.info.email, uid: nil).size > 0
+    if Usuario.where(email: auth.info.email, uid: nil, provider: nil ).size > 0
       # Neste caso o usuário possuí conta no sistema mas ainda não está linkada
       redirect_to action: "new", uid: auth.uid, email: auth.info.email
     else
