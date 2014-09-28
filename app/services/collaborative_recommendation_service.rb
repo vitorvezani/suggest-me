@@ -26,7 +26,7 @@ class CollaborativeRecommendationService
 	  end
 
 	  stop_t = Time.now
-	  puts "Tempo para realizar a recomendacao: " + (stop_t - start_t).to_s + "segundos"
+	  #puts "Tempo para realizar a recomendacao: " + (stop_t - start_t).to_s + "segundos"
 	      
 	  recommendations
 
@@ -69,7 +69,7 @@ class CollaborativeRecommendationService
 	    # '|' é o operador de união
 	    total = (@self_likes + @self_dislikes) | (usuario_likes + usuario_dislikes)
 
-	    puts "Similaridade com usaurio: #{usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
+	    #puts "Similaridade com usaurio: #{usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
 
 	    return (agreements - disagreements) / total.size.to_f
 	  end

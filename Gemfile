@@ -48,7 +48,7 @@ gem "faker"
 # Progress Bar
 gem "progress_bar"
 # TF-IDF
-gem "tf_idf"
+#gem "tf_idf"
 # Productions Gem
 group :production do
   # Use unicorn as the app server

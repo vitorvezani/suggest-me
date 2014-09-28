@@ -10,12 +10,14 @@ class ContentRecommendationService
 
 	def recommend
 
+		require 'tfidf_service'
+
   	similaridade = Hash.new
   	itens_recomendados = Hash.new
 
   	data = format_data
 
-		tf_idf = TfIdf.new(data).tf_idf
+		tf_idf = TfIdfService.new(data).tf_idf
 
 		@itens.each do |item|
 			similaridade[item.id] = similaridade_com(item, tf_idf)
