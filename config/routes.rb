@@ -14,8 +14,8 @@ Rails.application.routes.draw do
 
   match '/collaborative_recommendation', to: 'itens#collaborative_recommendation', via: 'get'
 
-  match '/edit_preferences/:id', to: 'usuarios#edit_preferences', via: 'get', as: 'edit_preferences'
-  match '/update_preferences/:id', to: 'usuarios#update_preferences', via: 'patch'
+  match '/usuarios/:id/edit_preferences', to: 'usuarios#edit_preferences', via: 'get', as: 'edit_preferences'
+  match '/usuarios/:id/update_preferences:id', to: 'usuarios#update_preferences', via: 'patch'
 
   match '/refresh_item_img/:id', to: 'itens#refresh_item_img', via: 'get'
 
@@ -23,8 +23,8 @@ Rails.application.routes.draw do
 
   match '/content_recommendation/:id', to: 'itens#content_recommendation', via: 'get'
 
-  match '/usuarios/edit_password/:id', to: 'usuarios#edit_password', via: 'get'
-  match '/usuarios/update_password/:id', to: 'usuarios#update_password', via: 'patch'
+  match '/usuarios/:id/edit_password', to: 'usuarios#edit_password', via: 'get'
+  match '/usuarios/:id/update_password', to: 'usuarios#update_password', via: 'patch'
 
   resources :relacoes, only: [:create, :destroy]
 

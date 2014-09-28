@@ -10,12 +10,12 @@
         <div class="modal-body">
           <div class="form-group">
             <%= f.hidden_field :item_id %>
-            <%= f.label :genero_id, "Genero" %>
+            <%= f.label :genero_id, "Gênero" %>
             <%= f.collection_select(:genero_id, Genero.order(:nome), :id, :nome, class: "form-control" ) %>
           </div>
         </div>
         <div class="modal-footer">
-          <%= link_to "Criar novo Genero", new_genero_path %>
+          <%= link_to "Criar novo gênero", new_genero_path %>
           <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
           <button type="submit" name= "commit" class="btn btn-primary">Salvar</button>
         </div>

@@ -208,13 +208,6 @@ class ItensController < ApplicationController
       params.require(:item).permit(:categoria_id, :nome_ptbr, :nome_en, :descricao)
     end
 
-    def usuario_admin
-      unless admin?
-        flash[:danger] = "Você não possui privilégios para esta operação!"
-        redirect_to itens_url
-      end
-    end
-
     def sort_coluna
       Item.column_names.include?(params[:coluna]) ? params[:coluna] : "id"
     end

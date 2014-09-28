@@ -20,4 +20,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def usuario_admin
+    unless admin?
+      flash[:danger] = "Você não possui privilégios para esta operação!"
+      redirect_to itens_url
+    end
+  end
+
+  # Verifica se o usuário a ser editado é o mesmo usuário logado.
+  def usuario_correto?
+    unless current_user == @usuario or current_user.admin?
+      flash[:danger] = "Você não possui privilégios para esta operação!"
+      redirect_to root_url
+    end
+  end
+
 end

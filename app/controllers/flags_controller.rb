@@ -86,13 +86,6 @@ class FlagsController < ApplicationController
       @flag.usuario_id == current_user.id
     end
 
-    # Somente admin pode vizualizar a pagina de usuários
-    def usuario_admin
-      unless admin?
-        redirect_to root_url
-      end
-    end
-
     def sort_coluna
       Flag.column_names.include?(params[:coluna]) ? params[:coluna] : "id"
     end

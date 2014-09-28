@@ -1,4 +1,12 @@
-<h3><%= "Itens parecidos:" unless itens.blank? %></h3>
+<% if itens.blank? %>
+	<h3><%= "Ainda não há itens parecidos" %></h3>
+	<h4><%= "Você pode ajudar adicionando um gênero ao item" %></h4>
+	<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#genero">
+		Adicionar Tags
+	</button>
+<% else %>
+	<h3><%= "Itens parecidos:" %></h3>
+<% end %>
 <ul class="list-group">
 	<% itens.each do |id, nota| %>
 		<li class="list-group-item">

@@ -16,7 +16,7 @@ class AvaliacoesController < ApplicationController
 
       respond_to do |format|
         format.html { 
-          flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr}!"
+          flash[:success] = @avaliacao.avaliacao ? "Você curtiu #{@avaliacao.item.nome_ptbr.titleize}!" : "Você não curtiu #{@avaliacao.item.nome_ptbr.titleize}!"
           redirect_to item_path(@avaliacao.item) }
         format.js
       end

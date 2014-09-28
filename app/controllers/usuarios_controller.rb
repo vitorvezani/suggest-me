@@ -4,9 +4,9 @@ class UsuariosController < ApplicationController
   
   before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences]
   # Para qualquer dessas ação é necessario o login do usuário
-  before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password]
+  before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
-  before_action :usuario_correto, only: [:edit, :update, :destroy, :edit_password, :update_password] 
+  before_action :usuario_correto?, only: [:edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences, :destroy] 
   # Somente admin pode vizualizar a lista de todos os usuários
   before_action :usuario_admin, only: [:index]
   # Se o usuario está logado ele não pode acessar a pagina de new e create
@@ -183,17 +183,6 @@ class UsuariosController < ApplicationController
     end
 
     # Before-filters function
-
-    # Verifica se o usuário a ser editado é o mesmo usuário logado.
-    def usuario_correto
-      @usuario = Usuario.find(params[:id])
-      redirect_to root_url unless current_user == @usuario or current_user.admin?
-    end
-
-    # Somente admin pode vizualizar a pagina de usuários
-    def usuario_admin
-        redirect_to root_url unless admin?
-    end
 
     def redireciona_usuario_logado
         redirect_to root_url if signed_in?
