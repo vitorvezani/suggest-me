@@ -2,16 +2,36 @@ class CollaborativeRecommendationService
 
 	def initialize(usuario)
 		
-	  @usuario = usuario
-	  @itens = Item.all - @usuario.itens # Todos os itens menos os itens do usuário
-	  @usuarios = Usuario.where("id != ?", @usuario.id )
+		@usuario = usuario
 
-	  # Conjunto de itens de likes e dislikes do usuário
-	  @self_likes = likes(@usuario)
-	  @self_dislikes = dislikes(@usuario)
+		@itens = Item.all - @usuario.itens
+
+		avaliacoes = Avaliacao.all
+		avaliacoes_positivas = Avaliacao.where(avaliacao: true)
+		avaliacoes_negativas = Avaliacao.where(avaliacao: false)
+
+		@liked_what = Hash.new
+		@liked_by = Hash.new
+
+		avaliacoes.each { |u| @liked_what[u.usuario_id] = Array.new }
+		@disliked_what = @liked_what.deep_dup
+
+		avaliacoes.each { |a| @liked_by[a.item_id] = Array.new }
+		@disliked_by = @liked_by.deep_dup
+
+		avaliacoes_positivas.each do |a|
+			@liked_what[a.usuario_id] << a.item_id
+			@liked_by[a.item_id] << a.usuario_id
+		end
+
+		avaliacoes_negativas.each do |a|
+			@disliked_what[a.usuario_id] << a.item_id
+			@disliked_by[a.item_id] << a.usuario_id
+		end
 
 	 	@similaridade = Array.new
-	  @usuarios.each { |outro_usuario| @similaridade[outro_usuario.id] = similaridade_com( outro_usuario ) }
+	 	# Para cada key
+	  @liked_what.each { |k, v| @similaridade[k] = similaridade_com(k) }
 
 	end
 
@@ -22,7 +42,7 @@ class CollaborativeRecommendationService
 	  recommendations = Hash.new
 
 	  @itens.each do |item|
-	    recommendations[item.id] = predicao_para(item)
+	    recommendations[item.id] = predicao_para(item.id)
 	  end
 
 	  stop_t = Time.now
@@ -34,94 +54,43 @@ class CollaborativeRecommendationService
 
 	private
 
-		def predicao_para(item)
+		def predicao_para(item_id)
 
 	    soma = 0.0
 
-	    item_liked_by = liked_by(item)
-	    item_disliked_by = disliked_by(item)
-	    # Soma total de likes e dislikes
-	    rated_count = item_liked_by.size + item_disliked_by.size
+	    liked_by_usuarios = @liked_by[item_id].nil? ? Array.new : @liked_by[item_id]
+	    disliked_by_usuarios = @disliked_by[item_id].nil? ? Array.new : @disliked_by[item_id]
 
-	    item_liked_by.each { |usuario_id| soma += @similaridade[usuario_id] }
-	    item_disliked_by.each { |usuario_id| soma -= @similaridade[usuario_id] }
+	    puts "liked_by_usuarios: #{liked_by_usuarios.inspect}, disliked_by_usuarios: #{disliked_by_usuarios.inspect}"
+
+	    # Soma total de likes e dislikes
+	    rated_count = liked_by_usuarios.size + disliked_by_usuarios.size
+
+	    liked_by_usuarios.each { |usuario_id| soma += @similaridade[usuario_id] }
+	    disliked_by_usuarios.each { |usuario_id| soma -= @similaridade[usuario_id] }
 
 	    return -1.0 if rated_count.zero?
 
-	    #puts "Predicao para #{item.get_name}, soma: #{soma}, rated: #{rated_count}"
+	    puts "Predicao para #{item_id}, soma: #{soma}, rated: #{rated_count}"
 
 	    return soma / rated_count.to_f
 
 	  end
 
-	  def similaridade_com(usuario)
-
-	    usuario_likes = likes(usuario)
-	    usuario_dislikes = dislikes(usuario)
+	  def similaridade_com(usuario_id)
 
 	    # '& é o operador de intersecção.
-	    agreements = (@self_likes & usuario_likes).size
-	    agreements += (@self_dislikes & usuario_dislikes).size
+	    agreements = (@liked_what[@usuario.id] & @liked_what[usuario_id]).size
+	    agreements += (@disliked_what[@usuario.id] & @disliked_what[usuario_id]).size
 
-	    disagreements = (@self_likes & usuario_dislikes).size
-	    disagreements += (@self_dislikes & usuario_likes).size
+	    disagreements = (@liked_what[@usuario.id] & @disliked_what[usuario_id]).size
+	    disagreements += (@disliked_what[@usuario.id] & @liked_what[usuario_id]).size
 
 	    # '|' é o operador de união
-	    total = (@self_likes + @self_dislikes) | (usuario_likes + usuario_dislikes)
+	    total = (@liked_what[@usuario.id] + @disliked_what[@usuario.id]) | (@liked_what[usuario_id] + @disliked_what[usuario_id])
 
-	    #puts "Similaridade com usaurio: #{usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
+	    puts "Similaridade com usaurio: #{@usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
 
 	    return (agreements - disagreements) / total.size.to_f
 	  end
-
-		  # Retorna o numero de Likes
-	  def likes(usuario)
-
-	    query = "SELECT av.item_id
-	             FROM   avaliacoes av
-	             WHERE  avaliacao = 1 and
-	                    usuario_id = #{usuario.id}"
-	    ActiveRecord::Base.connection.execute(query).to_a.map{|a| a.first}
-
-	    #@avaliacoes.select{|m| m.avaliacao == true and m.usuario_id == usuario.id }
-
-	  end
-
-	  # Retorna o numero de Dislikes
-	  def dislikes(usuario)
-
-	    query = "SELECT av.item_id
-	             FROM   avaliacoes av
-	             WHERE  avaliacao = 0 and
-	                    usuario_id = #{usuario.id}"
-	    ActiveRecord::Base.connection.execute(query).to_a.map{|a| a.first}
-
-	    #@avaliacoes.select{|m| m.avaliacao == false and m.usuario_id == usuario.id }
-
-	  end
-
-		def liked_by(item)
-
-			query = "SELECT av.usuario_id
-	             FROM   avaliacoes av
-	             WHERE  avaliacao = 1 and
-	                    item_id = #{item.id}"
-	    ActiveRecord::Base.connection.execute(query).to_a.map{|a| a.first}
-
-	    #@avaliacoes.select{|m| m.avaliacao == true and m.item_id == item.id }
-
-		end
-
-		def disliked_by(item)
-
-			query = "SELECT av.usuario_id
-	             FROM   avaliacoes av
-	             WHERE  avaliacao = 0 and
-	                    item_id = #{item.id}"
-	    ActiveRecord::Base.connection.execute(query).to_a.map{|a| a.first}
-
-	    #@avaliacoes.select{|m| m.avaliacao == false and m.item_id == item.id }
-
-		end
-
 end
