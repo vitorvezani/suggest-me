@@ -58,7 +58,7 @@ class ItensController < ApplicationController
   
     start_t = Time.now
   
-    c_recommendations = ContentRecommendationService.new(current_user, @item)
+    c_recommendations = ContentRecommendationService.new(@item, current_user)
 
     @itens_recomendados = c_recommendations.recommend
 

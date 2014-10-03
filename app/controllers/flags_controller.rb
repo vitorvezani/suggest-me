@@ -6,6 +6,8 @@ class FlagsController < ApplicationController
   before_action :usuario_logado?, only: [:new, :edit, :update]
   # Somente ve a flag que ele fez
   before_action :usuario_correto_flag?, only: [:show, :edit, :update, :destroy]
+  # Somente usuário logado pode visitar o index
+  before_action :usuario_logado?, only: [:index]
 
   # GET /flags
   # GET /flags.json
