@@ -63,7 +63,7 @@ class ItensController < ApplicationController
     @itens_recomendados = c_recommendations.recommend
 
     finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
   
     respond_to do |format|
        format.js
@@ -127,7 +127,7 @@ class ItensController < ApplicationController
     @musicas = @musicas.take(qtde_recomendacao)
 
     finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
 
   end
 
@@ -166,7 +166,7 @@ class ItensController < ApplicationController
         format.html { redirect_to @item}
         format.json { render :show, status: :ok, location: @item }
       else
-        flash.now[:success] = "O item não foi editado com sucesso!"
+        flash.now[:danger] = "O item não foi editado com sucesso!"
         format.html { render :edit }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end

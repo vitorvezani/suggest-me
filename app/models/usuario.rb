@@ -99,7 +99,7 @@ class Usuario < ActiveRecord::Base
     adiciona_avaliacoes( lista_final, self)
 
     finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
 
   end
 

@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
           sign_in usuario
           redirect_to root_url
         else
-          flash[:warning] = 'Usuário não confirmado! Por favor, verifique seu e-mail !'
+          flash[:warning] = 'Usuário não confirmado! Por favor, verifique seu e-mail!'
           redirect_to root_url
         end
       end

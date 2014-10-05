@@ -40,6 +40,33 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  # Configuring Facory Girl
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+
+    # Additional factory_girl configuration
+    #FactoryGirl.lint
+    # http://stackoverflow.com/questions/13484808/save-and-open-page-not-working-with-capybara-2-0
+    %x[bundle exec rake assets:precompile]
+  end
+
+  # In spec/spec_helper.rb or spec/support/name_it_as_you_wish.rb
+  #
+  # Automatically save and open the page
+  # whenever an expectation is not met in a features spec
+  config.after(:each) do
+    if example.metadata[:type] == :feature and example.exception.present?
+      save_and_open_page
+    end
+  end
+
+  config.include(MailerMacros)
+  config.include(UsuarioMacros)
+  config.include(AvaliacaoMacros)
+
   # Using Capybara
   config.include Capybara::DSL
+
+  config.before(:each) { reset_email }
 end

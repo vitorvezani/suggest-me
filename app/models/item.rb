@@ -28,7 +28,9 @@ class Item < ActiveRecord::Base
 
 	# A validação acontece apenas de nome_ptbr/nome_en estiverem preenchidos
 	validates_uniqueness_of :nome_ptbr, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_ptbr.nil? }
-  validates_uniqueness_of :nome_en, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_en.nil? }
+  
+  # TODO: Arrumar
+  #validates_uniqueness_of :nome_en, scope: :categoria_id, message: "já cadastrado!", :if => Proc.new { |obj| !obj.nome_en.nil? }
 
   #-------------------------- 
   #-                        -

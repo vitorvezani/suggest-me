@@ -73,6 +73,7 @@ group :test do
   gem 'selenium-webdriver', '2.35.1'
   gem 'factory_girl_rails'
   gem 'capybara', '2.1.0'
+  gem "launchy"
   gem 'guard-rspec'
 end
 

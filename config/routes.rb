@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     match '/confirm_account/:id', to: 'usuarios#confirm_account', via: 'get'
     match '/usuarios/:id/edit_preferences', to: 'usuarios#edit_preferences', via: 'get', as: 'edit_preferences'
     match '/usuarios/:id/update_preferences:id', to: 'usuarios#update_preferences', via: 'patch'
-    match '/usuarios/:id/edit_password', to: 'usuarios#edit_password', via: 'get'
+    match '/usuarios/:id/edit_password', to: 'usuarios#edit_password', via: 'get', as: 'edit_password'
     match '/usuarios/:id/update_password', to: 'usuarios#update_password', via: 'patch'
     match '/signup', to: 'usuarios#new', via: 'get'
 
