@@ -2,13 +2,13 @@ class UsuariosController < ApplicationController
   
   helper_method :sort_coluna, :sort_direcao
   
-  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences]
+  before_action :set_usuario, only: [:show, :edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences, :set_admin]
   # Para qualquer dessas ação é necessario o login do usuário
   before_action :usuario_logado?, only: [:edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences]
   # Para pag de Editar e acao Update é necessário ser o usuário que deseja alterar
   before_action :usuario_correto?, only: [:edit, :update, :destroy, :edit_password, :update_password, :edit_preferences, :update_preferences, :destroy] 
   # Somente admin pode vizualizar a lista de todos os usuários
-  before_action :usuario_admin, only: [:index]
+  before_action :usuario_admin, only: [:index, :set_admin]
   # Se o usuario está logado ele não pode acessar a pagina de new e create
   before_action :redireciona_usuario_logado, only: [:new, :create]
   
@@ -167,6 +167,16 @@ class UsuariosController < ApplicationController
     else
       flash.now[:danger] = "Preferências não foram alteradas!!!"
       render action: :edit_preferences, id: @usuario
+    end
+  end
+
+  def set_admin
+    if @usuario.update(admin: true)
+      flash[:success] = "Usuário #{@usuario.get_name} agora é administrador!"
+      redirect_to @usuario
+    else
+      flash.now[:danger] = "Alteração não foi realizada!!!"
+      redirect_to @usuario
     end
   end
 

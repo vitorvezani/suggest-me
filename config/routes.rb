@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Custom Routes
 
     # Usuarios 
+    
+    match '/usuarios/set_admin/:id', to: 'usuarios#set_admin', via: 'patch', as: 'set_usuario_admin'
     match '/reset_password', to: 'usuarios#reset_password', via: 'get'
     match '/send_reset_password', to: 'usuarios#send_reset_password', via: 'post'
     match '/confirm_account/:id', to: 'usuarios#confirm_account', via: 'get'

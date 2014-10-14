@@ -44,17 +44,17 @@ describe "Flags" do
     # TODO: Fazer o resto do fluxo
   end
 
-  it "should be possible to create a flag in comentário by a logged user" do
+  # it "should be possible to create a flag in comentário by a logged user" do
 
-		usuario_logado
-  	comentario = create(:comentario)
+		# usuario_logado
+  # 	comentario = create(:comentario)
     
-  	visit item_path(comentario.item)
+  # 	visit item_path(comentario.item)
 
-  	# flag_comentario
-    expect(page).to have_css('#flag_comentario')
+  # 	# flag_comentario
+  #   expect(page).to have_css('#flag_comentario')
 
-    # TODO: Fazer o resto do fluxo
-  end
+  #   # TODO: Fazer o resto do fluxo
+  # end
 
 end
