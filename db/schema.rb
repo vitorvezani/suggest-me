@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141005132108) do
+ActiveRecord::Schema.define(version: 20141018192421) do
 
   create_table "avaliacoes", force: true do |t|
     t.integer  "item_id"
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 20141005132108) do
     t.boolean  "confirmed",                       default: false
     t.integer  "max_rec_colaborativa",            default: 12
     t.integer  "max_rec_conteudo",                default: 10
+    t.boolean  "email_publico",                   default: false
   end
 
   add_index "usuarios", ["last_login"], name: "index_usuarios_on_last_login", using: :btree

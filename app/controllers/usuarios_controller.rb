@@ -189,7 +189,7 @@ class UsuariosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def usuario_params
-      params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario, :info, :max_rec_colaborativa, :max_rec_conteudo)
+      params.require(:usuario).permit(:username, :email, :password, :password_confirmation, :primeiro_nome, :ultimo_nome, :sexo, :dt_aniversario, :info, :max_rec_colaborativa, :max_rec_conteudo, :email_publico)
     end
 
     # Before-filters function

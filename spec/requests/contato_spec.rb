@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Contato Page" do
 
-  it "should enter in the contato page" do
+  it "should enter in the contato page and send a contact" do
     # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
     visit '/contato'
 

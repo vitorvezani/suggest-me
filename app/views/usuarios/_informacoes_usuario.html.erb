@@ -9,7 +9,9 @@
 	<% end %>
 <hr>
 <label>Username:</label> <%= @usuario.username %> </br>
-<label>E-mail: </label> <%= @usuario.email %> </br>
+<% if @usuario.email_publico or current_user == @usuario %>
+ <label>E-mail: </label> <%= @usuario.email %></br>
+<% end %>
 <label>Primeiro Nome: </label> <%= @usuario.primeiro_nome %> </br>
 <label>Ultimo Nome: </label> <%= @usuario.ultimo_nome %> </br>
 <label>Sexo: </label> <%= @usuario.sexo == "M" ? "Masculino" : "Feminino" unless @usuario.sexo.nil? %> </br>

@@ -36,3 +36,9 @@ MacOS database file: /tmp/mysql.sock
 
 Executar a suite de testes:
 - bundle exec rspec spec/requests/
+
+#########
+# DEBUG #
+#########
+
+<%= debug(params) if Rails.env.development? %>

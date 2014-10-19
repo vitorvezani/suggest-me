@@ -55,9 +55,9 @@ group :development do
   # New Relic
   gem 'newrelic_rpm'
   # Bullet
- 	gem 'bullet' 	
+ 	#gem 'bullet' 	
 	# Mini Profiler
-	gem 'rack-mini-profiler'
+	#gem 'rack-mini-profiler'
 end
 
 # Tests Gems

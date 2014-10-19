@@ -30,6 +30,7 @@ class CollaborativeRecommendationService
 		end
 
 	 	@similaridade = Array.new
+
 	 	# Para cada key
 	  @liked_what.each { |k, v| @similaridade[k] = similaridade_com(k) }
 
@@ -61,7 +62,7 @@ class CollaborativeRecommendationService
 	    liked_by_usuarios = @liked_by[item_id].nil? ? Array.new : @liked_by[item_id]
 	    disliked_by_usuarios = @disliked_by[item_id].nil? ? Array.new : @disliked_by[item_id]
 
-	    puts "liked_by_usuarios: #{liked_by_usuarios.inspect}, disliked_by_usuarios: #{disliked_by_usuarios.inspect}"
+	    #puts "liked_by_usuarios: #{liked_by_usuarios.inspect}, disliked_by_usuarios: #{disliked_by_usuarios.inspect}"
 
 	    # Soma total de likes e dislikes
 	    rated_count = liked_by_usuarios.size + disliked_by_usuarios.size
@@ -71,7 +72,7 @@ class CollaborativeRecommendationService
 
 	    return -1.0 if rated_count.zero?
 
-	    puts "Predicao para #{item_id}, soma: #{soma}, rated: #{rated_count}"
+	    #puts "Predicao para #{item_id}, soma: #{soma}, rated: #{rated_count}"
 
 	    return soma / rated_count.to_f
 
@@ -89,7 +90,7 @@ class CollaborativeRecommendationService
 	    # '|' é o operador de união
 	    total = (@liked_what[@usuario.id] + @disliked_what[@usuario.id]) | (@liked_what[usuario_id] + @disliked_what[usuario_id])
 
-	    puts "Similaridade com usaurio: #{@usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
+	    #puts "Similaridade com usaurio: #{@usuario.id}, agreements: #{agreements}, disagreements: #{disagreements}, total: #{total.size.to_f}, similaridade: #{(agreements - disagreements) / total.size.to_f}"
 
 	    return (agreements - disagreements) / total.size.to_f
 	  end

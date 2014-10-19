@@ -21,6 +21,10 @@
       <%= f.label :ultimo_nome, "Último Nome" %>
       <%= f.text_field :ultimo_nome, class: "form-control", placeholder: "Hawking" %>
     </div>
+    <div class="form-group">
+      <%= label_tag nil, "E-mail publico?" %>
+      <%= f.check_box :email_publico %>
+    </div>
     <hr>
   </div>
   <!-- Lado direito -->
@@ -34,8 +38,8 @@
       <%= f.date_field :dt_aniversario, class: "form-control" %>
     </div>
     <div class="form-group">
-      <%= f.label :info, "Sobre você" %>
-      <%= f.text_area :info, rows: 5,class: "form-control" %>
+      <%= f.label :info, "Sobre Você" %>
+      <%= f.text_area :info, rows: 7,class: "form-control" %>
     </div>
     <hr>
   </div>

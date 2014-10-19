@@ -30,8 +30,6 @@ class ItensController < ApplicationController
   # GET /itens/1.json
   def show
 
-    @itens_recomendados = Array.new
-
     # Atributos do item em questão
     @comentarios = @item.comentarios.paginate(page: params[:comentario_page], :per_page => 15).order(created_at: :desc).includes(:usuario)
     @avaliacoes = @item.avaliacoes.paginate(page: params[:avaliacao_page], :per_page => 15).order(created_at: :desc).includes(:usuario)
@@ -127,7 +125,7 @@ class ItensController < ApplicationController
     @musicas = @musicas.take(qtde_recomendacao)
 
     finish_t = Time.now
-    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
 
   end
 
