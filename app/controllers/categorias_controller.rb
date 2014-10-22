@@ -10,6 +10,7 @@ class CategoriasController < ApplicationController
 
   # GET /categorias
   def index
+    @categorias_count = Categoria.count
     @categorias = Categoria.order(sort_coluna + " " + sort_direcao)
   end
 

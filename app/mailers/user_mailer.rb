@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
   #   en.contato_mailer.contato.subject
   #
   def registration_confirmation(usuario)
-  	@usuario = usuario
+    @usuario = usuario
     mail(to: usuario.email, subject: "Confirmação de Registro")
   end
 

@@ -1,27 +1,63 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+################################
+# Software & Hardware Versions #
+################################
 
-Things you may want to cover:
+MacOSX - Version 10.9.4
+Sublime Text 3 - Build 3065
+OmniGraffle Profressional - Version 5.4.2
+Git - Version 1.9.3 (Apple Git-50)
+MySQL - Version 5.6.17
+Ruby On Rails - Version 4.1.0
+Ruby - Version 2.0.0p451
+SourceTree - Version 2.0.0
+FortFile - Version XXX
 
-* Ruby version
+####################################
+# Installing Ruby On Rails & MySql #
+####################################
 
-* System dependencies
+https://gorails.com/setup/ubuntu/14.04
 
-* Configuration
+##################
+# Mysql Commands #
+##################
 
-* Database creation
+mysql -u root -h localhost -p 			// Login
 
-* Database initialization
+create database suggest_me_development 	// Criar a base
 
-* How to run the test suite
+show databases; 						// Mostrar as bases
 
-* Services (job queues, cache servers, search engines, etc.)
+use suggest_me_development; 			// Usar as bases
 
-* Deployment instructions
+show tables; 							// Mostrar as Tabelas
 
-* ...
+Ubuntu database file: /var/lib/mysql/mysql.sock
+MacOS database file: /tmp/mysql.sock
+
+#########################
+#      SUNSPOT SOLR     #
+#########################
+
+- Ligar MySql
+- Excluir a pasta /solr
+- bundle exec rake sunspot:solr:reindex
+- bundle exec rake sunspot:solr:start
+
+#########
+# RSPECT #
+#########
+
+Executar a suite de testes:
+- bundle exec rspec spec/requests/
+
+#########
+# DEBUG #
+#########
+
+<%= debug(params) if Rails.env.development? %>
 
 
 Please feel free to use a different markup language if you do not plan to run

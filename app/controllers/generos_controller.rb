@@ -7,6 +7,7 @@ class GenerosController < ApplicationController
   # GET /generos.json
   def index
 
+    @generos_count = Genero.count
     @q = params[:q]
 
     if @q and !@q.blank?

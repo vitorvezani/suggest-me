@@ -16,7 +16,7 @@ class UsuariosController < ApplicationController
   # GET /usuarios.json
   def index
     # Usando paginate na classe Usuario para trazer registros!
-
+    @usuarios_count = Usuario.count
     @q = params[:q]
 
     if @q and !@q.blank?

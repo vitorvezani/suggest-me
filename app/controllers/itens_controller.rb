@@ -7,6 +7,7 @@ class ItensController < ApplicationController
   # GET /itens.json
   def index
 
+    @itens_count = Item.count
     @q = params[:q]
 
     if @q

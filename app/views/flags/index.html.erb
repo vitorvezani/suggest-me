@@ -1,19 +1,23 @@
 <%= render "compartilhado/breadcrumb", pag: "Todas as Flags" %>
 
-<h1><%= admin? ? "Todas as Flags" : "Minhas Flags"%></h1>
+<h2><%= admin? ? "Todas as Flags! " : "Minhas Flags! "%><%= "(#{@flags_count})"%></h2>
 
-<table class="table table-hover">
-    <tr class="info">  
-    <th><%= sortable "#", "#" %></th>                    
-    <th><%= sortable "nome", "Nome Item" %></th>
-    <th><%= sortable "flagavel_type", "Tipo Item" %></th>
-    <th><%= sortable "tipo_flag_id", "Tipo Flag" %></th>
-    <th><%= sortable "conteudo", "Conteúdo" %></th>
-    <th><%= sortable "usuario_id", "Usuário" %></th>
-    <th><%= sortable "created_at", "Criado em" %></th>
-    <th><%= sortable "acoes", "Ações" %></th>
-  </tr>
-  <%= render @flags %>
-</table>
+<% unless @flags.blank? %>
+    <table class="table table-hover">
+        <tr class="info">  
+        <th><%= sortable "#", "#" %></th>                    
+        <th><%= sortable "nome", "Nome Item" %></th>
+        <th><%= sortable "flagavel_type", "Tipo Item" %></th>
+        <th><%= sortable "tipo_flag_id", "Tipo Flag" %></th>
+        <th><%= sortable "conteudo", "Conteúdo" %></th>
+        <th><%= sortable "usuario_id", "Usuário" %></th>
+        <th><%= sortable "created_at", "Criado em" %></th>
+        <th><%= sortable "acoes", "Ações" %></th>
+      </tr>
+      <%= render @flags %>
+    </table>
 
-<%= will_paginate @flags, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
+    <%= will_paginate @flags, :previous_label => " << Anterior", :next_label => "Proximo >>", renderer: BootstrapPagination::Rails %>
+<% else %>
+<h4><span class="label label-warning">Opss!</span> Você não fez nenhuma flag!</h4>
+<% end %>

@@ -13,8 +13,10 @@ class FlagsController < ApplicationController
   # GET /flags.json
   def index
     if admin?
+      @flags_count = Flag.count
       @flags = Flag.all.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
     else
+      @flags_count = Flag.where(usuario_id: current_user.id).count
       @flags = Flag.where(usuario_id: current_user.id).order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
     end
   end
