@@ -25,7 +25,7 @@ class ContentRecommendationService
 
 		similaridade = similaridade.sort_by { |id, nota| nota }.reverse.take(@usuario.nil? ? 10 : @usuario.max_rec_conteudo)
 
-    	similaridade.each { |id, nota| itens_recomendados[id] = nota if nota > 0 and id != @item.id}
+    similaridade.each { |id, nota| itens_recomendados[id] = nota if nota > 0 and id != @item.id}
 
 		return itens_recomendados
 

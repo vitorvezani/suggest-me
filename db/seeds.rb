@@ -34,7 +34,7 @@ end
 item_all = Item.all.size
 pg = Random.new(item_all)
 
-3.times do |i|
+4.times do |i|
 	Usuario.all.each do |i|
 		begin
 		  Avaliacao.create( item_id: pg.rand(0...item_all),
@@ -50,7 +50,7 @@ genero_all = Genero.all.count
 pg = Random.new(item_all)
 gg = Random.new(genero_all)
 
-4000.times do |i|
+16000.times do |i|
 	begin
 	  Generalizacao.create( item_id: pg.rand(0...item_all),
 													genero_id: gg.rand(0...genero_all))

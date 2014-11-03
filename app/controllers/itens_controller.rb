@@ -56,13 +56,18 @@ class ItensController < ApplicationController
   # GET /itens/1
   
     start_t = Time.now
-  
-    c_recommendations = ContentRecommendationService.new(@item, current_user)
 
-    @itens_recomendados = c_recommendations.recommend
+    @itens_recomendados = []
+  
+    if @item.generos.size != 0
+
+      c_recommendations = ContentRecommendationService.new(@item, current_user)
+
+      @itens_recomendados = c_recommendations.recommend
+    end
 
     finish_t = Time.now
-    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
   
     respond_to do |format|
        format.js
@@ -101,7 +106,7 @@ class ItensController < ApplicationController
 
       recommendations.each do |item_id, nota|
         
-        if nota != -1
+        if nota >= 0
           item = Item.find(item_id)
 
           if item.book?

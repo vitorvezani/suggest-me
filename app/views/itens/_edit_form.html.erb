@@ -15,13 +15,13 @@
       <%= f.text_field :nome_en, class: "form-control", disabled: !admin? %>
       </div>
       <div class="form-group">
-      <%= f.label :descricao %>
+      <%= f.label :descricao, "Descrição" %>
       <%= f.text_area :descricao, rows: 6, class: "form-control" %>
       </div>
       <hr>
       <%= f.submit "Enviar", class: "btn btn-large btn-primary" %>
       <hr>
-      NOTA: O mau uso do sistema Suggest Me! resultará na expulsão do usuário do site.
+      NOTA: O mau uso do sistema Suggest Me resultará na expulsão do usuário do site.
     <% end %>
   </div>
 </div>

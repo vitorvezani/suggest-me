@@ -7,23 +7,27 @@ class CollaborativeRecommendationService
 		@itens = Item.all - @usuario.itens
 
 		avaliacoes = Avaliacao.all
-		avaliacoes_positivas = Avaliacao.where(avaliacao: true)
-		avaliacoes_negativas = Avaliacao.where(avaliacao: false)
+		avaliacoes_positivas = avaliacoes.select{ |avaliacao| avaliacao.avaliacao == true }
+		avaliacoes_negativas = avaliacoes.select{ |avaliacao| avaliacao.avaliacao == false }
 
 		@liked_what = Hash.new
 		@liked_by = Hash.new
 
-		avaliacoes.each { |u| @liked_what[u.usuario_id] = Array.new }
+		# Inicializa as variáveis, como posicões vazias
+		avaliacoes.each { |a| @liked_what[a.usuario_id] = Array.new }
 		@disliked_what = @liked_what.deep_dup
 
+		# Inicializa as variáveis, como posicões vazias
 		avaliacoes.each { |a| @liked_by[a.item_id] = Array.new }
 		@disliked_by = @liked_by.deep_dup
 
+		# Coloco nos arrays as avaliacoes positicas
 		avaliacoes_positivas.each do |a|
 			@liked_what[a.usuario_id] << a.item_id
 			@liked_by[a.item_id] << a.usuario_id
 		end
 
+		# Coloco nos arrays as avaliacoes negativas
 		avaliacoes_negativas.each do |a|
 			@disliked_what[a.usuario_id] << a.item_id
 			@disliked_by[a.item_id] << a.usuario_id
@@ -32,7 +36,9 @@ class CollaborativeRecommendationService
 	 	@similaridade = Array.new
 
 	 	# Para cada key
-	  @liked_what.each { |k, v| @similaridade[k] = similaridade_com(k) }
+	  #@liked_what.each { |k, v| @similaridade[k] = similaridade_com(k) }
+	  avaliacoes.each { |a| @similaridade[a.usuario_id] = similaridade_com(a.usuario_id) }
+	 	
 
 	end
 

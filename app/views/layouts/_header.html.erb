@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to "Suggest Me!", root_path , class: "navbar-brand" %>
+      <%= link_to "Suggest Me", root_path , class: "navbar-brand" %>
     </div>
     <!-- /Botão de tela estreita -->
 
@@ -56,7 +56,7 @@
                 <li><%= link_to " Flags", flags_path, class: "glyphicon glyphicon-warning-sign" %></li>
               <li><%= link_to " Usuários", usuarios_path, class: "glyphicon glyphicon-signal" if admin? %></li>
               <li class="divider"></li>
-              <li><%= link_to " Deslogar", signout_path, method: "delete", class: "glyphicon glyphicon-off" %></li>
+              <li><%= link_to " Logout", signout_path, method: "delete", class: "glyphicon glyphicon-off" %></li>
             </ul>
           </li>
         <% else %>

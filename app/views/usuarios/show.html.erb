@@ -8,7 +8,7 @@
   <aside class="col-xs-3">
     <section>
       <%= render "informacoes_usuario", usuario: @usuario %>
-      <% if signed_in? %>
+      <% if signed_in? and !current_user?(@usuario)%>
         <%= render partial: "compartilhado/nova_flag", locals: { flagavel: @usuario, id: "flag_usuario" } %>
       </br></br>
       <% end %>

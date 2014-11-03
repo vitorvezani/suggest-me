@@ -2,7 +2,7 @@ class SuggestionsController < ApplicationController
   
   def index
 
-    @project_name = "Suggest Me!"
+    @project_name = "Suggest Me"
 
     @ultimos_usuarios = Usuario.all.order(last_login: :desc).limit(5)
     @ultimos_itens = Item.all.order(last_visited: :desc).limit(5) 
