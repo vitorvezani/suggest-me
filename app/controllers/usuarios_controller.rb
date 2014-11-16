@@ -16,7 +16,6 @@ class UsuariosController < ApplicationController
   # GET /usuarios.json
   def index
     # Usando paginate na classe Usuario para trazer registros!
-    @usuarios_count = Usuario.count
     @q = params[:q]
 
     if @q and !@q.blank?
@@ -28,6 +27,8 @@ class UsuariosController < ApplicationController
     else
       @usuarios = Usuario.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
     end
+
+    @usuarios_count = @usuarios.size
     
   end
 

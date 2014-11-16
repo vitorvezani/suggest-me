@@ -6,8 +6,6 @@ class GenerosController < ApplicationController
   # GET /generos
   # GET /generos.json
   def index
-
-    @generos_count = Genero.count
     @q = params[:q]
 
     if @q and !@q.blank?
@@ -19,6 +17,9 @@ class GenerosController < ApplicationController
     else
       @generos = Genero.order(sort_coluna + " " + sort_direcao).paginate(page: params[:page], :per_page => 30)
     end
+
+    @generos_count = @generos.size
+
   end
 
   # GET /generos/1

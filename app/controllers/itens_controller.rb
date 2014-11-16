@@ -7,7 +7,6 @@ class ItensController < ApplicationController
   # GET /itens.json
   def index
 
-    @itens_count = Item.count
     @q = params[:q]
 
     if @q
@@ -23,6 +22,7 @@ class ItensController < ApplicationController
       @avaliacoes = avaliacoes
     end
 
+    @itens_count = @itens.size
     gon.usuario_logado = signed_in?
     
   end

@@ -1,5 +1,6 @@
 class ContatoMailer < ActionMailer::Base
   default from: "contato.suggestme@gmail.com"
+  default to: "contato.suggestme@gmail.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -9,6 +10,6 @@ class ContatoMailer < ActionMailer::Base
   def contato(email, mensagem)
   	@email = email
   	@mensagem = mensagem
-    mail(to: @email, subject: "Contato do Usuário " + @email)
+    mail(subject: "Contato do Usuário " + @email)
   end
 end

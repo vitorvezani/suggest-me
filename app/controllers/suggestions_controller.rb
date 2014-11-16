@@ -18,7 +18,7 @@ class SuggestionsController < ApplicationController
   end
 
   def enviar_contato  
-    email = params[:email]
+    email = params[:email] || current_user.email
     msg =  params[:msg]
     Thread.new do
       ContatoMailer.contato(email, msg).deliver 
