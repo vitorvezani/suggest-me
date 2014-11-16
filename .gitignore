@@ -14,7 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-/solr
+solr/data
 /public/assets
 
 # Ignore other unneeded files.

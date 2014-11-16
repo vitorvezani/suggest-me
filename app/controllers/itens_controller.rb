@@ -67,7 +67,7 @@ class ItensController < ApplicationController
     end
 
     finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
   
     respond_to do |format|
        format.js
@@ -77,7 +77,7 @@ class ItensController < ApplicationController
 
   def refresh_item_img
     @url = @item.get_image_url
-    puts "url: #{@url}"
+    #puts "url: #{@url}"
     respond_to do |format|
       format.js
     end
@@ -131,7 +131,7 @@ class ItensController < ApplicationController
     @musicas = @musicas.take(qtde_recomendacao)
 
     finish_t = Time.now
-    puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
+    #puts "Tempo para realizar todo o processo: " + (finish_t - start_t).to_s + "segundos"
 
   end
 
