@@ -8,8 +8,6 @@ ruby '2.0.0'
   gem 'rails', '4.1.0'
 # Use mysql as the database for Active Record
   gem 'mysql2'
-# Use SCSS for stylesheets
-  gem 'sass-rails', '~> 4.0.3'
 # Twitter Bootstrap
   gem 'bootstrap-sass', '~> 3.1.1.1'
 # Use ActiveModel has_secure_password
@@ -30,12 +28,14 @@ ruby '2.0.0'
   gem 'gon', '~> 5.0.4'
 # Use CoffeeScript for .js.coffee assets and views
   gem 'coffee-rails', '~> 4.0.0'
+  # Use Uglifier as comprsessor for JavaScript assets -> Précompila os assets para produção
+  gem 'uglifier'
+  # Use SCSS for stylesheets
+  gem 'sass-rails', '~> 4.0.3'
 # Passenger
   #gem 'passenger', '~> 4.0.41'
 # Sprockets - Compiling and serving web assets
   gem 'sprockets', '~> 2.11.0'
-# Use Uglifier as comprsessor for JavaScript assets
-  gem 'uglifier'
 # Image Sucker
   gem 'image_suckr'
 # Gem XML
@@ -86,7 +86,7 @@ end
 # Gems não utilizadas
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
- #gem 'therubyracer',  platforms: :ruby
+ gem 'therubyracer',  platforms: :ruby
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
  #gem 'turbolinks'
 # bundle exec rake doc:rails generates the API under doc/api.

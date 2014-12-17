@@ -54,7 +54,9 @@ class CollaborativeRecommendationService
 
 	  stop_t = Time.now
 	  #puts "Tempo para realizar a recomendacao: " + (stop_t - start_t).to_s + "segundos"
-	      
+	  
+	  #p recommendations
+
 	  recommendations
 
 	end

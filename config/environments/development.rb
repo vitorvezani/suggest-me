@@ -10,8 +10,10 @@ Rails.application.configure do
     domain: "127.0.0.1",
     authentication: "plain",
     enable_starttls_auto: true,
+    # Configurar outro email
     user_name: "contato.suggestme@gmail.com",
-    password: "130980VI"
+    # Configurar outro password
+    password: "password"
   }
   
   #:debug, :info, :warn, :error, :fatal, and :unknown

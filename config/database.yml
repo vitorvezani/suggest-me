@@ -54,5 +54,5 @@ production:
   pool: 25
   database: suggest_me_production
   username: root
-  password: 130980Vi
+  password: root
   host: localhost

@@ -45,6 +45,20 @@ pg = Random.new(item_all)
 	end
 end
 
+item_all = Item.all.size
+pg = Random.new(item_all)
+
+6.times do |i|
+	Usuario.all.each do |i|
+		begin
+		  Comentario.create( item_id: pg.rand(0...item_all),
+												 usuario_id: i.id,
+												 comentario: Faker::Lorem.paragraph )
+		rescue Exception => e
+		end
+	end
+end
+
 item_all = Item.all.count
 genero_all = Genero.all.count
 pg = Random.new(item_all)

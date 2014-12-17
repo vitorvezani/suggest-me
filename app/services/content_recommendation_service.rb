@@ -23,7 +23,7 @@ class ContentRecommendationService
 			similaridade[item.id] = similaridade_com(item, tf_idf)
 		end
 
-		similaridade = similaridade.sort_by { |id, nota| nota }.reverse.take(@usuario.nil? ? 10 : @usuario.max_rec_conteudo)
+		similaridade = similaridade.sort_by { |id, nota| nota }.reverse.take(@usuario.nil? ? 10 : @usuario.max_rec_conteudo + 1)
 
     similaridade.each { |id, nota| itens_recomendados[id] = nota if nota > 0 and id != @item.id}
 
