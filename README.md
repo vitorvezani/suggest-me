@@ -4,15 +4,15 @@
 # 		Software & Hardware 	#
 #################################
 
-MacOSX 					- Version 10.9.4
-Sublime Text 3 			- Build 3065
+MacOSX 						- Version 10.9.4
+Sublime Text 3 		- Build 3065
 OmniGraffle 			- Version 5.4.2
-Git 					- Version 1.9.3
-MySQL 					- Version 5.6.17
-Ruby On Rails 			- Version 4.1.0 (necessário)
-Ruby 					- Version 2.0.0p451 (necessário)
+Git 							- Version 1.9.3
+MySQL 						- Version 5.6.17
+Ruby On Rails 		- Version 4.1.0 (necessário)
+Ruby 							- Version 2.0.0p451 (necessário)
 SourceTree 				- Version 2.0.0
-FortFile 				- Version 1.2.5
+FortFile 					- Version 1.2.5
 
 ########################################
 #		Instalação e configuração      #
@@ -128,13 +128,15 @@ MacOS database file:
 
 	bundle exec rake sunspot:solr:reindex
 	bundle exec rake sunspot:solr:start
+	bundle exec rake sunspot:solr:stop
 
 ###################################
 # 	Testes Automáticos - RSPECT   #
 ###################################
 
 Executar a suite de testes:
-	
+
+	bin/rake db:migrate RAILS_ENV=test
 	bundle exec rspec spec/requests/
 
 #############################
@@ -142,4 +144,4 @@ Executar a suite de testes:
 #############################
 
 Inserir no HTML aonde deseja aparecer o parametros de debug: 
-<%= debug(params) if Rails.env.development? %>
+	<%= debug(params) if Rails.env.development? %>

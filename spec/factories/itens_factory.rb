@@ -15,7 +15,7 @@ FactoryGirl.define do
 		association :categoria, factory: :jogos
 	end
 
-		factory :livro, class: Item do
+	factory :livro, class: Item do
 		nome_ptbr "Crime e Castigo"
 		association :categoria, factory: :livros
 	end
