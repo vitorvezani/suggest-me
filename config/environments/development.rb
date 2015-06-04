@@ -13,7 +13,7 @@ Rails.application.configure do
     # Configurar outro email
     user_name: "contato.suggestme@gmail.com",
     # Configurar outro password
-    password: "password"
+    password: "130980VI"
   }
   
   #:debug, :info, :warn, :error, :fatal, and :unknown

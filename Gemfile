@@ -6,8 +6,10 @@ ruby '2.0.0'
 #
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
   gem 'rails', '4.1.0'
-# Use mysql as the database for Active Record
-  gem 'mysql2'
+# Use postgres as the database for Active Record
+  gem 'pg'
+# Needed for postgres
+  gem 'progress_bar'
 # Twitter Bootstrap
   gem 'bootstrap-sass', '~> 3.1.1.1'
 # Use ActiveModel has_secure_password
@@ -55,7 +57,7 @@ group :development do
   # New Relic
   gem 'newrelic_rpm'
   # Bullet
- 	#gem 'bullet' 	
+ 	#gem 'bullet'
 	# Mini Profiler
 	#gem 'rack-mini-profiler'
 end

@@ -10,7 +10,7 @@
 
 pg = Random.new(50)
 
-2000.times do |i|
+1000.times do |i|
 	name = Faker::Name.first_name
 	pass = Faker::Internet.password(8)
   Usuario.create( primeiro_nome: name,
@@ -64,7 +64,7 @@ genero_all = Genero.all.count
 pg = Random.new(item_all)
 gg = Random.new(genero_all)
 
-16000.times do |i|
+1000.times do |i|
 	begin
 	  Generalizacao.create( item_id: pg.rand(0...item_all),
 													genero_id: gg.rand(0...genero_all))
